@@ -28,7 +28,6 @@ build
 # misc
 .DS_Store
 .env
-*~
 npm-debug.log
 bundle.js
 bundle.js.map

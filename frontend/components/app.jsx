@@ -7,6 +7,8 @@ import NavBar from './shared/nav_bar'
 import AppMuiTheme from './themes/app_mui_theme';
 import ExploreContainer from './explore/explore_container';
 
+import './app.css'
+
 
 const App = ({ children }) => (
   <div>

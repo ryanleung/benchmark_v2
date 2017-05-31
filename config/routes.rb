@@ -12,5 +12,9 @@ Rails.application.routes.draw do
       resources :metrics
     end
   end
+
+  # https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually
+  # Catch-all option
   root "static_pages#root"
+  get '*path', to: "static_pages#root"
 end

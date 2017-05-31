@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import AppMuiTheme from './themes/app_mui_theme.js';
+import NavBar from './shared/nav_bar'
+import AppMuiTheme from './themes/app_mui_theme';
 import ExploreContainer from './explore/explore_container';
 
 
@@ -11,6 +12,7 @@ const App = ({ children }) => (
   <div>
     <MuiThemeProvider muiTheme={AppMuiTheme}>
       <div>
+        <NavBar />
         <ExploreContainer />
         { children }
       </div>

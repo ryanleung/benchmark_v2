@@ -5,7 +5,7 @@ import Paper from 'material-ui/Paper';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import TextField from 'material-ui/TextField';
 
-// import './SearchBar.css';
+import './search_bar.css';
 
 
 const SearchBar = () => (

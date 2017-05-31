@@ -1,30 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import AppMuiTheme from './themes/app_mui_theme.js';
 import ExploreContainer from './explore/explore_container';
+
 
 const App = ({ children }) => (
   <div>
-    <ExploreContainer />
-    { children }
+    <MuiThemeProvider muiTheme={AppMuiTheme}>
+      <div>
+        <ExploreContainer />
+        { children }
+      </div>
+    </MuiThemeProvider>
   </div>
 );
 
 export default App;
-
-// import React from 'react';
-// import { Link } from 'react-router';
-// import GreetingContainer from './greeting/greeting_container';
-
-// const App = ({ children }) => (
-//   <div>
-//     <header>
-//       <Link to="/" className="header-link">
-//         <h1>Bench BnB</h1>
-//       </Link>
-//       <GreetingContainer />
-//     </header>
-//     {children}
-//   </div>
-// );
-
-// export default App;

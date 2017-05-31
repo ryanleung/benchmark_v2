@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GreetingContainer from './greeting/greeting_container';
+import ExploreContainer from './explore/explore_container';
 
 const App = ({ children }) => (
   <div>
-    <h1>Benchmark</h1>
-    <GreetingContainer />
+    <ExploreContainer />
     { children }
   </div>
 );

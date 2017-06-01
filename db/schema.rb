@@ -38,13 +38,6 @@ ActiveRecord::Schema.define(version: 20170319002818) do
     t.index ["name"], name: "index_companies_on_name", unique: true, using: :btree
   end
 
-  create_table "functions", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_functions_on_name", unique: true, using: :btree
-  end
-
   create_table "industries", force: :cascade do |t|
     t.string   "name",               null: false
     t.integer  "parent_industry_id"
@@ -52,15 +45,6 @@ ActiveRecord::Schema.define(version: 20170319002818) do
     t.datetime "updated_at",         null: false
     t.index ["name"], name: "index_industries_on_name", unique: true, using: :btree
     t.index ["parent_industry_id"], name: "index_industries_on_parent_industry_id", using: :btree
-  end
-
-  create_table "metric_names", force: :cascade do |t|
-    t.string   "name",           null: false
-    t.integer  "metric_type_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.index ["metric_type_id"], name: "index_metric_names_on_metric_type_id", using: :btree
-    t.index ["name"], name: "index_metric_names_on_name", unique: true, using: :btree
   end
 
   create_table "metric_types", force: :cascade do |t|
@@ -73,9 +57,9 @@ ActiveRecord::Schema.define(version: 20170319002818) do
   end
 
   create_table "metrics", force: :cascade do |t|
-    t.integer  "metric_name_id",    null: false
+    t.string   "metric_name",       null: false
     t.integer  "metric_type_id",    null: false
-    t.integer  "function_id"
+    t.string   "function"
     t.integer  "user_id"
     t.integer  "company_id",        null: false
     t.integer  "industry_id",       null: false
@@ -87,9 +71,9 @@ ActiveRecord::Schema.define(version: 20170319002818) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["company_id"], name: "index_metrics_on_company_id", using: :btree
-    t.index ["function_id"], name: "index_metrics_on_function_id", using: :btree
+    t.index ["function"], name: "index_metrics_on_function", using: :btree
     t.index ["industry_id"], name: "index_metrics_on_industry_id", using: :btree
-    t.index ["metric_name_id"], name: "index_metrics_on_metric_name_id", using: :btree
+    t.index ["metric_name"], name: "index_metrics_on_metric_name", using: :btree
     t.index ["metric_type_id"], name: "index_metrics_on_metric_type_id", using: :btree
     t.index ["user_id"], name: "index_metrics_on_user_id", using: :btree
   end

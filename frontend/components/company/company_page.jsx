@@ -25,20 +25,8 @@ class CompanyPage extends Component {
       <div>
         {company && 
           <div className="CompanyPage">
-            <Toolbar>
-              <ToolbarGroup firstChild={true}>
-                <Avatar
-                  src={company.logo_img_url}
-                  size={50}
-                  className="CompanyPage__avatar"/>
-                <ToolbarTitle text={company.name}/>
-              </ToolbarGroup>
-            </Toolbar>
-            <Toolbar>
-              <ToolbarGroup>
-                <ToolbarTitle text="Metrics Overview"/>
-              </ToolbarGroup>
-            </Toolbar>
+            <h1>{company.name}</h1>
+            <h2>Company Overview</h2>
           </div>
         }
       </div>

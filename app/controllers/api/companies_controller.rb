@@ -1,4 +1,4 @@
-class CompaniesController < ApplicationController
+class Api::CompaniesController < ApplicationController
 
   # TODO: Remove this if we get hella companies obv
   def index

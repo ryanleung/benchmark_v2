@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // react components
 import App from './app';
-import ExploreContainer from './explore/explore_container';
 import SessionFormContainer from './session_form/session_form_container';
 
 const Root = ({ store }) => {

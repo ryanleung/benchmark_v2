@@ -1,4 +1,4 @@
-class MetricsController < ApplicationController
+class Api::MetricsController < ApplicationController
 
   # Fetch all metrics for a given company
   def index

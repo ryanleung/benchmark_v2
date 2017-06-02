@@ -25,7 +25,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 500000000,
-                           value_description: "dollars",
+                           value_description: Metric::VALUE_DESC_USD,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2016')
 
@@ -36,7 +36,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 10000,
-                           value_description: "FTE",
+                           value_description: Metric::VALUE_DESC_QUANTITY,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -47,7 +47,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 17500,
-                           value_description: "FTE",
+                           value_description: Metric::VALUE_DESC_QUANTITY,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -58,7 +58,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 100000,
-                           value_description: "FTE",
+                           value_description: Metric::VALUE_DESC_QUANTITY,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -69,7 +69,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 50000,
-                           value_description: "FTE",
+                           value_description: Metric::VALUE_DESC_QUANTITY,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -80,7 +80,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 10000,
-                           value_description: "FTE",
+                           value_description: Metric::VALUE_DESC_QUANTITY,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -113,7 +113,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 120000,
-                           value_description: "dollars",
+                           value_description: Metric::VALUE_DESC_USD,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -135,7 +135,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 120000,
-                           value_description: "dollars",
+                           value_description: Metric::VALUE_DESC_USD,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -157,7 +157,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 120000,
-                           value_description: "dollars",
+                           value_description: Metric::VALUE_DESC_USD,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -179,7 +179,7 @@ task :seed_data => :environment do
                            company_id: company.id,
                            business_unit_id: business_unit.id,
                            value: 120000,
-                           value_description: "dollars",
+                           value_description: Metric::VALUE_DESC_USD,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
   end

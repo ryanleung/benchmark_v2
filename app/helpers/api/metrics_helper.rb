@@ -26,12 +26,7 @@ module Api::MetricsHelper
       metric_name: Metric::METRIC_ANNUAL_REVENUE,
       company_id: company_id)
 
-    metrics_grouped_by_year = revenue_metrics.group_by { 
-      |m| m.relevant_date.year 
-    }
-
-    average_revenue_by_year = Hash[metrics_grouped_by_year
-      .map { |year, metrics| [year, metrics.map(&:value).reduce(:+) / metrics.size] }]
+    average_revenue_by_year = average_metrics_by_year(revenue_metrics)
 
     average_revenue_by_year.map do |year, revenue|
       {
@@ -40,5 +35,37 @@ module Api::MetricsHelper
         year: year
       }
     end
+  end
+
+  # Get the # of accounts per sales rep
+  def accounts_per_sales_rep(company_id)
+    # For each user, get accounts_per_sales_rep metric. If that
+    # doesn't exist, get the total sales accounts and divide that
+    # by the overall total sales FTE. If one of those two numbers
+    # don't exist, then throw away.
+    account_per_sales_metrics = Metric.where(
+      metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+      company_id: company_id)
+
+    account_per_sales_metrics_by_year = average_metrics_by_year(
+      account_per_sales_metrics)
+
+    account_per_sales_metrics_by_year.map do |year, num_accounts|
+      {
+        value: num_accounts,
+        value_description: account_per_sales_metrics.first.value_description, # pick any
+        year: year
+      }
+    end
+  end
+
+  # Average out metrics by year based on value and relevant_date.year
+  def average_metrics_by_year(metrics)
+    metrics_grouped_by_year = metrics.group_by { 
+      |m| m.relevant_date.year 
+    }
+
+    Hash[metrics_grouped_by_year
+      .map { |year, metrics| [year, metrics.map(&:value).reduce(:+) / metrics.size] }] 
   end
 end

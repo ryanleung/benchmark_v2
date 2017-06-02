@@ -15,7 +15,7 @@ class Metric < ApplicationRecord
 
   FUNCTION_ENGINEERING = "Engineering"
 
-  VALUE_DESC_FTE = "FTE"
+  VALUE_DESC_QUANTITY = "Quantity"
   VALUE_DESC_USD = "USD"
 
   has_many :metrics

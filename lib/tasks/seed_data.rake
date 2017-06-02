@@ -1,14 +1,11 @@
-desc "Seed sample data -- last updated April 8, 2017"
+desc "Seed sample data -- last updated June 1, 2017"
 task :seed_data => :environment do
   ActiveRecord::Base.transaction do
     tech_industry = Industry.create name: "Tech"
     user = User.create name: "Vincent Vo",
                        email: "vincent.vo@gmail.com",
                        password: "vincent"
-    avg_salary_per_role = MetricName.create name: "Average salary per role"
     metric_type_org = MetricType.create name: "Org"
-    function = Function.create name: "Engineering"
-
 
     # COMPANY 1: GOOGLE
     company = Company.create name: "Google",
@@ -21,15 +18,87 @@ task :seed_data => :environment do
     business_unit = BusinessUnit.create name: "Google Maps",
                                         company_id: company.id
 
-    metric = Metric.create metric_name_id: avg_salary_per_role.id,
+    metric = Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                            metric_type_id: metric_type_org.id,
-                           function_id: function.id,
+                           function: Metric::FUNCTION_ENGINEERING,
                            user_id: user.id,
                            company_id: company.id,
                            industry_id: tech_industry.id,
                            business_unit_id: business_unit.id,
-                           value: 120000,
+                           value: 500000000,
                            value_description: "dollars",
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2016')
+
+    metric = Metric.create metric_name: Metric::METRIC_DIRECT_SALES_FTE,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           industry_id: tech_industry.id,
+                           business_unit_id: business_unit.id,
+                           value: 10000,
+                           value_description: "FTE",
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_NUM_EMPLOYEES,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           industry_id: tech_industry.id,
+                           business_unit_id: business_unit.id,
+                           value: 17500,
+                           value_description: "FTE",
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_NUM_WEB_EMPLOYEES,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           industry_id: tech_industry.id,
+                           business_unit_id: business_unit.id,
+                           value: 100000,
+                           value_description: "FTE",
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_OVERALL_SALES_FTE,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           industry_id: tech_industry.id,
+                           business_unit_id: business_unit.id,
+                           value: 50000,
+                           value_description: "FTE",
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_SALES_SUPPORT_FTE,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           industry_id: tech_industry.id,
+                           business_unit_id: business_unit.id,
+                           value: 10000,
+                           value_description: "FTE",
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_TOTAL_CUSTOMER_ACCOUNTS,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           industry_id: tech_industry.id,
+                           business_unit_id: business_unit.id,
+                           value: 40000,
+                           value_description: "accounts",
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
@@ -44,9 +113,9 @@ task :seed_data => :environment do
     business_unit = BusinessUnit.create name: "Dropbox For Business",
                                         company_id: company.id
 
-    metric = Metric.create metric_name_id: avg_salary_per_role.id,
+    metric = Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                            metric_type_id: metric_type_org.id,
-                           function_id: function.id,
+                           function: Metric::FUNCTION_ENGINEERING,
                            user_id: user.id,
                            company_id: company.id,
                            industry_id: tech_industry.id,
@@ -67,9 +136,9 @@ task :seed_data => :environment do
     business_unit = BusinessUnit.create name: "Square Capital",
                                         company_id: company.id
 
-    metric = Metric.create metric_name_id: avg_salary_per_role.id,
+    metric = Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                            metric_type_id: metric_type_org.id,
-                           function_id: function.id,
+                           function: Metric::FUNCTION_ENGINEERING,
                            user_id: user.id,
                            company_id: company.id,
                            industry_id: tech_industry.id,
@@ -90,9 +159,9 @@ task :seed_data => :environment do
     business_unit = BusinessUnit.create name: "Messenger",
                                         company_id: company.id
 
-    metric = Metric.create metric_name_id: avg_salary_per_role.id,
+    metric = Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                            metric_type_id: metric_type_org.id,
-                           function_id: function.id,
+                           function: Metric::FUNCTION_ENGINEERING,
                            user_id: user.id,
                            company_id: company.id,
                            industry_id: tech_industry.id,
@@ -113,9 +182,9 @@ task :seed_data => :environment do
     business_unit = BusinessUnit.create name: "Dispatch",
                                         company_id: company.id
 
-    metric = Metric.create metric_name_id: avg_salary_per_role.id,
+    metric = Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                            metric_type_id: metric_type_org.id,
-                           function_id: function.id,
+                           function: Metric::FUNCTION_ENGINEERING,
                            user_id: user.id,
                            company_id: company.id,
                            industry_id: tech_industry.id,

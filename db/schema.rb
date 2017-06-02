@@ -62,17 +62,15 @@ ActiveRecord::Schema.define(version: 20170319002818) do
     t.string   "function"
     t.integer  "user_id"
     t.integer  "company_id",        null: false
-    t.integer  "industry_id",       null: false
     t.integer  "business_unit_id"
     t.float    "value",             null: false
-    t.string   "value_description"
+    t.string   "value_description", null: false
     t.string   "geo"
-    t.date     "relevant_date"
+    t.date     "relevant_date",     null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["company_id"], name: "index_metrics_on_company_id", using: :btree
     t.index ["function"], name: "index_metrics_on_function", using: :btree
-    t.index ["industry_id"], name: "index_metrics_on_industry_id", using: :btree
     t.index ["metric_name"], name: "index_metrics_on_metric_name", using: :btree
     t.index ["metric_type_id"], name: "index_metrics_on_metric_type_id", using: :btree
     t.index ["user_id"], name: "index_metrics_on_user_id", using: :btree

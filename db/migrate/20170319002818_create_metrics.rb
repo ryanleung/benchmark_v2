@@ -6,12 +6,11 @@ class CreateMetrics < ActiveRecord::Migration[5.0]
       t.string :function
       t.integer :user_id
       t.integer :company_id,           null: false
-      t.integer :industry_id,          null: false
       t.integer :business_unit_id
       t.float :value,                  null: false
-      t.string :value_description
+      t.string :value_description,     null: false
       t.string :geo
-      t.date :relevant_date
+      t.date :relevant_date,           null: false
 
       t.timestamps
     end
@@ -20,6 +19,5 @@ class CreateMetrics < ActiveRecord::Migration[5.0]
     add_index :metrics, :function
     add_index :metrics, :user_id
     add_index :metrics, :company_id
-    add_index :metrics, :industry_id
   end
 end

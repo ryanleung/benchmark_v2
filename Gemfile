@@ -12,9 +12,17 @@ gem 'figaro', '~> 1.1.1'
 gem 'bcrypt', '~> 3.1.7'
 gem 'autoprefixer-rails', '~> 7.1.1'
 
+
+gem 'web-console', group: :development
+
 group :development, :test do
   gem 'pry-rails'
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'rspec'
+  gem 'rspec-rails', '~> 3.5'
+end
+
+group :test do
+  gem 'database_cleaner'
 end

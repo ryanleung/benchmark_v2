@@ -19,35 +19,40 @@ describe Api::MetricsHelper do
                    company_id: company.id,
                    value: 10000,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
     Metric.create metric_name: Metric::METRIC_NUM_EMPLOYEES,
                    metric_type_id: metric_type_org.id,
                    company_id: company.id,
                    value: 17500,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
     Metric.create metric_name: Metric::METRIC_NUM_WEB_EMPLOYEES,
                    metric_type_id: metric_type_org.id,
                    company_id: company.id,
                    value: 100000,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
     Metric.create metric_name: Metric::METRIC_OVERALL_SALES_FTE,
                    metric_type_id: metric_type_org.id,
                    company_id: company.id,
                    value: 50000,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
     Metric.create metric_name: Metric::METRIC_SALES_SUPPORT_FTE,
                    metric_type_id: metric_type_org.id,
                    company_id: company.id,
                    value: 10000,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
     Metric.create metric_name: Metric::METRIC_TOTAL_CUSTOMER_ACCOUNTS,
                    metric_type_id: metric_type_org.id,
@@ -55,7 +60,8 @@ describe Api::MetricsHelper do
                    company_id: company.id,
                    value: 40000,
                    value_description: "accounts",
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
     @company_id = company.id
     @metric_type_id = metric_type_org.id
@@ -68,21 +74,24 @@ describe Api::MetricsHelper do
                    company_id: @company_id,
                    value: 500000000,
                    value_description: Metric::VALUE_DESC_USD,
-                   relevant_date: Date.parse('19-03-2016')
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1
 
       Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
                    value: 400000000,
                    value_description: Metric::VALUE_DESC_USD,
-                   relevant_date: Date.parse('19-03-2016')
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1
 
       Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
                    value: 400000000,
                    value_description: Metric::VALUE_DESC_USD,
-                   relevant_date: Date.parse('19-03-2015')
+                   relevant_date: Date.parse('19-03-2015'),
+                   user_id: 1
 
       actual = annual_revenue(@company_id)
 
@@ -99,21 +108,24 @@ describe Api::MetricsHelper do
                    company_id: @company_id,
                    value: 5,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2016')
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1
 
       Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
                    value: 7,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
       Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
                    value: 9,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017')
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1
 
       actual = accounts_per_sales_rep(@company_id)
 

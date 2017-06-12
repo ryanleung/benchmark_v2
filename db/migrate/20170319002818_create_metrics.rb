@@ -4,7 +4,7 @@ class CreateMetrics < ActiveRecord::Migration[5.0]
       t.string :metric_name,           null: false
       t.integer :metric_type_id,       null: false
       t.string :function
-      t.integer :user_id
+      t.integer :user_id,              null: false
       t.integer :company_id,           null: false
       t.integer :business_unit_id
       t.float :value,                  null: false

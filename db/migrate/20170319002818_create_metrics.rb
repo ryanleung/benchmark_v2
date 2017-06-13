@@ -10,6 +10,7 @@ class CreateMetrics < ActiveRecord::Migration[5.0]
       t.float :value,                  null: false
       t.string :value_description,     null: false
       t.string :geo
+      t.string :metric_batch
       t.date :relevant_date,           null: false
 
       t.timestamps
@@ -19,5 +20,7 @@ class CreateMetrics < ActiveRecord::Migration[5.0]
     add_index :metrics, :function
     add_index :metrics, :user_id
     add_index :metrics, :company_id
+    add_index :metrics, :metric_batch
+    add_index :metrics, :relevant_date
   end
 end

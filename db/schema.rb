@@ -66,13 +66,16 @@ ActiveRecord::Schema.define(version: 20170319002818) do
     t.float    "value",             null: false
     t.string   "value_description", null: false
     t.string   "geo"
+    t.string   "metric_batch"
     t.date     "relevant_date",     null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["company_id"], name: "index_metrics_on_company_id", using: :btree
     t.index ["function"], name: "index_metrics_on_function", using: :btree
+    t.index ["metric_batch"], name: "index_metrics_on_metric_batch", using: :btree
     t.index ["metric_name"], name: "index_metrics_on_metric_name", using: :btree
     t.index ["metric_type_id"], name: "index_metrics_on_metric_type_id", using: :btree
+    t.index ["relevant_date"], name: "index_metrics_on_relevant_date", using: :btree
     t.index ["user_id"], name: "index_metrics_on_user_id", using: :btree
   end
 

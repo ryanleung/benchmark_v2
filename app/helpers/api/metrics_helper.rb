@@ -6,8 +6,8 @@ module Api::MetricsHelper
   # Take a company, poop out their metrics dashboard.
   def metrics_dashboard(company_id)
     {
-      annual_revenue: annual_revenue(company_id),
       accounts_per_sales_rep: accounts_per_sales_rep(company_id),
+      annual_revenue: annual_revenue(company_id),
       direct_sales_reps_per_1k_fte: direct_sales_reps_fte_per_1k_fte(company_id),
       overall_sales_fte_role_breakdown: overall_sales_fte_role_breakdown(company_id),
       overall_sales_per_1k_fte: overall_sales_fte_per_1k_fte(company_id),
@@ -19,23 +19,6 @@ module Api::MetricsHelper
   module_function :metrics_dashboard
 
   private
-
-  # Get average revenue per year
-  def annual_revenue(company_id)
-    revenue_metrics = Metric.where(
-      metric_name: Metric::METRIC_ANNUAL_REVENUE,
-      company_id: company_id)
-
-    average_revenue_by_year = average_metrics_by_year(revenue_metrics)
-
-    average_revenue_by_year.map do |year, revenue|
-      {
-        value: revenue,
-        value_description: revenue_metrics.first.value_description, # pick any
-        year: year
-      }
-    end
-  end
 
   # Get the # of accounts per sales rep
   def accounts_per_sales_rep(company_id)
@@ -50,6 +33,23 @@ module Api::MetricsHelper
       {
         value: num_accounts,
         value_description: account_per_sales_metrics.first.value_description, # pick any
+        year: year
+      }
+    end
+  end
+
+  # Get average revenue per year
+  def annual_revenue(company_id)
+    revenue_metrics = Metric.where(
+      metric_name: Metric::METRIC_ANNUAL_REVENUE,
+      company_id: company_id)
+
+    average_revenue_by_year = average_metrics_by_year(revenue_metrics)
+
+    average_revenue_by_year.map do |year, revenue|
+      {
+        value: revenue,
+        value_description: revenue_metrics.first.value_description, # pick any
         year: year
       }
     end
@@ -78,8 +78,6 @@ module Api::MetricsHelper
       }
     end
   end
-
-  private
 
   # Average out metrics by year based on value and relevant_date.year
   def average_metrics_by_year(metrics)

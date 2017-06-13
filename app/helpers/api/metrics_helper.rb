@@ -69,28 +69,10 @@ module Api::MetricsHelper
       metric_name: Metric::METRIC_TOTAL_CUSTOMER_ACCOUNTS,
       company_id: company_id)
 
-    metric_batch_to_fte = Hash[overall_sales_fte_metrics
-      .map { |metric| [metric.metric_batch, metric] }
-      .select { |metric_batch, metric| metric_batch.present? }]
-    metric_batch_to_accounts = Hash[total_customer_accounts_metrics
-      .map { |metric| [metric.metric_batch, metric] }
-      .select { |metric_batch, metric| metric_batch.present? }]
-
-    metric_batch_to_pair = {}
-    metric_batch_to_fte.each do |metric_batch, metric|
-      if metric_batch_to_accounts.key?(metric_batch)
-        metric_batch_to_pair[metric_batch] = MetricPair.new(
-          metric_batch_to_accounts[metric_batch],
-          metric)
-      end
-    end
-
-    all_metric_pairs = metric_batch_to_pair.values
-    year_to_pairs = all_metric_pairs.group_by {
-      |pair| pair.get_year
-    }
-    year_to_average_value = Hash[year_to_pairs
-      .map { |year, pairs| [year, pairs.map(&:divide).reduce(:+) / pairs.size]}]
+    all_metric_pairs = get_all_metric_pairs(
+      total_customer_accounts_metrics, 
+      overall_sales_fte_metrics)
+    year_to_average_value = average_pair_metrics_by_year(all_metric_pairs)
 
     year_to_average_value.map do |year, value|
       {
@@ -101,6 +83,8 @@ module Api::MetricsHelper
     end
   end
 
+  private
+
   # Average out metrics by year based on value and relevant_date.year
   def average_metrics_by_year(metrics)
     metrics_grouped_by_year = metrics.group_by { 
@@ -109,6 +93,37 @@ module Api::MetricsHelper
 
     Hash[metrics_grouped_by_year
       .map { |year, metrics| [year, metrics.map(&:value).reduce(:+) / metrics.size] }] 
+  end
+
+  # Average out metric pairs by year based on left / right and relevant_date.year
+  def average_pair_metrics_by_year(metric_pairs)
+    year_to_pairs = metric_pairs.group_by {
+      |pair| pair.get_year
+    }
+
+    Hash[year_to_pairs
+      .map { |year, pairs| [year, pairs.map(&:divide).reduce(:+) / pairs.size]}]
+  end
+
+  # Get metric pairs based on metric_batch values
+  def get_all_metric_pairs(left_metrics, right_metrics)
+    metric_batch_to_left_metrics = Hash[left_metrics
+      .map { |metric| [metric.metric_batch, metric] }
+      .select { |metric_batch, metric| metric_batch.present? }]
+    metric_batch_to_right_metrics = Hash[right_metrics
+      .map { |metric| [metric.metric_batch, metric] }
+      .select { |metric_batch, metric| metric_batch.present? }]
+
+    metric_batch_to_pair = {}
+    metric_batch_to_left_metrics.each do |metric_batch, metric|
+      if metric_batch_to_right_metrics.key?(metric_batch)
+        metric_batch_to_pair[metric_batch] = MetricPair.new(
+          metric,
+          metric_batch_to_right_metrics[metric_batch])
+      end
+    end
+
+    metric_batch_to_pair.values
   end
 end
 

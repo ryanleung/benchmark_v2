@@ -39,10 +39,6 @@ module Api::MetricsHelper
 
   # Get the # of accounts per sales rep
   def accounts_per_sales_rep(company_id)
-    # For each user, get accounts_per_sales_rep metric. If that
-    # doesn't exist, get the total sales accounts and divide that
-    # by the overall total sales FTE. If one of those two numbers
-    # don't exist, then throw away.
     account_per_sales_metrics = Metric.where(
       metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
       company_id: company_id)

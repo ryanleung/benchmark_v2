@@ -101,6 +101,40 @@ describe Api::MetricsHelper do
     end
   end
 
+  describe '#accounts_per_sales_rep' do
+    it 'performs basic example' do
+      Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 500000000,
+                   value_description: Metric::VALUE_DESC_USD,
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1
+
+      Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 400000000,
+                   value_description: Metric::VALUE_DESC_USD,
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1
+
+      Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 400000000,
+                   value_description: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+                   relevant_date: Date.parse('19-03-2015'),
+                   user_id: 1
+
+      actual = accounts_per_sales_rep(@company_id)
+
+      expect(actual).to eql([
+        {:value=>450000000.0, :value_description=>Metric::VALUE_DESC_USD, :year=>2016},
+        {:value=>400000000.0, :value_description=>Metric::VALUE_DESC_USD, :year=>2015}])
+    end
+  end
+
   describe '#internal_accounts_per_sales_rep' do
     it 'basic example with metric_accounts_per_sales_rep' do
       Metric.create metric_name: Metric::METRIC_OVERALL_SALES_FTE,

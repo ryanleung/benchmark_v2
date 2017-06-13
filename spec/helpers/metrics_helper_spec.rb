@@ -101,37 +101,58 @@ describe Api::MetricsHelper do
     end
   end
 
-  describe '#accounts_per_sales_rep' do
+  describe '#internal_accounts_per_sales_rep' do
     it 'basic example with metric_accounts_per_sales_rep' do
-      Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+      Metric.create metric_name: Metric::METRIC_OVERALL_SALES_FTE,
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
                    value: 5,
                    value_description: Metric::VALUE_DESC_QUANTITY,
                    relevant_date: Date.parse('19-03-2016'),
-                   user_id: 1
+                   user_id: 1,
+                   metric_batch: "batch 1"
 
-      Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+      Metric.create metric_name: Metric::METRIC_TOTAL_CUSTOMER_ACCOUNTS,
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
-                   value: 7,
+                   value: 12,
                    value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017'),
-                   user_id: 1
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1,
+                   metric_batch: "batch 1" 
 
-      Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+      Metric.create metric_name: Metric::METRIC_OVERALL_SALES_FTE,
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
-                   value: 9,
+                   value: 2,
                    value_description: Metric::VALUE_DESC_QUANTITY,
                    relevant_date: Date.parse('19-03-2017'),
-                   user_id: 1
+                   user_id: 1,
+                   metric_batch: "batch 2"
 
-      actual = accounts_per_sales_rep(@company_id)
+      Metric.create metric_name: Metric::METRIC_TOTAL_CUSTOMER_ACCOUNTS,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 5,
+                   value_description: Metric::VALUE_DESC_QUANTITY,
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1,
+                   metric_batch: "batch 2"
+
+      Metric.create metric_name: Metric::METRIC_TOTAL_CUSTOMER_ACCOUNTS,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 5,
+                   value_description: Metric::VALUE_DESC_QUANTITY,
+                   relevant_date: Date.parse('19-03-2017'),
+                   user_id: 1,
+                   metric_batch: "not batched"
+
+      actual = internal_accounts_per_sales_rep(@company_id)
 
       expect(actual).to eql([
-        {:value=>5.0, :value_description=>Metric::VALUE_DESC_QUANTITY, :year=>2016},
-        {:value=>8.0, :value_description=>Metric::VALUE_DESC_QUANTITY, :year=>2017}])
+        {:value=>2.4, :value_description=>Metric::VALUE_DESC_QUANTITY, :year=>2016},
+        {:value=>2.5, :value_description=>Metric::VALUE_DESC_QUANTITY, :year=>2017}])
     end
   end
 end

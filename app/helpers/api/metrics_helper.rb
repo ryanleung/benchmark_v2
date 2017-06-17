@@ -73,7 +73,7 @@ module Api::MetricsHelper
     sales_fte_avg_per_year.each do |year, value|
       if total_fte_avg_per_year.key?(year)
         fte_value = total_fte_avg_per_year[year]
-        sales_over_total_per_year[year] = value / fte_value
+        sales_over_total_per_year[year] = value / fte_value * 1000
       end
     end
 
@@ -104,7 +104,7 @@ module Api::MetricsHelper
     sales_fte_avg_per_year.each do |year, value|
       if total_fte_avg_per_year.key?(year)
         fte_value = total_fte_avg_per_year[year]
-        sales_over_total_per_year[year] = value / fte_value
+        sales_over_total_per_year[year] = value / fte_value * 1000
       end
     end
 

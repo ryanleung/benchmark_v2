@@ -140,7 +140,7 @@ describe Api::MetricsHelper do
       actual = direct_sales_reps_per_1k_fte(@company_id)
 
       expect(actual).to eql([
-        {:value=>0.5, :value_description=>Metric::VALUE_DESC_QUANTITY, :year=>2016}])
+        {:value=>500.0, :value_description=>Metric::VALUE_DESC_QUANTITY, :year=>2016}])
     end
   end
 

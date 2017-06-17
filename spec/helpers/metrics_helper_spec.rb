@@ -14,30 +14,6 @@ describe Api::MetricsHelper do
                        state: "CA",
                        logo_img_url: "test"
 
-    Metric.create metric_name: Metric::METRIC_DIRECT_SALES_FTE,
-                   metric_type_id: metric_type_org.id,
-                   company_id: company.id,
-                   value: 10000,
-                   value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017'),
-                   user_id: 1
-
-    Metric.create metric_name: Metric::METRIC_NUM_EMPLOYEES,
-                   metric_type_id: metric_type_org.id,
-                   company_id: company.id,
-                   value: 17500,
-                   value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017'),
-                   user_id: 1
-
-    Metric.create metric_name: Metric::METRIC_NUM_WEB_EMPLOYEES,
-                   metric_type_id: metric_type_org.id,
-                   company_id: company.id,
-                   value: 100000,
-                   value_description: Metric::VALUE_DESC_QUANTITY,
-                   relevant_date: Date.parse('19-03-2017'),
-                   user_id: 1
-
     Metric.create metric_name: Metric::METRIC_OVERALL_SALES_FTE,
                    metric_type_id: metric_type_org.id,
                    company_id: company.id,
@@ -132,6 +108,39 @@ describe Api::MetricsHelper do
       expect(actual).to eql([
         {:value=>450000000.0, :value_description=>Metric::VALUE_DESC_USD, :year=>2016},
         {:value=>400000000.0, :value_description=>Metric::VALUE_DESC_USD, :year=>2015}])
+    end
+  end
+
+  describe '#direct_sales_reps_per_1k_fte' do
+    it 'basic example' do
+      Metric.create metric_name: Metric::METRIC_DIRECT_SALES_FTE,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 1000,
+                   value_description: Metric::VALUE_DESC_QUANTITY,
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1
+
+      Metric.create metric_name: Metric::METRIC_NUM_EMPLOYEES,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 2000,
+                   value_description: Metric::VALUE_DESC_QUANTITY,
+                   relevant_date: Date.parse('19-03-2016'),
+                   user_id: 1
+
+      Metric.create metric_name: Metric::METRIC_DIRECT_SALES_FTE,
+                   metric_type_id: @metric_type_id,
+                   company_id: @company_id,
+                   value: 1,
+                   value_description: Metric::VALUE_DESC_QUANTITY,
+                   relevant_date: Date.parse('19-03-2015'),
+                   user_id: 1
+
+      actual = direct_sales_reps_per_1k_fte(@company_id)
+
+      expect(actual).to eql([
+        {:value=>0.5, :value_description=>Metric::VALUE_DESC_QUANTITY, :year=>2016}])
     end
   end
 

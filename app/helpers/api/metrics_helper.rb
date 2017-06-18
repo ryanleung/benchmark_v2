@@ -58,60 +58,46 @@ module Api::MetricsHelper
   # Get direct sales per 1k fte per year
   def direct_sales_reps_per_1k_fte(company_id)
     # Direct sales fte / total # employees
-    direct_sales_fte_metrics = Metric.where(
-      metric_name: Metric::METRIC_DIRECT_SALES_FTE,
-      company_id: company_id)
-
-    total_fte_metrics = Metric.where(
-      metric_name: Metric::METRIC_NUM_EMPLOYEES,
-      company_id: company_id)
-
-    sales_fte_avg_per_year = average_metrics_by_year(direct_sales_fte_metrics)
-    total_fte_avg_per_year = average_metrics_by_year(total_fte_metrics)
-
-    sales_over_total_per_year = {}
-    sales_fte_avg_per_year.each do |year, value|
-      if total_fte_avg_per_year.key?(year)
-        fte_value = total_fte_avg_per_year[year]
-        sales_over_total_per_year[year] = value / fte_value * 1000
-      end
-    end
-
-    sales_over_total_per_year.map do |year, value|
-      {
-        value: value,
-        value_description: direct_sales_fte_metrics.first.value_description, # pick any
-        year: year
-      }
-    end
+    metrics_per_1k(
+      Metric::METRIC_DIRECT_SALES_FTE,
+      Metric::METRIC_NUM_EMPLOYEES,
+      company_id)
   end
 
   # Get the # of direct sales per 1k fte from internally inputted data
   def internal_direct_sales_reps_per_1k_fte(company_id)
     # Direct sales fte / total # internal employees
-    direct_sales_fte_metrics = Metric.where(
-      metric_name: Metric::METRIC_DIRECT_SALES_FTE,
+    metrics_per_1k(
+      Metric::METRIC_DIRECT_SALES_FTE,
+      Metric::METRIC_NUM_WEB_EMPLOYEES,
+      company_id)
+  end
+
+  # Get metrics per 1k (e.g. direct sales fte per 1k internal employees)
+  def metrics_per_1k(metric_type, total_metric_type, company_id)
+    metrics = Metric.where(
+      metric_name: metric_type,
       company_id: company_id)
 
-    total_fte_metrics = Metric.where(
-      metric_name: Metric::METRIC_NUM_WEB_EMPLOYEES,
+    total_metrics = Metric.where(
+      metric_name: total_metric_type,
       company_id: company_id)
 
-    sales_fte_avg_per_year = average_metrics_by_year(direct_sales_fte_metrics)
-    total_fte_avg_per_year = average_metrics_by_year(total_fte_metrics)
+    metric_avg_per_year = average_metrics_by_year(metrics)
+    total_metric_avg_per_year = average_metrics_by_year(total_metrics)
 
-    sales_over_total_per_year = {}
-    sales_fte_avg_per_year.each do |year, value|
-      if total_fte_avg_per_year.key?(year)
-        fte_value = total_fte_avg_per_year[year]
-        sales_over_total_per_year[year] = value / fte_value * 1000
+    metric_over_total_per_year = {}
+    metric_avg_per_year.each do |year, value|
+      if total_metric_avg_per_year.key?(year)
+        metric_value = total_metric_avg_per_year[year]
+        metric_over_total_per_year[year] = value / metric_value * 1000
       end
     end
 
-    sales_over_total_per_year.map do |year, value|
+    metric_over_total_per_year.map do |year, value|
       {
         value: value,
-        value_description: direct_sales_fte_metrics.first.value_description, # pick any
+        value_description: total_metrics.first.value_description, # pick any
         year: year
       }
     end

@@ -40,19 +40,9 @@ module Api::MetricsHelper
 
   # Get average revenue per year
   def annual_revenue(company_id)
-    revenue_metrics = Metric.where(
-      metric_name: Metric::METRIC_ANNUAL_REVENUE,
-      company_id: company_id)
-
-    average_revenue_by_year = average_metrics_by_year(revenue_metrics)
-
-    average_revenue_by_year.map do |year, revenue|
-      {
-        value: revenue,
-        value_description: revenue_metrics.first.value_description, # pick any
-        year: year
-      }
-    end
+    get_average_metric_presenter_by_year(
+      Metric::METRIC_ANNUAL_REVENUE,
+      company_id)
   end
 
   # Get direct sales per 1k fte per year
@@ -69,6 +59,79 @@ module Api::MetricsHelper
     # Direct sales fte / total # internal employees
     metrics_per_1k(
       Metric::METRIC_DIRECT_SALES_FTE,
+      Metric::METRIC_NUM_WEB_EMPLOYEES,
+      company_id)
+  end
+
+  # Get overall sales per 1k fte per year
+  def overall_sales_reps_per_1k_fte(company_id)
+    # Overall sales fte / total # employees
+    metrics_per_1k(
+      Metric::METRIC_OVERALL_SALES_FTE,
+      Metric::METRIC_NUM_EMPLOYEES,
+      company_id)
+  end
+
+  # Get overall sales per 1k internal fte per year
+  def internal_overall_sales_reps_per_1k_fte(company_id)
+    metrics_per_1k(
+      Metric::METRIC_OVERALL_SALES_FTE,
+      Metric::METRIC_NUM_WEB_EMPLOYEES,
+      company_id)
+  end
+
+  def revenue_per_employee(company_id)
+    metrics_per_1k(
+      Metric::METRIC_ANNUAL_REVENUE,
+      Metric::METRIC_NUM_EMPLOYEES,
+      company_id)
+    .map do |value, value_desc, year|
+      {
+        value: value / 1000,
+        value_description: value_desc,
+        year: year
+      }
+    end
+  end
+
+  def internal_revenue_per_employee(company_id)
+    metrics_per_1k(
+      Metric::METRIC_ANNUAL_REVENUE,
+      Metric::METRIC_NUM_WEB_EMPLOYEES,
+      company_id)
+    .map do |value, value_desc, year|
+      {
+        value: value / 1000,
+        value_description: value_desc,
+        year: year
+      }
+    end
+  end
+
+  def sales_support_per_1k_fte(company_id)
+    metrics_per_1k(
+      Metric::METRIC_SALES_SUPPORT_FTE,
+      Metric::METRIC_NUM_EMPLOYEES,
+      company_id)
+  end
+
+  def internal_sales_support_per_1k_fte(company_id)
+    metrics_per_1k(
+      Metric::METRIC_SALES_SUPPORT_FTE,
+      Metric::METRIC_NUM_WEB_EMPLOYEES,
+      company_id)
+  end
+
+  # Total num employees per year on avg
+  def total_num_employees(company_id)
+    get_average_metric_presenter_by_year(
+      Metric::METRIC_NUM_EMPLOYEES,
+      company_id)
+  end
+
+  # Total num internal employees per year on avg
+  def internal_total_num_employees(company_id)
+    get_average_metric_presenter_by_year(
       Metric::METRIC_NUM_WEB_EMPLOYEES,
       company_id)
   end
@@ -122,6 +185,23 @@ module Api::MetricsHelper
       {
         value: value,
         value_description: overall_sales_fte_metrics.first.value_description, # pick any
+        year: year
+      }
+    end
+  end
+
+  # Given a metric type, poop out yearly averages of that metric with value/desc/year presenter
+  def get_average_metric_presenter_by_year(metric_type, company_id)
+    metrics = Metric.where(
+      metric_name: metric_type,
+      company_id: company_id)
+
+    avg_metrics_per_year = average_metrics_by_year(metrics)
+
+    avg_metrics_per_year.map do |year, num|
+      {
+        value: num,
+        value_description: metrics.first.value_description, # pick any
         year: year
       }
     end

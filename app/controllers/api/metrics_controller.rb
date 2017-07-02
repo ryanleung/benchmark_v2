@@ -24,4 +24,24 @@ class Api::MetricsController < ApplicationController
       }
     }
   end
+
+  def create
+    raise ActiveRecord::RecordNotFound unless Company.exists?(params[:company_id]) and
+                                              MetricType.exists?(params[:metric_type])
+
+    new_metric = Metric.create! metric_name: params[:metric_name]
+                                metric_type_id: params[:metric_type_id]
+                                company_id: params[:company_id]
+                                value: params[:value],
+                                value_description: params[:value_description]
+                                relevant_date: params[:relevant_date]
+                                user_id: params[:user_id]
+
+    render json: {
+      data: {
+        kind: Metric.name,
+        item: new_metric.as_json(include: [:metric_name, :metric_type, :function, :business_unit]) })
+      }
+    }
+  end
 end

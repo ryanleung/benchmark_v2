@@ -8,6 +8,17 @@ class Metric < ApplicationRecord
   METRIC_SALES_SUPPORT_FTE = "num_sales_support_fte"
   METRIC_TOTAL_CUSTOMER_ACCOUNTS = "total_num_customer_accounts"
 
+  TOTAL_METRICS = [
+    METRIC_ACCOUNTS_PER_SALES_REP,
+    METRIC_ANNUAL_REVENUE,
+    METRIC_DIRECT_SALES_FTE,
+    METRIC_NUM_EMPLOYEES,
+    METRIC_NUM_WEB_EMPLOYEES,
+    METRIC_OVERALL_SALES_FTE,
+    METRIC_SALES_SUPPORT_FTE,
+    METRIC_TOTAL_CUSTOMER_ACCOUNTS
+  ]
+
   # Metrics that were generated exclusively internally
   INTERNALLY_GENERATED_METRICS = [
     METRIC_NUM_WEB_EMPLOYEES
@@ -18,9 +29,19 @@ class Metric < ApplicationRecord
   VALUE_DESC_QUANTITY = "Quantity"
   VALUE_DESC_USD = "USD"
 
+  TOTAL_VALUE_DESCS =  [
+    VALUE_DESC_QUANTITY,
+    VALUE_DESC_USD
+  ]
+
   has_many :metrics
   belongs_to :metric_type
   belongs_to :company
   belongs_to :user, optional: true
   belongs_to :business_unit, optional: true
+
+  validates :metric_name, inclusion: { in: TOTAL_METRICS,
+    message: "%{value} is not a valid metric name" }
+  validates :value_description, inclusion: { in: TOTAL_VALUE_DESCS,
+    message: "%{value} is not a valid value description" }
 end

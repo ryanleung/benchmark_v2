@@ -1,4 +1,3 @@
-require 'database_cleaner'
 require 'rails_helper'
 
 describe Api::MetricsHelper do
@@ -99,7 +98,7 @@ describe Api::MetricsHelper do
                    metric_type_id: @metric_type_id,
                    company_id: @company_id,
                    value: 400000000,
-                   value_description: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+                   value_description: Metric::VALUE_DESC_QUANTITY,
                    relevant_date: Date.parse('19-03-2015'),
                    user_id: 1
 

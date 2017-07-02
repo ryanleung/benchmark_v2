@@ -22,6 +22,19 @@ class Metric {
     metric.business_unit = json.business_unit.name
     return metric
   }
+
+  to_json() {
+    return {
+        id: this.id,
+        name: this.name,
+        type: this.type,
+        value: this.value,
+        value_description: this.value_description,
+        geo: this.geo,
+        function_name: this.function_name,
+        business_unit: this.business_unit
+    }
+  }
 }
 
 export default Metric;

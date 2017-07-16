@@ -7,14 +7,34 @@ class NumberCard extends Component {
     const year = new Date().getFullYear()
     const { title, metrics } = this.props
     const currentMetric = metrics.filter(metric => metric.year === year)[0]
-    const { value, value_description, type } = currentMetric
-    const currency =
-      value_description !== "Quantity" ? `(${value_description})` : ""
+    let { value, value_description, type } = currentMetric
+    value = Math.round(value).toLocaleString(undefined)
+    let currency = "";
+
+    function abbreviateNumber(number) {
+        const SI_POSTFIXES = ["", "k", "M", "B", "T"];
+        const tier = Math.log10(Math.abs(number)) / 3 | 0;
+        if(tier <= 1) return number;
+
+        const suffix = SI_POSTFIXES[tier];
+        const scale = Math.pow(10, tier * 3);
+        let formatted = (number / scale).toFixed(2) + '';
+
+        if (/\.00$/.test(formatted))
+          formatted = formatted.substr(0, formatted.length - 3);
+
+        return formatted + suffix;
+    }
+
+    if (value_description !== "Quantity") {
+      currency = `(${value_description})`
+      value = `$${abbreviateNumber(currentMetric.value)}`
+    }
 
     return(
       <div className="card">
         <h3>{ title } {currency}</h3>
-        <h4>{ Math.round(value).toLocaleString(undefined) }</h4>
+        <h4>{ value }</h4>
       </div>
     )
   }

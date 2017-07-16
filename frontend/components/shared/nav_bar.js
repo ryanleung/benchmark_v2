@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { withRouter } from  'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
@@ -10,6 +11,7 @@ class NavBar extends Component {
   constructor(props) {
     super(props)
     this.state = { open: false }
+    this.handleAddMetric = this.handleAddMetric.bind(this)
   }
 
   handleOpen() {
@@ -27,6 +29,10 @@ class NavBar extends Component {
     this.handleOpen();
   };
 
+  handleAddMetric() {
+    this.props.history.push('/add_metric')
+  };
+
   render() {
     return (
       <div>
@@ -37,8 +43,8 @@ class NavBar extends Component {
           onTitleTouchTap={this.handleTitleTap}
           iconElementRight={
             <FlatButton
-              label="Sign In"
-              onTouchTap={this.handleLoginTap} />
+              label="Add Metric"
+              onTouchTap={this.handleAddMetric} />
           }
         />
         <Dialog 
@@ -50,4 +56,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default withRouter(NavBar);

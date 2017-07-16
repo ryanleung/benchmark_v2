@@ -18,6 +18,39 @@ task :seed_data => :environment do
     business_unit = BusinessUnit.create name: "Google Maps",
                                         company_id: company.id
 
+    metric = Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 5,
+                           value_description: Metric::VALUE_DESC_QUANTITY,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2016')
+
+    metric = Metric.create metric_name: Metric::METRIC_ACCOUNTS_PER_SALES_REP,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 7,
+                           value_description: Metric::VALUE_DESC_QUANTITY,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 900000000,
+                           value_description: Metric::VALUE_DESC_USD,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
     metric = Metric.create metric_name: Metric::METRIC_ANNUAL_REVENUE,
                            metric_type_id: metric_type_org.id,
                            function: Metric::FUNCTION_ENGINEERING,

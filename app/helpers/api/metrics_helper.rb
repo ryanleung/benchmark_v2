@@ -80,29 +80,33 @@ module Api::MetricsHelper
     end
 
     def revenue_per_employee(company_id)
+      # TODO: this is kinda ugly, we just get per 1k and then divide 1k
+      # to get per employee
       metrics_per_1k(
         Metric::METRIC_ANNUAL_REVENUE,
         Metric::METRIC_NUM_EMPLOYEES,
         company_id)
-      .map do |value, value_desc, year|
+      .map do |metric|
         {
-          value: value / 1000,
-          value_description: value_desc,
-          year: year
+          value: metric[:value] / 1000,
+          value_description: metric[:value_description],
+          year: metric[:year]
         }
       end
     end
 
     def internal_revenue_per_employee(company_id)
+      # TODO: this is kinda ugly, we just get per 1k and then divide 1k
+      # to get per employee
       metrics_per_1k(
         Metric::METRIC_ANNUAL_REVENUE,
         Metric::METRIC_NUM_WEB_EMPLOYEES,
         company_id)
-      .map do |value, value_desc, year|
+      .map do |metric|
         {
-          value: value / 1000,
-          value_description: value_desc,
-          year: year
+          value: metric[:value] / 1000,
+          value_description: metric[:value_description],
+          year: metric[:year]
         }
       end
     end

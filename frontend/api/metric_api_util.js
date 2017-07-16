@@ -5,3 +5,10 @@ export const postMetric = (company_id, metric) => {
     data: metric.to_json()
   });
 };
+
+export const getMetrics = (company_id) => {
+  return $.ajax({
+    method: 'GET',
+    url: `/api/companies/${company_id}/metrics_dashboard`
+  })
+}

@@ -7,6 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
 
+import * as APIUtil from '../../api/metric_api_util'
 import Company from '../../models/Company'
 
 import './company_page.css'
@@ -16,6 +17,10 @@ class CompanyPage extends Component {
   componentDidMount() {
     const { match } = this.props
     this.props.fetchCompany(match.params.company_id)
+    APIUtil.getMetrics(match.params.company_id)
+      .then(response => {
+        this.setState({metrics_dashboard: response.data})
+      })
   }
 
   render() {

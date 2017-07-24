@@ -3,6 +3,9 @@ class Api::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
+    # A newly created user begins as a free user
+    @user.account_type = User::ACCOUNT_TYPE_FREE_USER
+
     if @user.save
       login(@user)
       render "api/users/show"

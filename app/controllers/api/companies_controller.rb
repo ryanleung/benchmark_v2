@@ -35,4 +35,14 @@ class Api::CompaniesController < ApplicationController
       }
     }
   end
+
+  def search
+    companies = Company.where('name ILIKE ?', "%#{params[:q]}%").order('id DESC')
+    render(json: {
+        data: {
+          kind: Company.name,
+          items: companies.map { |c| c.as_json(include: :industry) }
+        }
+      })
+  end
 end

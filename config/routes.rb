@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       resources :companies
     end
 
+    # search route
+    get 'companies/search' => 'companies#search'
     resources :companies do
       resources :metrics
     end

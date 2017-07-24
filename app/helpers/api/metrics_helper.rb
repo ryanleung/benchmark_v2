@@ -10,32 +10,39 @@ module Api::MetricsHelper
         annual_revenue: {
           title: "Revenue",
           metrics: annual_revenue(company_id),
+          locked: false, # TODO: implement me
         },
         total_num_employees: {
           title: "Employees",
           metrics: total_num_employees(company_id),
+          locked: false,
         },
         revenue_per_employee: {
           title: "Revenue Per Employee",
           metrics: revenue_per_employee(company_id),
+          locked: false,
         },
       },
       sales_organization_structure: {
         overall_sales_per_1k_fte: {
           title: "Overall Sales per FTE",
           metrics: overall_sales_reps_per_1k_fte(company_id),
+          locked: false,
         },
         direct_sales_reps_per_1k_fte: {
           title: "Direct Sales Reps FTE per 1000 FTE",
           metrics: direct_sales_reps_per_1k_fte(company_id),
+          locked: false,
         },
         accounts_per_sales_rep: {
           title: "Accounts per Sales Rep",
           metrics: accounts_per_sales_rep(company_id),
+          locked: false,
         },
         sales_support_per_1k_fte: {
           title: "Sales Support FTE per 1000 FTE",
           metrics: sales_support_per_1k_fte(company_id),
+          locked: false,
         }
       }
     }

@@ -6,45 +6,51 @@ module Api::MetricsHelper
   # Take a company, poop out their metrics dashboard.
   def metrics_dashboard(company_id)
     {
-      overview: {
-        annual_revenue: {
-          title: "Revenue",
-          metrics: annual_revenue(company_id),
-          locked: false, # TODO: implement me
+      metric_dashboard: [
+        {
+          group: "Overview",
+          metrics: [
+          {
+            title: "Revenue",
+            values: annual_revenue(company_id),
+            locked: false, # TODO: implement me
+          },
+          {
+            title: "Employees",
+            values: total_num_employees(company_id),
+            locked: false,
+          },
+          {
+            title: "Revenue Per Employee",
+            values: revenue_per_employee(company_id),
+            locked: false,
+          }]
         },
-        total_num_employees: {
-          title: "Employees",
-          metrics: total_num_employees(company_id),
-          locked: false,
-        },
-        revenue_per_employee: {
-          title: "Revenue Per Employee",
-          metrics: revenue_per_employee(company_id),
-          locked: false,
-        },
-      },
-      sales_organization_structure: {
-        overall_sales_per_1k_fte: {
-          title: "Overall Sales per FTE",
-          metrics: overall_sales_reps_per_1k_fte(company_id),
-          locked: false,
-        },
-        direct_sales_reps_per_1k_fte: {
-          title: "Direct Sales Reps FTE per 1000 FTE",
-          metrics: direct_sales_reps_per_1k_fte(company_id),
-          locked: false,
-        },
-        accounts_per_sales_rep: {
-          title: "Accounts per Sales Rep",
-          metrics: accounts_per_sales_rep(company_id),
-          locked: false,
-        },
-        sales_support_per_1k_fte: {
-          title: "Sales Support FTE per 1000 FTE",
-          metrics: sales_support_per_1k_fte(company_id),
-          locked: false,
+        {
+          group: "Sales Organization Structure",
+          metrics: [
+          {
+            title: "Overall Sales per FTE",
+            values: overall_sales_reps_per_1k_fte(company_id),
+            locked: false,
+          },
+          {
+            title: "Direct Sales Reps FTE per 1000 FTE",
+            values: direct_sales_reps_per_1k_fte(company_id),
+            locked: false,
+          },
+          {
+            title: "Accounts per Sales Rep",
+            values: accounts_per_sales_rep(company_id),
+            locked: false,
+          },
+          {
+            title: "Sales Support FTE per 1000 FTE",
+            values: sales_support_per_1k_fte(company_id),
+            locked: false,
+          }],
         }
-      }
+      ]
     }
   end
   module_function :metrics_dashboard

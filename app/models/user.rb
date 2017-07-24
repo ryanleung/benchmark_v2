@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  ACCOUNT_TYPE_SUPERUSER = "superuser"
+  ACCOUNT_TYPE_FREE_USER = "free user"
+  
   has_many :metrics
 
   attr_reader :password

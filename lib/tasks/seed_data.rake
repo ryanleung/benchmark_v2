@@ -4,7 +4,8 @@ task :seed_data => :environment do
     tech_industry = Industry.create name: "Tech"
     user = User.create name: "Vincent Vo",
                        email: "vincent.vo@gmail.com",
-                       password: "vincent"
+                       password: "vincent",
+                       account_type: User::ACCOUNT_TYPE_SUPERUSER
     metric_type_org = MetricType.create name: "Org"
 
     # COMPANY 1: GOOGLE

@@ -1,4 +1,6 @@
 .CompanyPage {
+  margin: 0 50px;
+
   &__avatar {
     margin: 15px;
   }

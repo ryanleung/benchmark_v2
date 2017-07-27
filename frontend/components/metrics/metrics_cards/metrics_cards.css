@@ -16,7 +16,6 @@ div.metrics {
 }
 
 div.metrics > div {
-  box-sizing: content-box;
   width: 25%;
   height: 100px;
 }

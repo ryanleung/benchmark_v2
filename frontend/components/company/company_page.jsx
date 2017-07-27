@@ -44,7 +44,7 @@ class CompanyPage extends Component {
           <div className="CompanyPage">
             <h1>{company.name}</h1>
             { metricGroups }
-        </div>
+          </div>
         }
       </div>
     )

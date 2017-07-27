@@ -1,18 +1,25 @@
 import React, { Component } from 'react'
 
-class MetricGroup extends Component {
-  renter() {
-    { title, metrics } = this.props
+import NumberCard from './metrics_cards/number'
 
-    const metricCards = metrics.forEach(metric => {
-      return <NumberCard title={metric.title} metrics={metric.metrics} />
+class MetricGroup extends Component {
+  debugger
+  render() {
+    const { title, metrics } = this.props
+
+    const metricCards = metrics.map(metric => {
+      return <NumberCard title={metric.title} metrics={metric.values} />
     })
 
     return(
       <div>
-        <h3>{ title }</h3>
-        { metricCards }
+        <h2>{ title }</h2>
+        <div className="metrics">
+          { metricCards }
+        </div>
       </div>
     )
   }
 }
+
+export default MetricGroup

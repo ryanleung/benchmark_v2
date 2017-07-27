@@ -38,14 +38,6 @@ class CompanyPage extends Component {
       return <MetricGroup title={metric.group} metrics={metric.metrics} />
     })
 
-    // <NumberCard title="Revenue" metrics={annual_revenue} />
-    // <NumberCard title="Employees" metrics={total_num_employees} />
-    // <NumberCard title="Revenue Per Employee" metrics={revenue_per_employee} />
-    // <NumberCard title="Overall Sales Per 1k FTE" metrics={overall_sales_per_1k_fte} />
-    // <NumberCard title="Direct Sales Per 1k FTE" metrics={direct_sales_reps_per_1k_fte} />
-    // <NumberCard title="Sales Support Per 1k FTE" metrics={sales_support_per_1k_fte} />
-    // <NumberCard title="Accounts Per Sales Rep" metrics={accounts_per_sales_rep} />
-
     return (
       <div>
         {company &&

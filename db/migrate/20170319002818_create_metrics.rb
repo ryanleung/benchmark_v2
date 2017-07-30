@@ -2,7 +2,7 @@ class CreateMetrics < ActiveRecord::Migration[5.0]
   def change
     create_table :metrics do |t|
       t.string :metric_name,           null: false
-      t.integer :metric_type_id,       null: false
+      t.integer :metric_type_id
       t.string :function
       t.integer :user_id,              null: false
       t.integer :company_id,           null: false

@@ -6,7 +6,7 @@ module Api::MetricsHelper
   # Take a company, poop out their metrics dashboard.
   def metrics_dashboard(company_id)
     {
-      metric_dashboard: [
+      metrics_dashboard: [
         {
           group: "Overview",
           metrics: [

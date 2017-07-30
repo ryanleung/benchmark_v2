@@ -20,7 +20,7 @@ class CompanyPage extends Component {
     this.props.fetchCompany(match.params.company_id)
     APIUtil.getMetrics(match.params.company_id)
       .then(response => {
-        this.setState({metrics_dashboard: response.data.metric_dashboard})
+        this.setState({metrics_dashboard: response.data.metrics_dashboard})
       })
   }
 

@@ -37,19 +37,26 @@ class Api::MetricsController < ApplicationController
   def create
     raise ActiveRecord::RecordNotFound unless Company.exists?(params[:company_id])
 
-    new_metric = Metric.create! metric_name: params[:metric_name],
-                                metric_type_id: params[:metric_type_id],
-                                company_id: params[:company_id],
-                                value: params[:value],
-                                value_description: params[:value_description],
-                                relevant_date: params[:relevant_date],
-                                user_id: params[:user_id]
+    metrics = params[:metrics]
+
+    # If there is more than one metric, save a metric_batch random UUID to "batch"
+    # the metrics together, signifying that they were submitted together
+    metric_batch = metrics.length > 1 ? SecureRandom.uuid : nil
+    metrics.each do |metric|
+      value_description = Metric::METRIC_TO_VALUE_DESC[metric[:metric_name]]
+      relevant_date = DateTime.new(metric[:relevant_date])
+
+      new_metric = Metric.create! metric_name: metric[:metric_name],
+                            company_id: params[:company_id],
+                            value: metric[:value],
+                            value_description: value_description,
+                            relevant_date: relevant_date,
+                            metric_batch: metric_batch,
+                            user_id: 1  # TODO: change this once we implement permissions
+    end
 
     render json: {
-      data: {
-        kind: Metric.name,
-        item: new_metric.as_json(include: [:metric_name, :metric_type, :function, :business_unit])
-      }
+      data: {}
     }
   end
 end

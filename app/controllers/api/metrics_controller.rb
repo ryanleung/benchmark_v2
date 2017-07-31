@@ -35,8 +35,7 @@ class Api::MetricsController < ApplicationController
   end
 
   def create
-    raise ActiveRecord::RecordNotFound unless Company.exists?(params[:company_id]) and
-                                              MetricType.exists?(params[:metric_type])
+    raise ActiveRecord::RecordNotFound unless Company.exists?(params[:company_id])
 
     new_metric = Metric.create! metric_name: params[:metric_name],
                                 metric_type_id: params[:metric_type_id],

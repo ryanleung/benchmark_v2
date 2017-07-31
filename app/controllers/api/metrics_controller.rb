@@ -59,4 +59,82 @@ class Api::MetricsController < ApplicationController
       data: {}
     }
   end
+
+  # TODO: verify with Vince that this is correct user behavior
+  # TODO: move this out of metrics controller into somewhere more
+  # encapsulated
+  def form_metrics
+    render json: {
+      data: {
+        fields: [
+          {
+            title: "Annual Revenue",
+            input_fields: [
+              {
+                title: "Annual Revenue",
+                metric_name: Metric::METRIC_ANNUAL_REVENUE,
+              }
+            ]
+          },
+          {
+            title: "Total Number of Employees",
+            input_fields: [
+              {
+                title: "Total # of Employees",
+                metric_name: Metric::METRIC_NUM_EMPLOYEES,
+              }
+            ],
+          },
+          {
+            title: "Accounts Per Sales Rep",
+            input_fields: [
+              {
+                title: "Accounts Per Sales Rep",
+                metric_name: Metric::METRIC_NUM_EMPLOYEES,
+              }
+            ]
+          },
+          {
+            title: "Direct Sales Reps",
+            input_fields: [
+              {
+                title: "Total Direct Sales Reps",
+                metric_name: Metric::METRIC_DIRECT_SALES_FTE
+              },
+              {
+                title: "Total # of Employees",
+                metric_name: Metric::METRIC_NUM_EMPLOYEES
+              }
+            ]
+          },
+          {
+            title: "Overall Sales Reps",
+            input_fields: [
+              {
+                title: "Total Sales Reps",
+                metric_name: Metric::METRIC_OVERALL_SALES_FTE
+              },
+              {
+                title: "Total # of Employees",
+                metric_name: Metric::METRIC_NUM_EMPLOYEES
+              }
+            ]
+          },
+          {
+            title: "Sales Support Reps",
+            input_fields: [
+              {
+                title: "Total Sales Support Reps",
+                metric_name: Metric::METRIC_SALES_SUPPORT_FTE
+              },
+              {
+                title: "Total # of Employees",
+                metric_name: Metric::METRIC_NUM_EMPLOYEES
+              }
+            ]
+          },
+        ]
+      }
+    }
+  end
 end

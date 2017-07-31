@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
     # metrics dashboard route
     get 'companies/:company_id/metrics_dashboard' => 'metrics#metrics_dashboard'
+
+    # submit form route
+    get 'companies/:company_id/form_metrics' => 'metrics#form_metrics'
   end
 
   # https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually

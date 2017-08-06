@@ -6,6 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton'
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
+import { Link } from 'react-router-dom'
 
 import * as APIUtil from '../../api/metric_api_util'
 import Company from '../../models/Company'
@@ -42,7 +43,10 @@ class CompanyPage extends Component {
       <div>
         {company &&
           <div className="CompanyPage">
-            <h1>{company.name}</h1>
+            <div>
+              <h1>{company.name}</h1>
+              <Link to={`/company/${company.id}/add_metric`}>Add Metric</Link>
+            </div>
             { metricGroups }
           </div>
         }

@@ -46,6 +46,7 @@ class Metric < ApplicationRecord
   ]
 
   has_many :metrics
+  has_many :permissions
   belongs_to :metric_type, optional: true
   belongs_to :company
   belongs_to :user, optional: true

@@ -41,6 +41,11 @@ class User < ActiveRecord::Base
     self.account_type == ACCOUNT_TYPE_SUPERUSER
   end
 
+  def has_permission?(metric_unit_name)
+    # user has permission to access the metric unit
+    self.metric_units.any? {|mu| mu.name == metric_unit_name}
+  end
+
   private
 
   def ensure_session_token

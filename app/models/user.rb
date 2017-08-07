@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   ACCOUNT_TYPE_FREE_USER = "free user"
   
   has_many :metrics
-  has_many :permissions
 
   attr_reader :password
 

@@ -43,10 +43,8 @@ class CompanyPage extends Component {
       <div>
         {company &&
           <div className="CompanyPage">
-            <div>
-              <h1>{company.name}</h1>
+              <h1>{company.name}</h1><br />
               <Link to={`/company/${company.id}/add_metric`}>Add Metric</Link>
-            </div>
             { metricGroups }
           </div>
         }

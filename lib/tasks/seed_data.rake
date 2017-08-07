@@ -14,6 +14,12 @@ task :seed_data => :environment do
                        email: "vincent.vo@gmail.com",
                        password: "vincent",
                        account_type: User::ACCOUNT_TYPE_SUPERUSER
+
+    free_user = User.create name: "Ryan Leung",
+                            email: "ryanleung@gmail.com",
+                            password: "ryanleung",
+                            account_type: User::ACCOUNT_TYPE_FREE_USER
+
     metric_type_org = MetricType.create name: "Org"
 
     # COMPANY 1: GOOGLE

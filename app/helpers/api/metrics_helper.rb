@@ -5,46 +5,45 @@ module Api::MetricsHelper
 
   # Take a company, poop out their metrics dashboard.
   def metrics_dashboard(company_id, current_user)
+    if current_user.present? && current_user.superuser?
+      return superuser_view(company_id)
+    end
+
+    if current_user.nil?
+      return limited_view(company_id)
+    else
+      return user_view(company_id, current_user)
+    end
+  end
+  module_function :metrics_dashboard
+
+  def superuser_view(company_id)
     {
       metrics_dashboard: [
-        {
-          group: "Overview",
-          metrics: [
-          {
-            title: "Revenue",
-            values: annual_revenue(company_id),
-            locked: false, # TODO: implement me
-          },
-          {
-            title: "Employees",
-            values: total_num_employees(company_id),
-            locked: false,
-          },
-          {
-            title: "Revenue Per Employee",
-            values: revenue_per_employee(company_id),
-            locked: false,
-          }]
-        },
+        overview_metrics(company_id),
         {
           group: "Sales Organization Structure",
           metrics: [
           {
+            mu_key: MetricUnit::MU_OVERALL_SALES_PER_FTE,
             title: "Overall Sales per FTE",
             values: overall_sales_reps_per_1k_fte(company_id),
             locked: false,
           },
           {
+            mu_key: MetricUnit::MU_DIRECT_SALES_PER_FTE,
             title: "Direct Sales Reps FTE per 1000 FTE",
             values: direct_sales_reps_per_1k_fte(company_id),
             locked: false,
           },
           {
+            mu_key: MetricUnit::MU_ACCOUNTS_PER_SALES_REP,
             title: "Accounts per Sales Rep",
             values: accounts_per_sales_rep(company_id),
             locked: false,
           },
           {
+            mu_key: MetricUnit::MU_SALES_SUPPORT_PER_FTE,
             title: "Sales Support FTE per 1000 FTE",
             values: sales_support_per_1k_fte(company_id),
             locked: false,
@@ -53,7 +52,81 @@ module Api::MetricsHelper
       ]
     }
   end
-  module_function :metrics_dashboard
+  module_function :superuser_view
+
+  def limited_view(company_id)
+    {
+      metrics_dashboard: [overview_metrics(company_id)]
+    }
+  end
+  module_function :limited_view
+
+  def user_view(company_id, current_user)
+    overall_sales_perm = current_user.has_permission?(MetricUnit::MU_OVERALL_SALES_PER_FTE)
+    direct_sales_perm = current_user.has_permission?(MetricUnit::MU_DIRECT_SALES_PER_FTE)
+    accounts_per_sales_perm = current_user.has_permission?(MetricUnit::MU_ACCOUNTS_PER_SALES_REP)
+    sales_support_perm = current_user.has_permission?(MetricUnit::MU_SALES_SUPPORT_PER_FTE)
+    {
+      metrics_dashboard: [
+        overview_metrics(company_id),
+        {
+          group: "Sales Organization Structure",
+          metrics: [
+          {
+            mu_key: MetricUnit::MU_OVERALL_SALES_PER_FTE,
+            title: "Overall Sales per FTE",
+            values: overall_sales_perm ? overall_sales_reps_per_1k_fte(company_id) : [],
+            locked: !overall_sales_perm
+          },
+          {
+            mu_key: MetricUnit::MU_DIRECT_SALES_PER_FTE,
+            title: "Direct Sales Reps FTE per 1000 FTE",
+            values: direct_sales_perm ? direct_sales_reps_per_1k_fte(company_id) : [],
+            locked: !direct_sales_perm
+          },
+          {
+            mu_key: MetricUnit::MU_ACCOUNTS_PER_SALES_REP,
+            title: "Accounts per Sales Rep",
+            values: accounts_per_sales_perm ? accounts_per_sales_rep(company_id) : [],
+            locked: !accounts_per_sales_perm
+          },
+          {
+            mu_key: MetricUnit::MU_SALES_SUPPORT_PER_FTE,
+            title: "Sales Support FTE per 1000 FTE",
+            values: sales_support_perm ? sales_support_per_1k_fte(company_id) : [],
+            locked: !sales_support_perm
+          }],
+        }
+      ]
+    }
+  end
+  module_function :user_view
+
+  def overview_metrics(company_id)
+    {
+      group: "Overview",
+      metrics: [
+      {
+        mu_key: MetricUnit::MU_REVENUE,
+        title: "Revenue",
+        values: annual_revenue(company_id),
+        locked: false,
+      },
+      {
+        mu_key: MetricUnit::MU_EMPLOYEES,
+        title: "Employees",
+        values: total_num_employees(company_id),
+        locked: false,
+      },
+      {
+        mu_key: MetricUnit::MU_REVENUE_PER_EMPLOYEE,
+        title: "Revenue Per Employee",
+        values: revenue_per_employee(company_id),
+        locked: false,
+      }]
+    }
+  end
+  module_function :overview_metrics
 
   class << self
     # Get the # of accounts per sales rep

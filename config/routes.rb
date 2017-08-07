@@ -19,8 +19,6 @@ Rails.application.routes.draw do
 
     # submit form route
     get 'companies/:company_id/form_metrics' => 'metrics#form_metrics'
-
-    resources :permissions, only: [:create]
   end
 
   # https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually

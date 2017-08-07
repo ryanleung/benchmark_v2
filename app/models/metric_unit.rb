@@ -1,4 +1,4 @@
-class MetricUnit
+class MetricUnit < ApplicationRecord
   # A Metric Unit is a unit that consists of one or more metrics that
   # show up on the metrics dashboard. Each metric is an individual
   # datapoint submitted by a user. A metric unit is an entire

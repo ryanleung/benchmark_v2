@@ -1,6 +1,14 @@
 desc "Seed sample data -- last updated June 1, 2017"
 task :seed_data => :environment do
+  Rake::Task["db:drop"].invoke
+  Rake::Task["db:create"].invoke
+  Rake::Task["db:migrate"].invoke
+
   ActiveRecord::Base.transaction do
+    MetricUnit::MU_TOTAL_METRIC_UNITS.each do |unit|
+      MetricUnit.create! name: unit
+    end
+
     tech_industry = Industry.create name: "Tech"
     user = User.create name: "Vincent Vo",
                        email: "vincent.vo@gmail.com",

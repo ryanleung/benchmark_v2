@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170319002818) do
+ActiveRecord::Schema.define(version: 20170807065141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,12 @@ ActiveRecord::Schema.define(version: 20170319002818) do
     t.index ["parent_metric_type_id"], name: "index_metric_types_on_parent_metric_type_id", using: :btree
   end
 
+  create_table "metric_units", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "metrics", force: :cascade do |t|
     t.string   "metric_name",       null: false
     t.integer  "metric_type_id"
@@ -77,6 +83,13 @@ ActiveRecord::Schema.define(version: 20170319002818) do
     t.index ["metric_type_id"], name: "index_metrics_on_metric_type_id", using: :btree
     t.index ["relevant_date"], name: "index_metrics_on_relevant_date", using: :btree
     t.index ["user_id"], name: "index_metrics_on_user_id", using: :btree
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.integer  "metric_unit_id"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "users", force: :cascade do |t|

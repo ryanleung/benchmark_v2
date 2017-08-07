@@ -30,7 +30,7 @@ class Api::MetricsController < ApplicationController
     raise ActiveRecord::RecordNotFound unless Company.exists?(params[:company_id])
 
     render json: {
-      data: Api::MetricsHelper.metrics_dashboard(params[:company_id])
+      data: Api::MetricsHelper.metrics_dashboard(params[:company_id], current_user)
     }
   end
 

@@ -4,7 +4,7 @@ module Api::MetricsHelper
   # and docstring
 
   # Take a company, poop out their metrics dashboard.
-  def metrics_dashboard(company_id)
+  def metrics_dashboard(company_id, current_user)
     {
       metrics_dashboard: [
         {

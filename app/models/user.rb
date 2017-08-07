@@ -37,6 +37,10 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
+  def superuser?
+    self.account_type == ACCOUNT_TYPE_SUPERUSER
+  end
+
   private
 
   def ensure_session_token
@@ -52,5 +56,4 @@ class User < ActiveRecord::Base
       self.session_token = new_session_token
     end
   end
-
 end

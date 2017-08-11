@@ -6,13 +6,30 @@ class AddMetricForm extends Component {
     super(props)
 
     this.submitForm = this.submitForm.bind(this)
-    this.setMetricFields = this.setMetricFields.bind(this)
+    this.updateYear = this.updateYear.bind(this)
     this.update = this.update.bind(this)
+
+    this.createMetricSelectBox = this.createMetricSelectBox.bind(this)
+    this.setMetricFields = this.setMetricFields.bind(this)
+    this.createDataInputs = this.createDataInputs.bind(this)
   }
 
   componentDidMount() {
     const companyId = this.props.match.params.company_id
     this.props.getMetricNames(companyId)
+  }
+
+  createMetricSelectBox(fields) {
+    const metricNameOptions = fields.map(
+      (name, idx) => <option key={idx} value={idx}>{name.title}</option>
+    )
+
+    return (
+      <select onChange={this.setMetricFields(fields)}>
+        <option disabled selected>-- Please Select --</option>
+        { metricNameOptions }
+      </select>
+    )
   }
 
   setMetricFields(fields) {
@@ -22,8 +39,8 @@ class AddMetricForm extends Component {
       const stateMetrics = metric.input_fields.map((input_field, i) => {
         return {
           name: input_field.title,
-          value: null,
-          relevant_year: null
+          value: "",
+          relevant_year: ""
         }
       })
 
@@ -31,8 +48,44 @@ class AddMetricForm extends Component {
     }
   }
 
-  update(property) {
-    return e => this.setState({ [property]: e.currentTarget.value })
+  createDataInputs() {
+    const inputFields = this.state.metrics.map((inputField, idx) => {
+      return(
+        <div key={idx}>
+          Title: {inputField.name}<br />
+          Value: <input type="text"
+                        onChange={this.update(idx)}
+                        value={this.state.metrics[idx].value}></input>
+        </div>
+      )
+    })
+
+    return (
+      <div>
+        { inputFields }
+        Year: <input type="text"
+                     onChange={this.updateYear}
+                     value={this.state.metrics[0].relevant_year}></input>
+      </div>
+    )
+  }
+
+  updateYear(e) {
+    const stateMetrics = this.state.metrics.slice()
+    const newMetrics = stateMetrics.map(metric => {
+      metric.relevant_year = e.currentTarget.value
+      return metric
+    })
+
+    this.setState({ metrics: newMetrics })
+  }
+
+  update(idx) {
+    return e => {
+      const stateMetrics = this.state.metrics.slice()
+      stateMetrics[idx].value = e.currentTarget.value
+      this.setState({ metrics: stateMetrics })
+    }
   }
 
   submitForm(e) {
@@ -45,21 +98,17 @@ class AddMetricForm extends Component {
       return(<div>Loading...</div>)
     } else {
       const fields = this.props.metricNames.data.fields;
-      let inputFields, metricNameOptions, metricNameSelectBox;
+      let dataInputFields;
 
-      metricNameOptions = fields.map((name, idx) => <option key={idx} value={idx}>{name.title}</option>)
-      metricNameSelectBox = (
-        <select onChange={this.setMetricFields(fields)}>
-          <option disabled selected>-- Please Select --</option>
-          { metricNameOptions }
-        </select>
-      )
-
+      if (this.state) {
+        dataInputFields = this.createDataInputs();
+      }
 
       return (
         <div>
           <form>
-            Metric Name: { metricNameSelectBox }<br />
+            Metric Name: { this.createMetricSelectBox(fields) }<br />
+            { dataInputFields }
             <button onClick={ this.submitForm }>Submit</button>
           </form>
         </div>

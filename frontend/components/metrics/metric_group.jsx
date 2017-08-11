@@ -7,8 +7,12 @@ class MetricGroup extends Component {
   render() {
     const { title, metrics } = this.props
 
-    const metricCards = metrics.map(metric => {
-      return <NumberCard title={metric.title} metrics={metric.values} />
+    const metricCards = metrics.map((metric, idx) => {
+      if (metric.values.length > 0) {
+        return <NumberCard key={idx}
+                           title={metric.title}
+                           metrics={metric.values} />
+      }
     })
 
     return(

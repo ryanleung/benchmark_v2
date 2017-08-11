@@ -34,10 +34,16 @@ class CompanyPage extends Component {
 
     const { company } = this.props
     const metrics = this.state.metrics_dashboard
+    let metricGroups;
+    // let metricGroups = "Sorry, there's no data yet!"
 
-    const metricGroups = metrics.map(metric => {
-      return <MetricGroup title={metric.group} metrics={metric.metrics} />
-    })
+    if (metrics) {
+      metricGroups = metrics.map((metric, idx) => {
+        return <MetricGroup key={idx}
+                            title={metric.group}
+                            metrics={metric.metrics} />
+      })
+    }
 
     return (
       <div>

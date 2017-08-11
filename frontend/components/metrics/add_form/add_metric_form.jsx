@@ -5,8 +5,8 @@ class AddMetricForm extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { metrics: null, title: null, year: null }
     this.submitForm = this.submitForm.bind(this)
+    this.setMetricFields = this.setMetricFields.bind(this)
     this.update = this.update.bind(this)
   }
 
@@ -15,11 +15,23 @@ class AddMetricForm extends Component {
     this.props.getMetricNames(companyId)
   }
 
-  // componentWillReceiveProps(nextProps, oldProps) {
-  //   debugger
-  // }
+  setMetricFields(fields) {
+    return e => {
+      const metric = fields[e.currentTarget.value]
 
-  update(property, inputSize) {
+      const stateMetrics = metric.input_fields.map((input_field, i) => {
+        return {
+          name: input_field.title,
+          value: null,
+          relevant_year: null
+        }
+      })
+
+      this.setState({ metrics: stateMetrics })
+    }
+  }
+
+  update(property) {
     return e => this.setState({ [property]: e.currentTarget.value })
   }
 
@@ -30,26 +42,24 @@ class AddMetricForm extends Component {
 
   render() {
     if (!this.props.metricNames) {
-      return(
-        <div>Loading...</div>
-      )
+      return(<div>Loading...</div>)
     } else {
-      let nameOptions = this.props.metricNames.data.fields.map((name, idx) => <option key={idx} value={name.title}>{name.title}</option>)
-      nameOptions = (
-        <select onChange={this.update('title')}>
+      const fields = this.props.metricNames.data.fields;
+      let inputFields, metricNameOptions, metricNameSelectBox;
+
+      metricNameOptions = fields.map((name, idx) => <option key={idx} value={idx}>{name.title}</option>)
+      metricNameSelectBox = (
+        <select onChange={this.setMetricFields(fields)}>
           <option disabled selected>-- Please Select --</option>
-          { nameOptions }
+          { metricNameOptions }
         </select>
       )
+
 
       return (
         <div>
           <form>
-            <div>
-              <div>
-                Metric Name: { nameOptions }<br />
-              </div>
-            </div>
+            Metric Name: { metricNameSelectBox }<br />
             <button onClick={ this.submitForm }>Submit</button>
           </form>
         </div>

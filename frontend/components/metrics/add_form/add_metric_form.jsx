@@ -73,7 +73,7 @@ class AddMetricForm extends Component {
   updateYear(e) {
     const stateMetrics = this.state.metrics.slice()
     const newMetrics = stateMetrics.map(metric => {
-      metric.relevant_year = e.currentTarget.value
+      metric.relevant_year = Number(e.currentTarget.value)
       return metric
     })
 
@@ -83,14 +83,16 @@ class AddMetricForm extends Component {
   update(idx) {
     return e => {
       const stateMetrics = this.state.metrics.slice()
-      stateMetrics[idx].value = e.currentTarget.value
+      stateMetrics[idx].value = Number(e.currentTarget.value)
       this.setState({ metrics: stateMetrics })
     }
   }
 
   submitForm(e) {
-    e.preventDefault()
+    e.preventDefault();
     console.log(this.state)
+    // const companyId = this.props.match.params.company_id;
+    // this.props.postMetric(companyId, this.state)
   }
 
   render() {

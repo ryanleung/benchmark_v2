@@ -35,7 +35,6 @@ class CompanyPage extends Component {
     const { company } = this.props
     const metrics = this.state.metrics_dashboard
     let metricGroups;
-    // let metricGroups = "Sorry, there's no data yet!"
 
     if (metrics) {
       metricGroups = metrics.map((metric, idx) => {
@@ -50,7 +49,7 @@ class CompanyPage extends Component {
         {company &&
           <div className="CompanyPage">
               <h1>{company.name}</h1><br />
-              <Link to={`/company/${company.id}/add_metric`}>Add Metric</Link>
+              <Link to={`/industry/${company.industry.id}/company/${company.id}/add_metric`}>Add Metric</Link>
             { metricGroups }
           </div>
         }

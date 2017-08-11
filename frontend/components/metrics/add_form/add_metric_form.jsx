@@ -90,9 +90,11 @@ class AddMetricForm extends Component {
 
   submitForm(e) {
     e.preventDefault();
-    console.log(this.state)
-    // const companyId = this.props.match.params.company_id;
-    // this.props.postMetric(companyId, this.state)
+    const companyId = this.props.match.params.company_id;
+    const industryId = this.props.match.params.industry_id;
+
+    this.props.createMetric(companyId, this.state)
+      .then(() => this.props.history.push(`/industry/${industryId}/${companyId}`))
   }
 
   render() {

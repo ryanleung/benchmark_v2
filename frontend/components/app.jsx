@@ -22,9 +22,9 @@ const App = ({ children }) => (
         <Switch>
           <Route exact path="/" component={ExplorePageContainer} />
           <Route path="/login" component={SessionFormContainer} />
-          <Route path='/industry/:industry_id/company/:company_id' component={CompanyPageContainer} />
+          <Route exact path="/industry/:industry_id/company/:company_id" component={CompanyPageContainer} />
+          <Route path="/industry/:industry_id/company/:company_id/add_metric" component={AddMetricFormContainer} />
           <Route path="/signup" component={SessionFormContainer} />
-          <Route path="/company/:company_id/add_metric" component={AddMetricFormContainer} />
         </Switch>
       </div>
     </MuiThemeProvider>

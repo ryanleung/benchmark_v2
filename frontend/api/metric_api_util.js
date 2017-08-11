@@ -1,8 +1,8 @@
-export const postMetric = (company_id, metric) => {
+export const postMetric = (company_id, metrics) => {
   return $.ajax({
     method: 'POST',
     url: `/api/companies/${company_id}/metrics`,
-    data: metric.to_json()
+    data: metrics
   });
 };
 

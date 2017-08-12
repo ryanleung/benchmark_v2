@@ -6,6 +6,7 @@ const configureStore = (preloadedState = {}) => (
   createStore(
     RootReducer,
     preloadedState,
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), # TO ACTIVATE REDUX CHROME TOOLS
     applyMiddleware(thunk)
   )
 )

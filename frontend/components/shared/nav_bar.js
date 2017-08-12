@@ -11,7 +11,9 @@ class NavBar extends Component {
   constructor(props) {
     super(props)
     this.state = { open: false }
-    this.handleAddMetric = this.handleAddMetric.bind(this)
+
+    this.handleLogin = this.handleLogin.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
   }
 
   handleOpen() {
@@ -25,21 +27,33 @@ class NavBar extends Component {
   handleTitleTap() {
   };
 
-  handleLoginTap() {
-    this.handleOpen();
+  handleLogin() {
+    this.props.history.push('/login')
+  };
+
+  handleLogout() {
+    this.props.logout()
   };
 
   handleAddMetric() {
     this.props.history.push('/add_metric')
   };
 
-  // iconElementRight={
-  //   <FlatButton
-  //     label="Add Metric"
-  //     onTouchTap={this.handleAddMetric} />
-  // }
-  
   render() {
+    const currentUser = this.props.currentUser
+
+    const loginButton = () => (
+      <FlatButton
+        label="Login"
+        onTouchTap={this.handleLogin} />
+    );
+
+    const logoutButton = () => (
+      <FlatButton
+        label="Logout"
+        onTouchTap={this.handleLogout} />
+    );
+
     return (
       <div>
         <AppBar
@@ -47,6 +61,7 @@ class NavBar extends Component {
           title="Kimono Metrics"
           showMenuIconButton={false}
           onTitleTouchTap={this.handleTitleTap}
+          iconElementRight={currentUser ? logoutButton() : loginButton()}
         />
         <Dialog
           open={this.state.open}

@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import NavBar from './shared/nav_bar'
+import NavBar from './shared/nav_bar_container'
 import AppMuiTheme from './themes/app_mui_theme';
 import CompanyPageContainer from './company/company_page_container';
 import ExplorePageContainer from './explore/explore_page_container';

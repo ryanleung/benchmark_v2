@@ -199,7 +199,7 @@ module Api::MetricsHelper
       .map do |metric|
         {
           value: metric[:value] / 1000,
-          value_description: metric[:value_description],
+          value_description: Metric::VALUE_DESC_USD,
           year: metric[:year]
         }
       end

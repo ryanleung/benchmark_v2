@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import NumberCard from './metrics_cards/number'
 
 class MetricGroup extends Component {
-  debugger
   render() {
     const { title, metrics } = this.props
 

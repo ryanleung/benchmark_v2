@@ -33,6 +33,7 @@ class NavBar extends Component {
 
   handleLogout() {
     this.props.logout()
+    this.props.history.push("/");
   };
 
   handleAddMetric() {

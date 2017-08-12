@@ -2,7 +2,9 @@ export const postMetric = (company_id, metrics) => {
   return $.ajax({
     method: 'POST',
     url: `/api/companies/${company_id}/metrics`,
-    data: metrics
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(metrics)
   });
 };
 

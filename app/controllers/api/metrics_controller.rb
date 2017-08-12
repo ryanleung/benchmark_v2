@@ -38,7 +38,6 @@ class Api::MetricsController < ApplicationController
     raise ActiveRecord::RecordNotFound unless Company.exists?(params[:company_id])
 
     metrics = params[:metrics]
-    debugger
     # If there is more than one metric, save a metric_batch random UUID to "batch"
     # the metrics together, signifying that they were submitted together
     metric_batch = metrics.length > 1 ? SecureRandom.uuid : nil

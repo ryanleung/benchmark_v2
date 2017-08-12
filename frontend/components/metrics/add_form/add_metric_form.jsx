@@ -38,9 +38,10 @@ class AddMetricForm extends Component {
 
       const stateMetrics = metric.input_fields.map((input_field, i) => {
         return {
-          name: input_field.title,
+          title: input_field.title,
+          metric_name: input_field.metric_name,
           value: "",
-          relevant_year: ""
+          relevant_date: ""
         }
       })
 
@@ -52,7 +53,7 @@ class AddMetricForm extends Component {
     const inputFields = this.state.metrics.map((inputField, idx) => {
       return(
         <div key={idx}>
-          Title: {inputField.name}<br />
+          Title: {inputField.title}<br />
           Value: <input type="text"
                         onChange={this.update(idx)}
                         value={this.state.metrics[idx].value}></input>
@@ -65,7 +66,7 @@ class AddMetricForm extends Component {
         { inputFields }
         Year: <input type="text"
                      onChange={this.updateYear}
-                     value={this.state.metrics[0].relevant_year}></input>
+                     value={this.state.metrics[0].relevant_date}></input>
       </div>
     )
   }
@@ -73,7 +74,7 @@ class AddMetricForm extends Component {
   updateYear(e) {
     const stateMetrics = this.state.metrics.slice()
     const newMetrics = stateMetrics.map(metric => {
-      metric.relevant_year = Number(e.currentTarget.value)
+      metric.relevant_date = Number(e.currentTarget.value)
       return metric
     })
 
@@ -93,7 +94,7 @@ class AddMetricForm extends Component {
     const companyId = this.props.match.params.company_id;
     const industryId = this.props.match.params.industry_id;
 
-    this.props.createMetric(companyId, this.state)
+    this.props.createMetrics(companyId, this.state)
       .then(() => this.props.history.push(`/industry/${industryId}/${companyId}`))
   }
 

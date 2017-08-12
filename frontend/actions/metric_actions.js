@@ -8,8 +8,8 @@ export const receiveMetricNames = metricNames => ({
   metricNames
 })
 
-export const createMetric = (company_id, metric) => dispatch => (
-  APIUtil.postMetric(company_id, metric)
+export const createMetrics = (company_id, metrics) => dispatch => (
+  APIUtil.postMetric(company_id, metrics)
 );
 
 export const getMetricNames = companyId => dispatch => (

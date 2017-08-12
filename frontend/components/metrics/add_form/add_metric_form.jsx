@@ -95,7 +95,7 @@ class AddMetricForm extends Component {
     const industryId = this.props.match.params.industry_id;
 
     this.props.createMetrics(companyId, this.state)
-      .then(() => this.props.history.push(`/industry/${industryId}/${companyId}`))
+      .then(() => this.props.history.push(`/industry/${industryId}/company/${companyId}`))
   }
 
   render() {

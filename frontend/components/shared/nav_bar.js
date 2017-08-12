@@ -33,21 +33,22 @@ class NavBar extends Component {
     this.props.history.push('/add_metric')
   };
 
+  // iconElementRight={
+  //   <FlatButton
+  //     label="Add Metric"
+  //     onTouchTap={this.handleAddMetric} />
+  // }
+  
   render() {
     return (
       <div>
-        <AppBar 
+        <AppBar
           zDepth={0}
           title="Kimono Metrics"
           showMenuIconButton={false}
           onTitleTouchTap={this.handleTitleTap}
-          iconElementRight={
-            <FlatButton
-              label="Add Metric"
-              onTouchTap={this.handleAddMetric} />
-          }
         />
-        <Dialog 
+        <Dialog
           open={this.state.open}
           onRequestClose={this.handleClose}>
         </Dialog>

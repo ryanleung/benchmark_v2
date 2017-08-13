@@ -51,7 +51,7 @@ class Api::MetricsController < ApplicationController
                             value_description: value_description,
                             relevant_date: relevant_date,
                             metric_batch: metric_batch,
-                            user_id: 1  # TODO: change this once we implement permissions
+                            user_id: current_user.id
     end
 
     render json: {

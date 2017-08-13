@@ -95,32 +95,37 @@ module Api::MetricsHelper
   module_function :sales_organization_structure
 
   def sales_process_metrics(company_id, current_user)
+    quota_perm = current_user.has_permission?(MetricUnit::MU_QUOTA_PER_SALES_REP)
+    sales_cycle_perm = current_user.has_permission?(MetricUnit::MU_SALES_CYCLE_LENGTH)
+    lead_close_perm = current_user.has_permission?(MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE)
+    annual_spend_perm = current_user.has_permission?(MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER)
+
     {
       group: "Sales Process",
       metrics: [
         {
           mu_key: MetricUnit::MU_QUOTA_PER_SALES_REP,
           title: "Quota Per Sales Rep",
-          values: [], 
-          locked: false,
+          values: quota_perm ? quota_per_sales_rep(company_id) : [],
+          locked: !quota_perm,
         },
         {
           mu_key: MetricUnit::MU_SALES_CYCLE_LENGTH,
           title: "Sales Cycle Length",
-          values: [],
-          locked: false,
+          values: sales_cycle_perm ? sales_cycle_length(company_id) : [],
+          locked: !sales_cycle_perm,
         },
         {
           mu_key: MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE,
           title: "Lead To Close Conversion Rate",
-          values: [],
-          locked: false,
+          values: lead_close_perm ? lead_to_close_conversion_rate(company_id) : [],
+          locked: !lead_close_perm,
         },
         {
           mu_key: MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER,
           title: "Annual Spend Per Customer",
-          values: [],
-          locked: false,
+          values: annual_spend_perm ? annual_spend_per_customer(company_id) : [],
+          locked: !annual_spend_perm,
         }
       ]
     }
@@ -248,6 +253,30 @@ module Api::MetricsHelper
         company_id)
     end
 
+    def quota_per_sales_rep(company_id)
+      get_average_metric_presenter_by_year(
+        Metric::METRIC_QUOTA_PER_SALES_REP,
+        company_id)
+    end
+
+    def sales_cycle_length(company_id)
+      get_average_metric_presenter_by_year(
+        Metric::METRIC_SALES_CYCLE_LENGTH,
+        company_id)
+    end
+
+    def lead_to_close_conversion_rate(company_id)
+      get_average_metric_presenter_by_year(
+        Metric::METRIC_LEAD_TO_CLOSE_CONVERSION_RATE,
+        company_id)
+    end
+
+    def annual_spend_per_customer(company_id)
+      get_average_metric_presenter_by_year(
+        Metric::METRIC_ANNUAL_SPEND_PER_CUSTOMER,
+        company_id)
+    end
+
     # Get metrics per 1k (e.g. direct sales fte per 1k internal employees)
     def metrics_per_1k(metric_type, total_metric_type, company_id)
       metrics = Metric.where(
@@ -313,7 +342,7 @@ module Api::MetricsHelper
       avg_metrics_per_year.map do |year, num|
         {
           value: num,
-          value_description: metrics.first.value_description, # pick any
+          value_description: Metric::METRIC_TO_VALUE_DESC[metric_type],
           year: year
         }
       end

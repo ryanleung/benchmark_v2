@@ -143,6 +143,50 @@ task :seed_data => :environment do
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
+    metric = Metric.create metric_name: Metric::METRIC_QUOTA_PER_SALES_REP,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 10000,
+                           value_description: Metric::VALUE_DESC_USD,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_SALES_CYCLE_LENGTH,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 10000,
+                           value_description: Metric::VALUE_DESC_MONTHS,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
+    metric = Metric.create metric_name: Metric::METRIC_LEAD_TO_CLOSE_CONVERSION_RATE,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 10,
+                           value_description: Metric::VALUE_DESC_PERCENTAGE,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')                           
+
+    metric = Metric.create metric_name: Metric::METRIC_ANNUAL_SPEND_PER_CUSTOMER,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 10000,
+                           value_description: Metric::VALUE_DESC_USD,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
+
     # COMPANY 2: DROPBOX
     company = Company.create name: "Dropbox",
                              industry_id: tech_industry.id,

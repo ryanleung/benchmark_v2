@@ -26,7 +26,7 @@ class NumberCard extends Component {
         return formatted + suffix;
     }
 
-    if (value_description !== "Quantity") {
+    if (value_description == "USD") {
       currency = `(${value_description})`
       value = `$${abbreviateNumber(currentMetric.value)}`
     }

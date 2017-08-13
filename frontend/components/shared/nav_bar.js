@@ -14,6 +14,7 @@ class NavBar extends Component {
 
     this.handleLogin = this.handleLogin.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
+    this.handleTitleTap = this.handleTitleTap.bind(this)
   }
 
   handleOpen() {
@@ -25,6 +26,7 @@ class NavBar extends Component {
   };
 
   handleTitleTap() {
+    this.props.history.push("/");
   };
 
   handleLogin() {

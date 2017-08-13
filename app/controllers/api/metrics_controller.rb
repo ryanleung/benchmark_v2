@@ -120,6 +120,42 @@ class Api::MetricsController < ApplicationController
               },
             ]
           },
+          {
+            title: "Quota Per Sales Rep",
+            input_fields: [
+              {
+                title: "Quota Per Sales Rep",
+                metric_name: Metric::METRIC_QUOTA_PER_SALES_REP
+              },
+            ]
+          },
+          {
+            title: "Sales Cycle Length",
+            input_fields: [
+              {
+                title: "Sales Cycle Length",
+                metric_name: Metric::METRIC_SALES_CYCLE_LENGTH
+              },
+            ]
+          },
+          {
+            title: "Lead To Close Conversion Rate",
+            input_fields: [
+              {
+                title: "Lead To Close Conversion Rate",
+                metric_name: Metric::METRIC_LEAD_TO_CLOSE_CONVERSION_RATE
+              },
+            ]
+          },
+          {
+            title: "Annual Spend Per Customer",
+            input_fields: [
+              {
+                title: "Annual Spend Per Customer",
+                metric_name: Metric::METRIC_ANNUAL_SPEND_PER_CUSTOMER
+              },
+            ]
+          },
         ]
       }
     }

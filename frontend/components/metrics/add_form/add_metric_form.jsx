@@ -84,7 +84,7 @@ class AddMetricForm extends Component {
   update(idx) {
     return e => {
       const stateMetrics = this.state.metrics.slice()
-      isCurrentValueEmpty = stateMetrics[idx].value == ""
+      const isCurrentValueEmpty = e.currentTarget.value == ""
       stateMetrics[idx].value = isCurrentValueEmpty ? "" : Number(e.currentTarget.value)
       this.setState({ metrics: stateMetrics })
     }

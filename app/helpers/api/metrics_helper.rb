@@ -5,10 +5,6 @@ module Api::MetricsHelper
 
   # Take a company, poop out their metrics dashboard.
   def metrics_dashboard(company_id, current_user)
-    if current_user.present? && current_user.superuser?
-      return superuser_view(company_id)
-    end
-
     if current_user.nil?
       return limited_view(company_id)
     else
@@ -16,43 +12,6 @@ module Api::MetricsHelper
     end
   end
   module_function :metrics_dashboard
-
-  def superuser_view(company_id)
-    {
-      metrics_dashboard: [
-        overview_metrics(company_id),
-        {
-          group: "Sales Organization Structure",
-          metrics: [
-          {
-            mu_key: MetricUnit::MU_OVERALL_SALES_PER_FTE,
-            title: "Overall Sales per FTE",
-            values: overall_sales_reps_per_1k_fte(company_id),
-            locked: false,
-          },
-          {
-            mu_key: MetricUnit::MU_DIRECT_SALES_PER_FTE,
-            title: "Direct Sales Reps FTE per 1000 FTE",
-            values: direct_sales_reps_per_1k_fte(company_id),
-            locked: false,
-          },
-          {
-            mu_key: MetricUnit::MU_ACCOUNTS_PER_SALES_REP,
-            title: "Accounts per Sales Rep",
-            values: accounts_per_sales_rep(company_id),
-            locked: false,
-          },
-          {
-            mu_key: MetricUnit::MU_SALES_SUPPORT_PER_FTE,
-            title: "Sales Support FTE per 1000 FTE",
-            values: sales_support_per_1k_fte(company_id),
-            locked: false,
-          }],
-        }
-      ]
-    }
-  end
-  module_function :superuser_view
 
   def limited_view(company_id)
     {
@@ -62,41 +21,11 @@ module Api::MetricsHelper
   module_function :limited_view
 
   def user_view(company_id, current_user)
-    overall_sales_perm = current_user.has_permission?(MetricUnit::MU_OVERALL_SALES_PER_FTE)
-    direct_sales_perm = current_user.has_permission?(MetricUnit::MU_DIRECT_SALES_PER_FTE)
-    accounts_per_sales_perm = current_user.has_permission?(MetricUnit::MU_ACCOUNTS_PER_SALES_REP)
-    sales_support_perm = current_user.has_permission?(MetricUnit::MU_SALES_SUPPORT_PER_FTE)
     {
       metrics_dashboard: [
         overview_metrics(company_id),
-        {
-          group: "Sales Organization Structure",
-          metrics: [
-          {
-            mu_key: MetricUnit::MU_OVERALL_SALES_PER_FTE,
-            title: "Overall Sales per FTE",
-            values: overall_sales_perm ? overall_sales_reps_per_1k_fte(company_id) : [],
-            locked: !overall_sales_perm
-          },
-          {
-            mu_key: MetricUnit::MU_DIRECT_SALES_PER_FTE,
-            title: "Direct Sales Reps FTE per 1000 FTE",
-            values: direct_sales_perm ? direct_sales_reps_per_1k_fte(company_id) : [],
-            locked: !direct_sales_perm
-          },
-          {
-            mu_key: MetricUnit::MU_ACCOUNTS_PER_SALES_REP,
-            title: "Accounts per Sales Rep",
-            values: accounts_per_sales_perm ? accounts_per_sales_rep(company_id) : [],
-            locked: !accounts_per_sales_perm
-          },
-          {
-            mu_key: MetricUnit::MU_SALES_SUPPORT_PER_FTE,
-            title: "Sales Support FTE per 1000 FTE",
-            values: sales_support_perm ? sales_support_per_1k_fte(company_id) : [],
-            locked: !sales_support_perm
-          }],
-        }
+        sales_organization_structure(company_id, current_user),
+        sales_process_metrics(company_id, current_user)
       ]
     }
   end
@@ -127,6 +56,76 @@ module Api::MetricsHelper
     }
   end
   module_function :overview_metrics
+
+  def sales_organization_structure(company_id, current_user)
+    overall_sales_perm = current_user.has_permission?(MetricUnit::MU_OVERALL_SALES_PER_FTE)
+    direct_sales_perm = current_user.has_permission?(MetricUnit::MU_DIRECT_SALES_PER_FTE)
+    accounts_per_sales_perm = current_user.has_permission?(MetricUnit::MU_ACCOUNTS_PER_SALES_REP)
+    sales_support_perm = current_user.has_permission?(MetricUnit::MU_SALES_SUPPORT_PER_FTE)
+
+    {
+      group: "Sales Organization Structure",
+      metrics: [
+      {
+        mu_key: MetricUnit::MU_OVERALL_SALES_PER_FTE,
+        title: "Overall Sales per FTE",
+        values: overall_sales_perm ? overall_sales_reps_per_1k_fte(company_id) : [],
+        locked: !overall_sales_perm
+      },
+      {
+        mu_key: MetricUnit::MU_DIRECT_SALES_PER_FTE,
+        title: "Direct Sales Reps FTE per 1000 FTE",
+        values: direct_sales_perm ? direct_sales_reps_per_1k_fte(company_id) : [],
+        locked: !direct_sales_perm
+      },
+      {
+        mu_key: MetricUnit::MU_ACCOUNTS_PER_SALES_REP,
+        title: "Accounts per Sales Rep",
+        values: accounts_per_sales_perm ? accounts_per_sales_rep(company_id) : [],
+        locked: !accounts_per_sales_perm
+      },
+      {
+        mu_key: MetricUnit::MU_SALES_SUPPORT_PER_FTE,
+        title: "Sales Support FTE per 1000 FTE",
+        values: sales_support_perm ? sales_support_per_1k_fte(company_id) : [],
+        locked: !sales_support_perm
+      }],
+    }
+  end
+  module_function :sales_organization_structure
+
+  def sales_process_metrics(company_id, current_user)
+    {
+      group: "Sales Process",
+      metrics: [
+        {
+          mu_key: MetricUnit::MU_QUOTA_PER_SALES_REP,
+          title: "Quota Per Sales Rep",
+          values: [], 
+          locked: false,
+        },
+        {
+          mu_key: MetricUnit::MU_SALES_CYCLE_LENGTH,
+          title: "Sales Cycle Length",
+          values: [],
+          locked: false,
+        },
+        {
+          mu_key: MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE,
+          title: "Lead To Close Conversion Rate",
+          values: [],
+          locked: false,
+        },
+        {
+          mu_key: MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER,
+          title: "Annual Spend Per Customer",
+          values: [],
+          locked: false,
+        }
+      ]
+    }
+  end
+  module_function :sales_process_metrics
 
   class << self
     # Get the # of accounts per sales rep

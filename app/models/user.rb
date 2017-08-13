@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
 
   def has_permission?(metric_unit_name)
     # user has permission to access the metric unit
-    self.metric_units.any? {|mu| mu.name == metric_unit_name}
+    self.superuser? || self.metric_units.any? {|mu| mu.name == metric_unit_name}
   end
 
   private

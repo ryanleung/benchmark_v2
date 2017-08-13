@@ -100,10 +100,6 @@ class Api::MetricsController < ApplicationController
                 title: "Total Direct Sales FTE",
                 metric_name: Metric::METRIC_DIRECT_SALES_FTE
               },
-              {
-                title: "Total # of Employees",
-                metric_name: Metric::METRIC_NUM_EMPLOYEES
-              }
             ]
           },
           {
@@ -113,10 +109,6 @@ class Api::MetricsController < ApplicationController
                 title: "Total Sales FTE",
                 metric_name: Metric::METRIC_OVERALL_SALES_FTE
               },
-              {
-                title: "Total # of Employees",
-                metric_name: Metric::METRIC_NUM_EMPLOYEES
-              }
             ]
           },
           {
@@ -126,10 +118,6 @@ class Api::MetricsController < ApplicationController
                 title: "Total Sales Support FTE",
                 metric_name: Metric::METRIC_SALES_SUPPORT_FTE
               },
-              {
-                title: "Total # of Employees",
-                metric_name: Metric::METRIC_NUM_EMPLOYEES
-              }
             ]
           },
         ]

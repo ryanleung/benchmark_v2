@@ -94,10 +94,10 @@ class Api::MetricsController < ApplicationController
             ]
           },
           {
-            title: "Direct Sales Reps",
+            title: "Direct Sales FTE",
             input_fields: [
               {
-                title: "Total Direct Sales Reps",
+                title: "Total Direct Sales FTE",
                 metric_name: Metric::METRIC_DIRECT_SALES_FTE
               },
               {
@@ -107,10 +107,10 @@ class Api::MetricsController < ApplicationController
             ]
           },
           {
-            title: "Overall Sales Reps",
+            title: "Overall Sales FTE",
             input_fields: [
               {
-                title: "Total Sales Reps",
+                title: "Total Sales FTE",
                 metric_name: Metric::METRIC_OVERALL_SALES_FTE
               },
               {
@@ -120,10 +120,10 @@ class Api::MetricsController < ApplicationController
             ]
           },
           {
-            title: "Sales Support Reps",
+            title: "Sales Support FTE",
             input_fields: [
               {
-                title: "Total Sales Support Reps",
+                title: "Total Sales Support FTE",
                 metric_name: Metric::METRIC_SALES_SUPPORT_FTE
               },
               {

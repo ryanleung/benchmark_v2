@@ -26,14 +26,15 @@ class NumberCard extends Component {
         return formatted + suffix;
     }
 
+    const value_description_display = `(${value_description})`
+
     if (value_description == "USD") {
-      currency = `(${value_description})`
       value = `$${abbreviateNumber(currentMetric.value)}`
     }
 
     return(
       <div className="card">
-        <h3>{ title } {currency}</h3>
+        <h3>{ title } {value_description_display}</h3>
         <h4>{ value }</h4>
       </div>
     )

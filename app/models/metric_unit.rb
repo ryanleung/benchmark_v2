@@ -20,6 +20,7 @@ class MetricUnit < ApplicationRecord
   MU_ANNUAL_CUSTOMER_CHURN_PERCENT = "mu_annual_customer_churn_percent"
   MU_SALES_FORCE_EXPENDITURE = "mu_sales_force_expenditure"
   MU_NET_NEW_REVENUE_PER_SALES_REP = "mu_net_new_revenue_per_sales_rep"
+  MU_CUSTOMER_LIFETIME_VALUE = "mu_customer_lifetime_value"
 
   MU_TOTAL_METRIC_UNITS = [
     MU_REVENUE,
@@ -35,6 +36,7 @@ class MetricUnit < ApplicationRecord
     MU_ANNUAL_SPEND_PER_CUSTOMER,
     MU_ANNUAL_CUSTOMER_CHURN_PERCENT,
     MU_SALES_FORCE_EXPENDITURE,
-    MU_NET_NEW_REVENUE_PER_SALES_REP
+    MU_NET_NEW_REVENUE_PER_SALES_REP,
+    MU_CUSTOMER_LIFETIME_VALUE
   ]
 end

@@ -143,6 +143,7 @@ module Api::MetricsHelper
   def financial_performance_metrics(company_id, current_user)
     sales_force_perm = current_user.has_permission?(MetricUnit::MU_SALES_FORCE_EXPENDITURE)
     net_new_rev_perm = current_user.has_permission?(MetricUnit::MU_NET_NEW_REVENUE_PER_SALES_REP)
+    customer_lifetime_perm = current_user.has_permission?(MetricUnit::MU_CUSTOMER_LIFETIME_VALUE)
 
     {
       group: "Financial Performance",
@@ -159,6 +160,12 @@ module Api::MetricsHelper
           values: net_new_rev_perm ? net_new_rev_per_sales_rep(company_id) : [],
           locked: !net_new_rev_perm
         },
+        {
+          mu_key: MetricUnit::MU_CUSTOMER_LIFETIME_VALUE,
+          title: "Customer Lifetime Value",
+          values: customer_lifetime_perm ? customer_lifetime_value(company_id) : [],
+          locked: !customer_lifetime_perm
+        }
       ]
     }
   end
@@ -335,6 +342,22 @@ module Api::MetricsHelper
       get_average_metric_presenter_by_year(
         Metric::METRIC_NET_NEW_REVENUE_PER_SALES_REP,
         company_id)
+    end
+
+    def customer_lifetime_value(company_id)
+      # TODO: this is kinda ugly, we just get per 1k and then divide by 1k
+      # to negate the 1k multiply
+      metrics_per_1k(
+        Metric::METRIC_ANNUAL_SPEND_PER_CUSTOMER,
+        Metric::METRIC_AVERAGE_CUSTOMER_CHURN,
+        company_id)
+      .map do |metric|
+        {
+          value: metric[:value] / 1000,
+          value_description: Metric::VALUE_DESC_USD,
+          year: metric[:year]
+        }
+      end
     end
 
     # Get metrics per 1k (e.g. direct sales fte per 1k internal employees)

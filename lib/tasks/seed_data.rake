@@ -193,7 +193,7 @@ task :seed_data => :environment do
                            user_id: user.id,
                            company_id: company.id,
                            business_unit_id: business_unit.id,
-                           value: 20,
+                           value: 0.2,
                            value_description: Metric::VALUE_DESC_PERCENTAGE,
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')

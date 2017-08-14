@@ -25,7 +25,8 @@ module Api::MetricsHelper
       metrics_dashboard: [
         overview_metrics(company_id),
         sales_organization_structure(company_id, current_user),
-        sales_process_metrics(company_id, current_user)
+        sales_process_metrics(company_id, current_user),
+        financial_performance_metrics(company_id, current_user)
       ]
     }
   end
@@ -138,6 +139,23 @@ module Api::MetricsHelper
     }
   end
   module_function :sales_process_metrics
+
+  def financial_performance_metrics(company_id, current_user)
+    sales_force_perm = current_user.has_permission?(MetricUnit::MU_SALES_FORCE_EXPENDITURE)
+
+    {
+      group: "Financial Performance",
+      metrics: [
+        {
+          mu_key: MetricUnit::MU_SALES_FORCE_EXPENDITURE,
+          title: "Sales Force Expenditure Per $100M Revenue",
+          values: sales_force_perm ? sales_force_expenditure_per_100m(company_id) : [],
+          locked: !sales_force_perm
+        }
+      ]
+    }
+  end
+  module_function :financial_performance_metrics
 
   class << self
     # Get the # of accounts per sales rep
@@ -288,6 +306,22 @@ module Api::MetricsHelper
       get_average_metric_presenter_by_year(
         Metric::METRIC_AVERAGE_CUSTOMER_CHURN,
         company_id)
+    end
+
+    def sales_force_expenditure_per_100m(company_id)
+      # TODO: this is kinda ugly, we just get per 1k and then multiply by 100k
+      # to get per 100m
+      metrics_per_1k(
+        Metric::METRIC_SALES_FORCE_EXPENDITURE,
+        Metric::METRIC_ANNUAL_REVENUE,
+        company_id)
+      .map do |metric|
+        {
+          value: metric[:value] * 100_000,
+          value_description: Metric::METRIC_TO_VALUE_DESC[Metric::METRIC_SALES_FORCE_EXPENDITURE],
+          year: metric[:year]
+        }
+      end
     end
 
     # Get metrics per 1k (e.g. direct sales fte per 1k internal employees)

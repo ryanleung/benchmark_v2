@@ -165,7 +165,17 @@ class Api::MetricsController < ApplicationController
                 metric_name: Metric::METRIC_AVERAGE_CUSTOMER_CHURN
               },
             ]
-          }
+          },
+          {
+            title: "Sales Force Expenditure",
+            input_fields: [
+              {
+                title: "Sales Force Expenditure",
+                description: "How much money is spent per year on sales force",
+                metric_name: Metric::METRIC_AVERAGE_CUSTOMER_CHURN
+              },
+            ]
+          },
         ]
       }
     }

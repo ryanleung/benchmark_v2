@@ -156,6 +156,16 @@ class Api::MetricsController < ApplicationController
               },
             ]
           },
+          {
+            title: "Average Customer Churn Percentage",
+            input_fields: [
+              {
+                title: "Average Customer Churn Percentage",
+                description: "What percent of subscription customers turnover annually",
+                metric_name: Metric::METRIC_AVERAGE_CUSTOMER_CHURN
+              },
+            ]
+          }
         ]
       }
     }

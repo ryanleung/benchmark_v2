@@ -187,6 +187,16 @@ task :seed_data => :environment do
                            geo: "US",
                            relevant_date: Date.parse('19-03-2017')
 
+    metric = Metric.create metric_name: Metric::METRIC_AVERAGE_CUSTOMER_CHURN,
+                           metric_type_id: metric_type_org.id,
+                           function: Metric::FUNCTION_ENGINEERING,
+                           user_id: user.id,
+                           company_id: company.id,
+                           business_unit_id: business_unit.id,
+                           value: 20,
+                           value_description: Metric::VALUE_DESC_PERCENTAGE,
+                           geo: "US",
+                           relevant_date: Date.parse('19-03-2017')
     # COMPANY 2: DROPBOX
     company = Company.create name: "Dropbox",
                              industry_id: tech_industry.id,

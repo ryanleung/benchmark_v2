@@ -99,6 +99,7 @@ module Api::MetricsHelper
     sales_cycle_perm = current_user.has_permission?(MetricUnit::MU_SALES_CYCLE_LENGTH)
     lead_close_perm = current_user.has_permission?(MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE)
     annual_spend_perm = current_user.has_permission?(MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER)
+    annual_customer_churn_perm = current_user.has_permission?(MetricUnit::MU_ANNUAL_CUSTOMER_CHURN_PERCENT)
 
     {
       group: "Sales Process",
@@ -126,6 +127,12 @@ module Api::MetricsHelper
           title: "Annual Spend Per Customer",
           values: annual_spend_perm ? annual_spend_per_customer(company_id) : [],
           locked: !annual_spend_perm,
+        },
+        {
+          mu_key: MetricUnit::MU_ANNUAL_CUSTOMER_CHURN_PERCENT,
+          title: "Annual Customer Churn Percentage",
+          values: annual_customer_churn_perm ? annual_customer_churn_percent(company_id) : [],
+          locked: !annual_customer_churn_perm,
         }
       ]
     }
@@ -274,6 +281,12 @@ module Api::MetricsHelper
     def annual_spend_per_customer(company_id)
       get_average_metric_presenter_by_year(
         Metric::METRIC_ANNUAL_SPEND_PER_CUSTOMER,
+        company_id)
+    end
+
+    def annual_customer_churn_percent(company_id)
+      get_average_metric_presenter_by_year(
+        Metric::METRIC_AVERAGE_CUSTOMER_CHURN,
         company_id)
     end
 

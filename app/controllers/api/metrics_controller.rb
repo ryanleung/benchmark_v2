@@ -176,6 +176,16 @@ class Api::MetricsController < ApplicationController
               },
             ]
           },
+          {
+            title: "Net New Revenue Per Sales Rep",
+            input_fields: [
+              {
+                title: "Net New Revenue Per Sales Rep",
+                description: "How many $ in new revenue does an average sales rep bring in annually",
+                metric_name: Metric::METRIC_NET_NEW_REVENUE_PER_SALES_REP
+              },
+            ]
+          }
         ]
       }
     }

@@ -142,6 +142,7 @@ module Api::MetricsHelper
 
   def financial_performance_metrics(company_id, current_user)
     sales_force_perm = current_user.has_permission?(MetricUnit::MU_SALES_FORCE_EXPENDITURE)
+    net_new_rev_perm = current_user.has_permission?(MetricUnit::MU_NET_NEW_REVENUE_PER_SALES_REP)
 
     {
       group: "Financial Performance",
@@ -151,7 +152,13 @@ module Api::MetricsHelper
           title: "Sales Force Expenditure Per $100M Revenue",
           values: sales_force_perm ? sales_force_expenditure_per_100m(company_id) : [],
           locked: !sales_force_perm
-        }
+        },
+        {
+          mu_key: MetricUnit::MU_NET_NEW_REVENUE_PER_SALES_REP,
+          title: "Net New Revenue Per Sales Rep",
+          values: net_new_rev_perm ? net_new_rev_per_sales_rep(company_id) : [],
+          locked: !net_new_rev_perm
+        },
       ]
     }
   end
@@ -322,6 +329,12 @@ module Api::MetricsHelper
           year: metric[:year]
         }
       end
+    end
+
+    def net_new_rev_per_sales_rep(company_id)
+      get_average_metric_presenter_by_year(
+        Metric::METRIC_NET_NEW_REVENUE_PER_SALES_REP,
+        company_id)
     end
 
     # Get metrics per 1k (e.g. direct sales fte per 1k internal employees)

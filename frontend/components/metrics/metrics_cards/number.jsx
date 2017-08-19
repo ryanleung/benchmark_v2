@@ -8,8 +8,6 @@ class NumberCard extends Component {
     const { title, metrics } = this.props
     const currentMetric = metrics.filter(metric => metric.year === year)[0]
     let { value, value_description, type } = currentMetric
-    value = Math.round(value).toLocaleString(undefined)
-    let currency = "";
 
     function abbreviateNumber(number) {
         const SI_POSTFIXES = ["", "k", "M", "B", "T"];
@@ -26,16 +24,24 @@ class NumberCard extends Component {
         return formatted + suffix;
     }
 
-    const value_description_display = `(${value_description})`
+    const value_description_display = (function(value_desc) {
+      switch(value_desc) {
+        case 'Quantity':
+          return null
+        default:
+          return `(${value_description})`
+      }
+    })(value_description)
+    var value_displayed = value.toLocaleString()
 
     if (value_description == "USD") {
-      value = `$${abbreviateNumber(currentMetric.value)}`
+      value_displayed = `$${abbreviateNumber(currentMetric.value).toLocaleString()}`
     }
 
     return(
       <div className="card">
         <h3>{ title } {value_description_display}</h3>
-        <h4>{ value }</h4>
+        <h4>{ value_displayed }</h4>
       </div>
     )
   }

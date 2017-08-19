@@ -183,8 +183,8 @@ module Api::MetricsHelper
 
       account_per_sales_metrics_by_year.map do |year, num_accounts|
         {
-          value: num_accounts,
-          value_description: account_per_sales_metrics.first.value_description, # pick any
+          value: round_value(num_accounts),
+          value_description: Metric::VALUE_DESC_QUANTITY,
           year: year
         }
       end
@@ -241,7 +241,7 @@ module Api::MetricsHelper
         company_id)
       .map do |metric|
         {
-          value: metric[:value] / 1000,
+          value: round_value(metric[:value] / 1000),
           value_description: Metric::VALUE_DESC_USD,
           year: metric[:year]
         }
@@ -257,7 +257,7 @@ module Api::MetricsHelper
         company_id)
       .map do |metric|
         {
-          value: metric[:value] / 1000,
+          value: round_value(metric[:value] / 1000),
           value_description: metric[:value_description],
           year: metric[:year]
         }
@@ -331,7 +331,7 @@ module Api::MetricsHelper
         company_id)
       .map do |metric|
         {
-          value: metric[:value] * 100_000,
+          value: round_value(metric[:value] * 100_000),
           value_description: Metric::METRIC_TO_VALUE_DESC[Metric::METRIC_SALES_FORCE_EXPENDITURE],
           year: metric[:year]
         }
@@ -353,7 +353,7 @@ module Api::MetricsHelper
         company_id)
       .map do |metric|
         {
-          value: metric[:value] / 1000,
+          value: round_value(metric[:value] / 1000),
           value_description: Metric::VALUE_DESC_USD,
           year: metric[:year]
         }
@@ -383,7 +383,7 @@ module Api::MetricsHelper
 
       metric_over_total_per_year.map do |year, value|
         {
-          value: value,
+          value: round_value(value),
           value_description: total_metrics.first.value_description, # pick any
           year: year
         }
@@ -407,7 +407,7 @@ module Api::MetricsHelper
 
       year_to_average_value.map do |year, value|
         {
-          value: value,
+          value: round_value(value),
           value_description: overall_sales_fte_metrics.first.value_description, # pick any
           year: year
         }
@@ -422,9 +422,11 @@ module Api::MetricsHelper
 
       avg_metrics_per_year = average_metrics_by_year(metrics)
 
+      value_desc = Metric::METRIC_TO_VALUE_DESC[metric_type]
+
       avg_metrics_per_year.map do |year, num|
         {
-          value: num,
+          value: value_desc == Metric::VALUE_DESC_PERCENTAGE ? round_percentage(num) : round_value(num),
           value_description: Metric::METRIC_TO_VALUE_DESC[metric_type],
           year: year
         }
@@ -470,6 +472,17 @@ module Api::MetricsHelper
       end
 
       metric_batch_to_pair.values
+    end
+
+    # Round value to either an integer or two dec places
+    def round_value(value)
+      i, f = value.to_i, value.to_f
+      i == f ? i : f.round(2)
+    end
+
+    # Round decimal to a percentage
+    def round_percentage(decimal)
+      (decimal * 100).round(2)
     end
   end
 end

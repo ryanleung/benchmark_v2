@@ -1,12 +1,12 @@
 h3, h4 {
-  font-size: 32px;
+  font-size: 18px;
   padding: 0;
   margin: 0;
   color: #424242;
 }
 
 h4 {
-  font-size: 60px;
+  font-size: 24px;
   color: #1565C0;
 }
 
@@ -16,7 +16,7 @@ div.metrics {
 }
 
 div.metrics > div {
-  width: 25%;
+  width: 320px;
   height: 100px;
 }
 
@@ -24,14 +24,11 @@ div.metrics > div {
   background-color: white;
   box-shadow: 0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1);
   transition: box-shadow .2s ease-in-out;
-  min-width: 260px;
   text-decoration: none;
   background-color: #fff;
   background-repeat: no-repeat;
-  background-position: 17px 30px;
-  background-size: 36px 36px;
-  padding: 50px;
-  margin: 50px;
+  padding: 30px 30px 40px 30px;
+  margin: 20px;
 }
 
 .card:hover {

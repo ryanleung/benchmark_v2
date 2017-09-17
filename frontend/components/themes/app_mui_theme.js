@@ -11,7 +11,7 @@ import spacing from 'material-ui/styles/spacing';
 
 const AppMuiTheme = getMuiTheme({
   spacing: spacing,
-  fontFamily: 'Roboto, Lato, Helvetica Neue, Helvetica, Arial, sans-serif',
+  fontFamily: 'Lato, Helvetica Neue, Helvetica, Arial, sans-serif',
   palette: {
     primary1Color: blue700,
     primary2Color: blue500,

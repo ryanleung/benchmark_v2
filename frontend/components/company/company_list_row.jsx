@@ -11,7 +11,6 @@ const CompanyListRow = ({ company }) => (
       <CardHeader title={getCompanyPageLink(company)}
                   subtitle={`${company.city} / ${company.state}`}
                   avatar={company.logo_img_url} />
-
     </Card>
   </div>
 );

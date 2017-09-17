@@ -49,10 +49,11 @@ class CompanyPage extends Component {
       <div>
         {company &&
           <div className="CompanyPage">
-            <CardHeader title={getCompanyPageLink(company)}
-                        subtitle={`${company.city} / ${company.state}`}
-                        avatar={company.logo_img_url}
-                        className='CompanyTitle' />
+            <div className="CompanyPageTop">
+              <div className="CompanyAvatar">
+                <Avatar src={company.logo_img_url} size={72}/>
+              </div>
+            </div>
             { metricGroups }
           </div>
         }

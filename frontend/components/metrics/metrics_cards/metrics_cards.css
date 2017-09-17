@@ -1,35 +1,36 @@
-h3, h4 {
-  font-size: 18px;
-  padding: 0;
-  margin: 0;
-  color: #424242;
-}
-
-h4 {
-  font-size: 24px;
-  color: #1565C0;
-}
-
-div.metrics {
+div.Metrics {
   display: flex;
   flex-wrap: wrap;
 }
 
-div.metrics > div {
+div.Metrics > div {
   width: 320px;
   height: 100px;
 }
 
-.card {
+.Metric {
   background-color: white;
   box-shadow: 0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1);
   transition: box-shadow .2s ease-in-out;
   text-decoration: none;
   background-color: #fff;
   background-repeat: no-repeat;
-  padding: 30px 30px 40px 30px;
-  margin: 20px;
+  padding: 16px;
+  margin: 0px 20px 20px 0px;
+
+  .MetricName {
+    font-size: 16px;
+  }
+
+  .MetricValue{
+    font-size: 40px;
+    font-weight: 900;
+    color: #1976D2;
+  }
+
+
 }
+
 
 .card:hover {
   box-shadow: 0 1px 5px 0 rgba(0,0,0,.12), 0 7px 25px 0 rgba(0,0,0,.15);

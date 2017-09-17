@@ -53,7 +53,7 @@ class AddMetricForm extends Component {
     const inputFields = this.state.metrics.map((inputField, idx) => {
       return(
         <div key={idx}>
-          Title: {inputField.title}<br />
+          Title: {inputField.title}
           Value: <input type="text"
                         onChange={this.update(idx)}
                         value={this.state.metrics[idx].value}></input>
@@ -113,7 +113,7 @@ class AddMetricForm extends Component {
       return (
         <div>
           <form>
-            Metric Name: { this.createMetricSelectBox(fields) }<br />
+            Metric Name: { this.createMetricSelectBox(fields) }
             { dataInputFields }
             <button onClick={ this.submitForm }>Submit</button>
           </form>

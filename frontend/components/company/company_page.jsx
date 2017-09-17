@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import Avatar from 'material-ui/Avatar'
 import {GridList, GridTile} from 'material-ui/GridList'
 import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton'
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
-import { Link } from 'react-router-dom'
+import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card'
+import { getCompanyPageLink } from '../../utils/link_helpers'
 
 import * as APIUtil from '../../api/metric_api_util'
 import Company from '../../models/Company'
@@ -40,7 +40,8 @@ class CompanyPage extends Component {
       metricGroups = metrics.map((metric, idx) => {
         return <MetricGroup key={idx}
                             title={metric.group}
-                            metrics={metric.metrics} />
+                            metrics={metric.metrics}
+                            company={company}/>
       })
     }
 
@@ -48,8 +49,10 @@ class CompanyPage extends Component {
       <div>
         {company &&
           <div className="CompanyPage">
-              <h1>{company.name}</h1><br />
-              <Link to={`/industry/${company.industry.id}/company/${company.id}/add_metric`}>Add Metric</Link>
+            <CardHeader title={getCompanyPageLink(company)}
+                        subtitle={`${company.city} / ${company.state}`}
+                        avatar={company.logo_img_url}
+                        className='CompanyTitle' />
             { metricGroups }
           </div>
         }

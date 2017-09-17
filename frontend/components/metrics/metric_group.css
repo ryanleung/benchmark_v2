@@ -1,0 +1,10 @@
+.MetricGroupTop {
+  margin: 32px 0px 20px 0px;
+  display: flex;
+  align-items: center;
+
+  .MetricGroupTitle {
+    display: inline;
+    margin-right: 20px;
+  }
+}

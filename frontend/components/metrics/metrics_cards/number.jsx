@@ -39,9 +39,9 @@ class NumberCard extends Component {
     }
 
     return(
-      <div className="card">
-        <h3>{ title } {value_description_display}</h3>
-        <h4>{ value_displayed }</h4>
+      <div className="Metric">
+        <div className='MetricName'> { title } {value_description_display}</div>
+        <div className='MetricValue'> { value_displayed } </div>
       </div>
     )
   }

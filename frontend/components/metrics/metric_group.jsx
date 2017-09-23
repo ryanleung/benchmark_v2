@@ -9,13 +9,8 @@ class MetricGroup extends Component {
   render() {
     const { title, metrics, company } = this.props
 
-    var numCards = metrics.length
-    metrics[numCards+1] = "AddMetricCard"
     const metricCards = metrics.map((metric, idx) => {
-      if (metric == "AddMetricCard") {
-        return <AddMetricCard key={idx}
-                              company={company} />
-      } else if (metric.values.length > 0) {
+      if (metric.values.length > 0) {
         return <NumberCard key={idx}
                            title={metric.title}
                            metrics={metric.values} />

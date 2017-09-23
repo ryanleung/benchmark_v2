@@ -14,9 +14,6 @@ class AddMetricCard extends Component {
       <div className="Metric AddMetric">
         <Link className="AddMetricLink"
               to={`/industry/${company.industry.id}/company/${company.id}/add_metric`}>
-              <FloatingActionButton className="AddMetricButton" mini={true}>
-                <ContentAdd />
-              </FloatingActionButton>
         </Link>
       </div>
     )

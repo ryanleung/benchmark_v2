@@ -1,9 +1,10 @@
 .MetricGroupTop {
-  margin: 32px 0px 20px 0px;
+  margin: 20px 0px 12px 0px;
   display: flex;
   align-items: center;
 
   .MetricGroupTitle {
+    font-size: 20px;
     display: inline;
     margin-right: 20px;
   }

@@ -3,34 +3,48 @@ div.Metrics {
   flex-wrap: wrap;
 }
 
-div.Metrics > div {
-  width: 320px;
-  height: 100px;
+.AddMetricLink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Metric {
   background-color: white;
-  box-shadow: 0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1);
-  transition: box-shadow .2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1);
+  transition: box-shadow .1s ease-in-out;
   text-decoration: none;
   background-color: #fff;
   background-repeat: no-repeat;
   padding: 16px;
   margin: 0px 20px 20px 0px;
+  height: 70px;
+  width: 20%;
 
   .MetricName {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .MetricValue{
-    font-size: 40px;
+    font-size: 24px;
     font-weight: 900;
     color: #1976D2;
   }
-
-
 }
 
 .Metric:hover {
+  opacity: 1;
+  z-index: 100;
   box-shadow: 0 5px 15px 0 rgba(0,0,0,.12), 0 7px 25px 0 rgba(0,0,0,.15);
+}
+
+.AddMetric {
+  opacity: .6
+}
+
+.AddMetricButton {
+  pointer-events: none;
 }

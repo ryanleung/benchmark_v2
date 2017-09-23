@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import * as APIUtil from '../../../api/metric_api_util'
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/FlatButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import { getMetricNames, createMetrics } from '../../../actions/metric_actions'
 
 class AddMetricForm extends Component {
   constructor(props) {
@@ -12,11 +17,24 @@ class AddMetricForm extends Component {
     this.createMetricSelectBox = this.createMetricSelectBox.bind(this)
     this.setMetricFields = this.setMetricFields.bind(this)
     this.createDataInputs = this.createDataInputs.bind(this)
+    this.state = {
+      open: false,
+    }
+    this.handleOpen = () => {
+      this.setState({open: true});
+    }
+    this.handleClose = () => {
+      this.setState({open: false});
+    }
   }
 
+
   componentDidMount() {
-    const companyId = this.props.match.params.company_id
-    this.props.getMetricNames(companyId)
+    const companyId = this.props.companyid
+    APIUtil.getMetricNames(companyId)
+      .then(response => {
+        this.setState({metricNames: response.data.fields})
+      })
   }
 
   createMetricSelectBox(fields) {
@@ -89,38 +107,51 @@ class AddMetricForm extends Component {
       this.setState({ metrics: stateMetrics })
     }
   }
-
   submitForm(e) {
     e.preventDefault();
-    const companyId = this.props.match.params.company_id;
-    const industryId = this.props.match.params.industry_id;
+    const companyId = this.props.companyid;
+    const industryId = this.props.industryid;
 
-    this.props.createMetrics(companyId, this.state)
-      .then(() => this.props.history.push(`/industry/${industryId}/company/${companyId}`))
+    APIUtil.postMetric(companyId, {metrics: this.state.metrics})
+      .then(this.handleClose)
   }
 
   render() {
-    if (!this.props.metricNames) {
+    if (!this.state.metricNames) {
       return(<div>Loading...</div>)
     } else {
-      const fields = this.props.metricNames.data.fields;
-      let dataInputFields;
+      const actions = [
+        <RaisedButton
+          label="Submit"
+          onClick={this.submitForm}
+        />,
+      ];
+      const fields = this.state.metricNames;
 
-      if (this.state) {
+      let dataInputFields;
+      if (this.state.metrics) {
         dataInputFields = this.createDataInputs();
       }
-
       return (
         <div>
-          <form>
-            Metric Name: { this.createMetricSelectBox(fields) }
-            { dataInputFields }
-            <button onClick={ this.submitForm }>Submit</button>
-          </form>
-        </div>
-      )
+        <FloatingActionButton label="Dialog" mini={true} onClick={this.handleOpen}>
+          <ContentAdd />
+        </FloatingActionButton>
+        <Dialog
+          title="Add a metric"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}>
+        <form>
+          Metric Name: { this.createMetricSelectBox(fields) }
+          { dataInputFields }
+        </form>
+        </Dialog>
+      </div>
+    )
     }
   }
 }
 
-export default AddMetricForm;
+export default AddMetricForm

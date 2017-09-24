@@ -8,18 +8,35 @@ import TextField from 'material-ui/TextField';
 import './search_bar.css';
 
 
-const SearchBar = () => (
-  <div className="SearchBar">
-    <Paper className="SearchBar__paper">
-      <div className="SearchBar__search-field">
-        <SearchIcon className="SearchBar__icon" color={grey400}/>
-        <TextField
-          hintText="Company name"
-          underlineShow={false}
-          fullWidth={true} /><br />
+class SearchBar extends Component {
+  constructor(props) {
+    super(props)
+    this.onSearch = this.onSearch.bind(this)
+  }
+
+  onSearch(e) {
+    e.preventDefault()
+    this.props.onSearch(this.refs.searchQuery.getValue())
+  }
+
+  render() {
+    return (
+      <div className="SearchBar">
+        <Paper className="SearchBar__paper">
+          <div className="SearchBar__search-field">
+            <SearchIcon className="SearchBar__icon" color={grey400}/>
+            <form onSubmit={this.onSearch}>
+              <TextField
+                ref="searchQuery"
+                hintText="Company name"
+                underlineShow={false}
+                fullWidth={true} /><br />
+            </form>
+          </div>
+        </Paper>
       </div>
-    </Paper>
-  </div>
-)
+    )
+  }
+}
 
 export default SearchBar;

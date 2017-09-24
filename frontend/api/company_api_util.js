@@ -11,3 +11,10 @@ export const getCompany = (company_id) => {
     url: `/api/companies/${company_id}`
   });
 };
+
+export const searchCompanies = (search_query) => {
+  return $.ajax({
+    method: 'GET',
+    url: `/api/companies/search?q=${search_query}`
+  })
+}

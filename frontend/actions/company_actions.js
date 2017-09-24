@@ -17,6 +17,12 @@ export const fetchCompany = company_id => dispatch => (
       err => dispatch(receiveErrors(err.responseJSON)))
 );
 
+export const searchCompanies = search_query => dispatch => (
+  APIUtil.searchCompanies(search_query)
+       .then(companies => dispatch(receiveCompanies(companies)),
+        err => dispatch(receiveErrors(err.responseJSON)))
+);
+
 export const receiveCompanies = json => ({
   type: RECEIVE_COMPANIES,
   items: json.data.items.map(item => Company.from_json(item))

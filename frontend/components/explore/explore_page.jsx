@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import CompanyList from '../company/company_list'
+import CompanyGridView from '../company/company_grid_view'
 import SearchBar from '../search/search_bar'
 
 import './explore.css';
@@ -20,9 +20,7 @@ class ExplorePage extends Component {
           <SearchBar />
         </div>
         <h2>Companies</h2>
-        <div className="ExplorePage__company-list">
-          <CompanyList companies={this.props.companies} />
-        </div>
+        <CompanyGridView companies={this.props.companies} />
       </div>
     )
   }

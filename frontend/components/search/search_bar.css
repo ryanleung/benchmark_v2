@@ -9,10 +9,8 @@
     margin-left: 10px;
     margin-right: 10px;
   }
-
   &__search-field {
     display: flex;
-    flex-direction: row;
     align-items: center;
   }
 }

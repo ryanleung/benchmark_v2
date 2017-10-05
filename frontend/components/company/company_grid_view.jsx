@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 import Company from '../../models/Company'
 import CompanyCard from './company_card'

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import * as APIUtil from '../../../api/metric_api_util'
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/FlatButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
 import { getMetricNames, createMetrics } from '../../../actions/metric_actions'
 
 class AddMetricForm extends Component {
@@ -121,7 +120,7 @@ class AddMetricForm extends Component {
       return(<div>Loading...</div>)
     } else {
       const actions = [
-        <RaisedButton
+        <Button raised
           label="Submit"
           onClick={this.submitForm}
         />,
@@ -134,9 +133,9 @@ class AddMetricForm extends Component {
       }
       return (
         <div>
-        <FloatingActionButton label="Dialog" mini={true} onClick={this.handleOpen}>
-          <ContentAdd />
-        </FloatingActionButton>
+        <Button fab label="Dialog" mini={true} onClick={this.handleOpen}>
+          <AddIcon />
+        </Button>
         <Dialog
           title="Add a metric"
           actions={actions}

@@ -1,9 +1,7 @@
 import Divider from 'material-ui/Divider';
 import React, { Component } from 'react'
 import NumberCard from './metrics_cards/number'
-import ContentAdd from 'material-ui/svg-icons/content/add';
 import AddMetricForm from './add_form/add_metric_form';
-import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { Link } from 'react-router-dom'
 
 

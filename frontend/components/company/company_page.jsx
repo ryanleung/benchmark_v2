@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Avatar from 'material-ui/Avatar'
 import {GridList, GridTile} from 'material-ui/GridList'
 import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
 import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card'
 import { getCompanyPageLink } from '../../utils/link_helpers'

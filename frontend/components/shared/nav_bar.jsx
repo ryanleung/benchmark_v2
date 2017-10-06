@@ -32,7 +32,6 @@ class NavBar extends Component {
 
     this.handleLogin = this.handleLogin.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
-    this.handleTitleTap = this.handleTitleTap.bind(this)
   }
 
   handleOpen() {
@@ -41,10 +40,6 @@ class NavBar extends Component {
 
   handleClose() {
     this.setState({open: false});
-  };
-
-  handleTitleTap() {
-    this.props.history.push("/");
   };
 
   handleLogin() {
@@ -60,13 +55,13 @@ class NavBar extends Component {
     const {classes, currentUser} = this.props
 
     const loginButton = () => (
-      <Button onClick={this.handleLogin}>
+      <Button color="inherit" onClick={this.handleLogin}>
       Login
       </Button>
     );
 
     const logoutButton = () => (
-      <Button onClick={this.handleLogout}>
+      <Button color="inherit" onClick={this.handleLogout}>
         Logout
       </Button>
     );
@@ -78,7 +73,7 @@ class NavBar extends Component {
             <Typography type="title" color="inherit" className={classes.flex}>
               Kimono Metrics
             </Typography>
-            {loginButton()}
+            {currentUser ? logoutButton() : loginButton()}
           </Toolbar>
         </AppBar>
         <Dialog

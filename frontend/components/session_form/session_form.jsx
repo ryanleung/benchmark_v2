@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { browserHistory } from 'react-router'
 
 class SessionForm extends React.Component {
   constructor(props) {
@@ -14,11 +15,11 @@ class SessionForm extends React.Component {
 
   redirectIfLoggedIn() {
     if (this.props.loggedIn) {
-      this.props.history.push("/");
+      this.props.history.goBack()
     }
   }
 
-  update(field) {
+  updateField(field) {
     return e => this.setState({
       [field]: e.currentTarget.value
     });
@@ -65,14 +66,14 @@ class SessionForm extends React.Component {
             <label> Email:
               <input type="text"
                 value={this.state.email}
-                onChange={this.update("email")}
+                onChange={this.updateField("email")}
                 className="login-input" />
             </label>
             <br/>
             <label> Password:
               <input type="password"
                 value={this.state.password}
-                onChange={this.update("password")}
+                onChange={this.updateField("password")}
                 className="login-input" />
             </label>
             <br/>

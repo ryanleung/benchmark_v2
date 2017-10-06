@@ -1,9 +1,34 @@
 import React, { Component } from 'react';
 import * as APIUtil from '../../../api/metric_api_util'
-import Dialog from 'material-ui/Dialog';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import Select from 'material-ui/Select';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import TextField from 'material-ui/TextField';
+import { MenuItem } from 'material-ui/Menu';
 import { getMetricNames, createMetrics } from '../../../actions/metric_actions'
+
+const styles = theme => ({
+  addButton: {
+    width: 36,
+    height: 36
+  },
+  formControl: {
+    minWidth: 400,
+    minHeight: 52
+  },
+  formContainer: {
+    height: 200
+  }
+})
 
 class AddMetricForm extends Component {
   constructor(props) {
@@ -16,8 +41,10 @@ class AddMetricForm extends Component {
     this.createMetricSelectBox = this.createMetricSelectBox.bind(this)
     this.setMetricFields = this.setMetricFields.bind(this)
     this.createDataInputs = this.createDataInputs.bind(this)
+
     this.state = {
       open: false,
+      currentMetric: ""
     }
     this.handleOpen = () => {
       this.setState({open: true});
@@ -37,15 +64,18 @@ class AddMetricForm extends Component {
   }
 
   createMetricSelectBox(fields) {
+    const classes = this.props.classes
     const metricNameOptions = fields.map(
-      (name, idx) => <option key={idx} value={idx}>{name.title}</option>
+      (name, idx) => <MenuItem value={idx}>{name.title}</MenuItem>
     )
-
+  
     return (
-      <select onChange={this.setMetricFields(fields)}>
-        <option disabled selected>-- Please Select --</option>
-        { metricNameOptions }
-      </select>
+      <FormControl className={classes.formControl}>
+        <Select  value={this.state.currentMetric} onChange={this.setMetricFields(fields)}>
+          <MenuItem value=""></MenuItem>
+          { metricNameOptions }
+        </Select>
+      </FormControl>
     )
   }
 
@@ -63,17 +93,21 @@ class AddMetricForm extends Component {
       })
 
       this.setState({ metrics: stateMetrics })
+      this.setState({currentMetric: e.currentTarget.value})
     }
   }
 
   createDataInputs() {
+    const classes = this.props.classes
     const inputFields = this.state.metrics.map((inputField, idx) => {
       return(
         <div key={idx}>
-          Title: {inputField.title}
-          Value: <input type="text"
-                        onChange={this.update(idx)}
-                        value={this.state.metrics[idx].value}></input>
+          <FormControl className={classes.formControl}>
+            <TextField
+              label={inputField.title + " Value"}
+              onChange={this.update(idx)}
+              value={this.state.metrics[idx].value}/>
+          </FormControl>
         </div>
       )
     })
@@ -81,9 +115,12 @@ class AddMetricForm extends Component {
     return (
       <div>
         { inputFields }
-        Year: <input type="text"
-                     onChange={this.updateYear}
-                     value={this.state.metrics[0].relevant_date}></input>
+        <FormControl className={classes.formControl}>
+          <TextField
+            label="Year"
+            onChange={this.updateYear}
+            value={this.state.metrics[0].relevant_date}/>
+        </FormControl>
       </div>
     )
   }
@@ -116,14 +153,14 @@ class AddMetricForm extends Component {
   }
 
   render() {
+    const classes = this.props.classes
     if (!this.state.metricNames) {
       return(<div>Loading...</div>)
     } else {
       const actions = [
-        <Button raised
-          label="Submit"
-          onClick={this.submitForm}
-        />,
+        <Button raised onClick={this.submitForm}>
+          Submit
+        </Button>
       ];
       const fields = this.state.metricNames;
 
@@ -133,19 +170,25 @@ class AddMetricForm extends Component {
       }
       return (
         <div>
-        <Button fab label="Dialog" mini={true} onClick={this.handleOpen}>
+        <Button fab label="Dialog" className={classes.addButton} color="primary" onClick={this.handleOpen}>
           <AddIcon />
         </Button>
         <Dialog
           title="Add a metric"
-          actions={actions}
-          modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}>
-        <form>
-          Metric Name: { this.createMetricSelectBox(fields) }
-          { dataInputFields }
-        </form>
+          <DialogContent>
+            <DialogContentText>
+              Select a metric
+            </DialogContentText>
+            <form className={classes.formContainer} autoComplete="off">
+              { this.createMetricSelectBox(fields) }
+              { dataInputFields }
+            </form>
+          </DialogContent>
+          <DialogActions>
+            {actions}
+          </DialogActions>
         </Dialog>
       </div>
     )
@@ -153,4 +196,7 @@ class AddMetricForm extends Component {
   }
 }
 
-export default AddMetricForm
+AddMetricForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+export default withStyles(styles)(AddMetricForm);

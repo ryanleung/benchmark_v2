@@ -12,7 +12,7 @@ import './company_grid_view.css'
 const CompanyCard = ({ company }) => (
   <Link className="CompanyCard"
         to={`/industry/${company.industry.id}/company/${company.id}`}>
-    <Avatar src={company.logo_img_url} size={72}/>
+    <Avatar src={company.logo_img_url} sizes={72}/>
     <h2>{company.name}</h2>
     <div>{`${company.city} / ${company.state}`}</div>
   </Link>

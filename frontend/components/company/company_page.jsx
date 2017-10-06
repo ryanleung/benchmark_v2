@@ -6,6 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
 import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card'
 import { getCompanyPageLink } from '../../utils/link_helpers'
+import { withStyles } from 'material-ui/styles';
 
 import * as APIUtil from '../../api/metric_api_util'
 import Company from '../../models/Company'
@@ -13,6 +14,12 @@ import MetricGroup from '../metrics/metric_group'
 
 import './company_page.css'
 
+const styles = {
+  bigAvatar: {
+    width: 72,
+    height: 72,
+  },
+};
 
 class CompanyPage extends Component {
   componentDidMount() {
@@ -31,7 +38,7 @@ class CompanyPage extends Component {
       )
     }
 
-    const { company } = this.props
+    const { classes, company } = this.props
     const metrics = this.state.metrics_dashboard
     let metricGroups;
 
@@ -49,9 +56,7 @@ class CompanyPage extends Component {
         {company &&
           <div className="CompanyPage">
             <div className="CompanyPageTop">
-              <div className="CompanyAvatar">
-                <Avatar src={company.logo_img_url} size={72}/>
-              </div>
+              <Avatar className={classes.bigAvatar} src={company.logo_img_url}/>
             </div>
             { metricGroups }
           </div>
@@ -63,6 +68,7 @@ class CompanyPage extends Component {
 
 CompanyPage.propTypes = {
   company: PropTypes.instanceOf(Company),
+  classes: PropTypes.object.isRequired,
 }
 
-export default CompanyPage;
+export default withStyles(styles)(CompanyPage);

@@ -8,8 +8,8 @@
 }
 
 .CompanyAvatar {
-  display: inline;
-
+  height: 72px;
+  width: 72px;
 }
 
 .CompanyTitle {

@@ -9,7 +9,7 @@ import './company_grid_view.css'
 const CompanyGridView = ({ companies }) => (
   <div className="CompanyGridView">
     {companies.map(company =>
-      <CompanyCard key={company.id}
+      <CompanyCard key={company.url}
                    company={company}/>
     )}
   </div>

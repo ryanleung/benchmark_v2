@@ -15,7 +15,7 @@ class Company {
     var company = new Company()
     company.id = json.id
     company.name = json.name
-    company.industry = Industry.from_json(json.industry)
+    company.industry = json.industry ? Industry.from_json(json.industry) : null
     company.city = json.city
     company.state = json.state
     company.logo_img_url = json.logo_img_url

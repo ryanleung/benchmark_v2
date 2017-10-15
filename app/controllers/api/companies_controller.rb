@@ -37,11 +37,14 @@ class Api::CompaniesController < ApplicationController
   end
 
   def search
-    companies = Company.where('name ILIKE ?', "%#{params[:q]}%").order('id DESC')
+    query = params[:q]
+    companies = Company.where('name ILIKE ?', "%#{query}%").order('id DESC')
+    external_companies = Api::CompaniesHelper.search_external_companies(query)
+    total_companies = companies + external_companies
     render(json: {
         data: {
           kind: Company.name,
-          items: companies.map { |c| c.as_json(include: :industry) }
+          items: total_companies.map { |c| c.as_json(include: :industry) }
         }
       })
   end

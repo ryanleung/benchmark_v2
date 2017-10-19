@@ -17,13 +17,12 @@ import { MenuItem } from 'material-ui/Menu';
 import { getMetricNames, createMetrics } from '../../../actions/metric_actions'
 
 const styles = theme => ({
-  addButton: {
-    width: 36,
-    height: 36
-  },
   formControl: {
     minWidth: 400,
     minHeight: 52
+  },
+  addButton: {
+    marginBottom: 6,
   },
   formContainer: {
     height: 200
@@ -170,8 +169,8 @@ class AddMetricForm extends Component {
       }
       return (
         <div>
-        <Button fab label="Dialog" className={classes.addButton} color="primary" onClick={this.handleOpen}>
-          <AddIcon />
+        <Button raised label="Dialog" className={classes.addButton} color="primary" onClick={this.handleOpen}>
+          Submit Metric
         </Button>
         <Dialog
           title="Add a metric"

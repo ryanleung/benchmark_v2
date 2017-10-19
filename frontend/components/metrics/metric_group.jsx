@@ -1,7 +1,6 @@
 import Divider from 'material-ui/Divider';
 import React, { Component } from 'react'
 import NumberCard from './metrics_cards/number'
-import AddMetricForm from './add_form/add_metric_form';
 import { Link } from 'react-router-dom'
 
 
@@ -22,8 +21,6 @@ class MetricGroup extends Component {
       <div>
         <div className='MetricGroupTop'>
           <h2 className='MetricGroupTitle'>{ title }</h2>
-          <AddMetricForm industryid={company.industry.id}
-                         companyid={company.id}/>
         </div>
         <div className="Metrics">
           { metricCards }

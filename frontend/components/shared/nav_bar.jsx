@@ -16,7 +16,12 @@ const styles = theme => ({
     width: '100%',
   },
   flex: {
-    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  navTitle: {
+    textTransform: "None",
   },
   menuButton: {
     marginLeft: -12,
@@ -32,7 +37,12 @@ class NavBar extends Component {
 
     this.handleLogin = this.handleLogin.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
+    this.handleTitleTap = this.handleTitleTap.bind(this)
   }
+
+  handleTitleTap() {
+    this.props.history.push("/");
+  };
 
   handleOpen() {
     this.setState({open: true});
@@ -69,11 +79,13 @@ class NavBar extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="fixed">
-          <Toolbar>
-            <Typography type="title" color="inherit" className={classes.flex}>
-              Kimono Metrics
-            </Typography>
-            {currentUser ? logoutButton() : loginButton()}
+          <Toolbar className={classes.flex}>
+            <Button color="contrast" onClick={this.handleTitleTap}>
+              <Typography type="title" color="inherit" className={classes.navTitle}>
+                Kimono Metrics
+              </Typography>
+            </Button>
+              {currentUser ? logoutButton() : loginButton()}
           </Toolbar>
         </AppBar>
         <Dialog

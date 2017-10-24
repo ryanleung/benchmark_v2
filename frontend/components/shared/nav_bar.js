@@ -61,9 +61,7 @@ class NavBar extends Component {
       <div>
         <AppBar
           zDepth={0}
-          title="Kimono Metrics"
           showMenuIconButton={false}
-          onTitleTouchTap={this.handleTitleTap}
           iconElementRight={currentUser ? logoutButton() : loginButton()}
         />
         <Dialog

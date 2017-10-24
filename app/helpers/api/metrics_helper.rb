@@ -1,5 +1,5 @@
 module Api::MetricsHelper
-  # TODO: make presenters for the metrics based on value, 
+  # TODO: make presenters for the metrics based on value,
   # value_description, relevant_date/year, num_metrics and DRY this up
   # and docstring
 
@@ -401,7 +401,7 @@ module Api::MetricsHelper
         company_id: company_id)
 
       all_metric_pairs = get_all_metric_pairs(
-        total_customer_accounts_metrics, 
+        total_customer_accounts_metrics,
         overall_sales_fte_metrics)
       year_to_average_value = average_pair_metrics_by_year(all_metric_pairs)
 
@@ -435,12 +435,12 @@ module Api::MetricsHelper
 
     # Average out metrics by year based on value and relevant_date.year
     def average_metrics_by_year(metrics)
-      metrics_grouped_by_year = metrics.group_by { 
-        |m| m.relevant_date.year 
+      metrics_grouped_by_year = metrics.group_by {
+        |m| m.relevant_date.year
       }
 
       Hash[metrics_grouped_by_year
-        .map { |year, metrics| [year, metrics.map(&:value).reduce(:+) / metrics.size] }] 
+        .map { |year, metrics| [year, metrics.map(&:value).reduce(:+) / metrics.size] }]
     end
 
     # Average out metric pairs by year based on left / right and relevant_date.year
@@ -485,6 +485,150 @@ module Api::MetricsHelper
       (decimal * 100).round(2)
     end
   end
+  #
+  # TODO: verify with Vince that this is correct user behavior
+  # TODO: move this out of metrics controller into somewhere more
+  # encapsulated
+  def form_metrics
+    {
+      data: {
+        fields: [
+          {
+            title: "Annual Revenue",
+            input_fields: [
+              {
+                title: "Annual Revenue",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_ANNUAL_REVENUE,
+              }
+            ]
+          },
+          {
+            title: "Total Number of Employees",
+            input_fields: [
+              {
+                title: "Total # of Employees",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_NUM_EMPLOYEES,
+              }
+            ],
+          },
+          {
+            title: "Accounts Per Sales Rep",
+            input_fields: [
+              {
+                title: "Accounts Per Sales Rep",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_NUM_EMPLOYEES,
+              }
+            ]
+          },
+          {
+            title: "Direct Sales FTE",
+            input_fields: [
+              {
+                title: "Total Direct Sales FTE",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_DIRECT_SALES_FTE
+              },
+            ]
+          },
+          {
+            title: "Overall Sales FTE",
+            input_fields: [
+              {
+                title: "Total Sales FTE",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_OVERALL_SALES_FTE
+              },
+            ]
+          },
+          {
+            title: "Sales Support FTE",
+            input_fields: [
+              {
+                title: "Total Sales Support FTE",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_SALES_SUPPORT_FTE
+              },
+            ]
+          },
+          {
+            title: "Quota Per Sales Rep",
+            input_fields: [
+              {
+                title: "Quota Per Sales Rep",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_QUOTA_PER_SALES_REP
+              },
+            ]
+          },
+          {
+            title: "Sales Cycle Length",
+            input_fields: [
+              {
+                title: "Sales Cycle Length",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_SALES_CYCLE_LENGTH
+              },
+            ]
+          },
+          {
+            title: "Lead To Close Conversion Rate",
+            input_fields: [
+              {
+                title: "Lead To Close Conversion Rate",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_LEAD_TO_CLOSE_CONVERSION_RATE
+              },
+            ]
+          },
+          {
+            title: "Annual Spend Per Customer",
+            input_fields: [
+              {
+                title: "Annual Spend Per Customer",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                metric_name: Metric::METRIC_ANNUAL_SPEND_PER_CUSTOMER
+              },
+            ]
+          },
+          {
+            title: "Average Customer Churn Percentage",
+            input_fields: [
+              {
+                title: "Average Customer Churn Percentage",
+                description: "What percent of subscription customers turnover annually",
+                metric_name: Metric::METRIC_AVERAGE_CUSTOMER_CHURN
+              },
+            ]
+          },
+          {
+            title: "Sales Force Expenditure",
+            input_fields: [
+              {
+                title: "Sales Force Expenditure",
+                description: "How much money is spent per year on sales force",
+                metric_name: Metric::METRIC_AVERAGE_CUSTOMER_CHURN
+              },
+            ]
+          },
+          {
+            title: "Net New Revenue Per Sales Rep",
+            input_fields: [
+              {
+                title: "Net New Revenue Per Sales Rep",
+                description: "How many $ in new revenue does an average sales rep bring in annually",
+                metric_name: Metric::METRIC_NET_NEW_REVENUE_PER_SALES_REP
+              },
+            ]
+          }
+        ]
+      }
+    }
+  end
+  module_function :form_metrics
+
 end
 
 # Helper class used to group natural pairs of metrics (e.g. a user enters in a pair

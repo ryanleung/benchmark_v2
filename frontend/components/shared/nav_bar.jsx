@@ -56,7 +56,7 @@ class NavBar extends Component {
 
     const loginButton = () => (
       <Button color="inherit" onClick={this.handleLogin}>
-      Login
+        Login
       </Button>
     );
 

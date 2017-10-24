@@ -86,6 +86,7 @@ class AddMetricForm extends Component {
         return {
           title: input_field.title,
           metric_name: input_field.metric_name,
+          description: input_field.description,
           value: "",
           relevant_date: ""
         }
@@ -101,7 +102,11 @@ class AddMetricForm extends Component {
     const inputFields = this.state.metrics.map((inputField, idx) => {
       return(
         <div key={idx}>
-          <FormControl className={classes.formControl}>
+          <DialogContentText>
+            {this.state.metrics[idx].description}
+          </DialogContentText>
+          <div></div>
+         <FormControl className={classes.formControl}>
             <TextField
               label={inputField.title + " Value"}
               onChange={this.update(idx)}
@@ -114,12 +119,10 @@ class AddMetricForm extends Component {
     return (
       <div>
         { inputFields }
-        <FormControl className={classes.formControl}>
           <TextField
             label="Year"
             onChange={this.updateYear}
             value={this.state.metrics[0].relevant_date}/>
-        </FormControl>
       </div>
     )
   }
@@ -170,7 +173,7 @@ class AddMetricForm extends Component {
       return (
         <div>
         <Button raised label="Dialog" className={classes.addButton} color="primary" onClick={this.handleOpen}>
-          Submit Metric
+          Submit a Metric
         </Button>
         <Dialog
           title="Add a metric"
@@ -178,11 +181,13 @@ class AddMetricForm extends Component {
           onRequestClose={this.handleClose}>
           <DialogContent>
             <DialogContentText>
-              Select a metric
+              What metric would you like to add?
             </DialogContentText>
             <form className={classes.formContainer} autoComplete="off">
-              { this.createMetricSelectBox(fields) }
-              { dataInputFields }
+              <FormControl className={classes.formControl}>
+                { this.createMetricSelectBox(fields) }
+                { dataInputFields }
+              </FormControl>
             </form>
           </DialogContent>
           <DialogActions>

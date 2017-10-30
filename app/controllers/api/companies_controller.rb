@@ -2,12 +2,7 @@ class Api::CompaniesController < ApplicationController
 
   # TODO: Remove this if we get hella companies obv
   def index
-    render json: {
-      data: {
-        kind: Company.name,
-        items: Company.all.map { |c| c.as_json(include: :industry) }
-      }
-    }
+    render_all_companies
   end
 
   # Using json style guide https://google.github.io/styleguide/jsoncstyleguide.xml
@@ -38,6 +33,12 @@ class Api::CompaniesController < ApplicationController
 
   def search
     query = params[:q]
+
+    if query.blank?
+      render_all_companies
+      return
+    end
+
     companies = Company.where('name ILIKE ?', "%#{query}%").order('id DESC')
     # TODO: this search sucks since we grab a bunch of rando companies.
     # Disable this for now
@@ -49,5 +50,14 @@ class Api::CompaniesController < ApplicationController
           items: total_companies.map { |c| c.as_json(include: :industry) }
         }
       })
+  end
+
+  def render_all_companies
+    render json: {
+      data: {
+        kind: Company.name,
+        items: Company.all.map { |c| c.as_json(include: :industry) }
+      }
+    }
   end
 end

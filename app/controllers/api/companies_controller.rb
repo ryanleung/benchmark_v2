@@ -39,8 +39,10 @@ class Api::CompaniesController < ApplicationController
   def search
     query = params[:q]
     companies = Company.where('name ILIKE ?', "%#{query}%").order('id DESC')
-    external_companies = Api::CompaniesHelper.search_external_companies(query)
-    total_companies = companies + external_companies
+    # TODO: this search sucks since we grab a bunch of rando companies.
+    # Disable this for now
+    # external_companies = Api::CompaniesHelper.search_external_companies(query)
+    total_companies = companies # + external_companies
     render(json: {
         data: {
           kind: Company.name,

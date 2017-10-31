@@ -8,7 +8,6 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card'
 import { getCompanyPageLink } from '../../utils/link_helpers'
 import { withStyles } from 'material-ui/styles';
-import AddMetricForm from '../metrics/add_form/add_metric_form'
 import * as APIUtil from '../../api/metric_api_util'
 import Company from '../../models/Company'
 import MetricGroup from '../metrics/metric_group'
@@ -19,8 +18,6 @@ const styles = {
   bigAvatar: {
     width: 72,
     height: 72,
-  },
-  addMetric: {
   },
   heading: {
     display: "flex",
@@ -66,14 +63,8 @@ class CompanyPage extends Component {
             <div className={classes.heading}>
               <Avatar className={classes.bigAvatar} src={company.logo_img_url}/>
               <div className={classes.addMetric}>
-                <Typography type="subheading" gutterBottom align="center">
-                  Know this company?
-                </Typography>
-                <AddMetricForm industryid={company.industry.id}
-                               companyid={company.id}/>
-                <Typography type="subheading" gutterTop align="center">
-                  and get free credit!
-                </Typography>
+                Know this company?
+                Submit a metric and get free credit.
               </div>
             </div>
             { metricGroups }

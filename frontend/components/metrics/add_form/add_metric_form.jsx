@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import * as APIUtil from '../../../api/metric_api_util'
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import blue from 'material-ui/colors/blue'
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
+import Typography from 'material-ui/Typography';
 import Select from 'material-ui/Select';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
@@ -26,7 +28,21 @@ const styles = theme => ({
   },
   formContainer: {
     height: 200
-  }
+  },
+  navBarButton: {
+    backgroundColor: 'white',
+     '&:hover': {
+      backgroundColor: 'white'
+    },
+    color: blue,
+    marginRight: 12,
+  },
+  navTitle: {
+    textTransform: 'None',
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
+  },
 })
 
 class AddMetricForm extends Component {
@@ -172,8 +188,10 @@ class AddMetricForm extends Component {
       }
       return (
         <div>
-        <Button raised label="Dialog" className={classes.addButton} color="primary" onClick={this.handleOpen}>
-          Submit a Metric
+        <Button className={classes.navBarButton} onClick={this.handleOpen}>
+          <Typography type="button" className={classes.navTitle} color="primary">
+            Submit Metric
+          </Typography>
         </Button>
         <Dialog
           title="Add a metric"

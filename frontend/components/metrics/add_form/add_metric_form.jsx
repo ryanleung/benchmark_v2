@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from  'react-router-dom';
 import * as APIUtil from '../../../api/metric_api_util'
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
@@ -17,6 +18,7 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import { MenuItem } from 'material-ui/Menu';
 import { getMetricNames, createMetrics } from '../../../actions/metric_actions'
+import { browserHistory } from 'react-router'
 
 const styles = theme => ({
   formControl: {
@@ -56,6 +58,7 @@ class AddMetricForm extends Component {
     this.createMetricSelectBox = this.createMetricSelectBox.bind(this)
     this.setMetricFields = this.setMetricFields.bind(this)
     this.createDataInputs = this.createDataInputs.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
 
     this.state = {
       open: false,
@@ -69,6 +72,10 @@ class AddMetricForm extends Component {
     }
   }
 
+  handleLogin() {
+    this.setState({open: false})
+    this.props.history.push('/login');
+  };
 
   componentDidMount() {
     const companyId = this.props.companyid
@@ -83,7 +90,7 @@ class AddMetricForm extends Component {
     const metricNameOptions = fields.map(
       (name, idx) => <MenuItem value={idx}>{name.title}</MenuItem>
     )
-  
+
     return (
       <FormControl className={classes.formControl}>
         <Select  value={this.state.currentMetric} onChange={this.setMetricFields(fields)}>
@@ -186,6 +193,52 @@ class AddMetricForm extends Component {
       if (this.state.metrics) {
         dataInputFields = this.createDataInputs();
       }
+      const loginButton = () => (
+        <Button raised onClick={this.handleLogin}>
+            Login
+        </Button>
+      );
+
+
+      let dialog = null;
+      if (this.props.currentUser) {
+        dialog =
+          <Dialog
+            title="Add a metric"
+            open={this.state.open}
+            onRequestClose={this.handleClose}>
+            <DialogContent>
+              <DialogContentText>
+                What metric would you like to add?
+              </DialogContentText>
+              <form className={classes.formContainer} autoComplete="off">
+                <FormControl className={classes.formControl}>
+                  { this.createMetricSelectBox(fields) }
+                  { dataInputFields }
+                </FormControl>
+              </form>
+            </DialogContent>
+            <DialogActions>
+              {actions}
+            </DialogActions>
+          </Dialog>
+      } else {
+        dialog = 
+        <Dialog
+          open={this.state.open}
+          onRequestClose={this.handleClose}>
+          <DialogContent>
+            <DialogContentText>
+              Sign in to contribute data. <br/>
+              Get a month free of standard access for each data
+              point you contribute.
+            </DialogContentText>
+         </DialogContent>
+         <DialogActions>
+           {loginButton()}
+         </DialogActions>
+        </Dialog>
+      }
       return (
         <div>
         <Button className={classes.navBarButton} onClick={this.handleOpen}>
@@ -193,25 +246,7 @@ class AddMetricForm extends Component {
             Submit Metric
           </Typography>
         </Button>
-        <Dialog
-          title="Add a metric"
-          open={this.state.open}
-          onRequestClose={this.handleClose}>
-          <DialogContent>
-            <DialogContentText>
-              What metric would you like to add?
-            </DialogContentText>
-            <form className={classes.formContainer} autoComplete="off">
-              <FormControl className={classes.formControl}>
-                { this.createMetricSelectBox(fields) }
-                { dataInputFields }
-              </FormControl>
-            </form>
-          </DialogContent>
-          <DialogActions>
-            {actions}
-          </DialogActions>
-        </Dialog>
+        {dialog}
       </div>
     )
     }
@@ -221,4 +256,4 @@ class AddMetricForm extends Component {
 AddMetricForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default withStyles(styles)(AddMetricForm);
+export default withStyles(styles)(withRouter(AddMetricForm));

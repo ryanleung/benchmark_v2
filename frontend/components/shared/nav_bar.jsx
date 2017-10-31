@@ -96,6 +96,7 @@ class NavBar extends Component {
     const submitDataButton = () => (
       <AddMetricForm industryid={company.industry.id}
                      companyid={company.id}
+                     currentUser={currentUser}
       />
     );
 
@@ -109,7 +110,7 @@ class NavBar extends Component {
               </Typography>
             </Button>
             <div className={classes.navSpace}></div>
-              {currentUser && company && submitDataButton()}
+              {company && submitDataButton()}
               {currentUser ? logoutButton() : loginButton()}
           </Toolbar>
         </AppBar>

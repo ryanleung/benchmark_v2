@@ -14,6 +14,7 @@ div.Metrics {
   margin: 0px 20px 20px 0px;
   height: 70px;
   width: 20%;
+  position: relative;
 
   .MetricName {
     font-size: 14px;
@@ -30,4 +31,19 @@ div.Metrics {
   opacity: 1;
   z-index: 100;
   box-shadow: 0 5px 15px 0 rgba(0,0,0,.12), 0 7px 25px 0 rgba(0,0,0,.15);
+}
+
+.LockedMetric {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: gray;
+  opacity: .8;
+  text-align: center;
+}
+
+.LockedMetricText {
+  line-height: 100px
 }

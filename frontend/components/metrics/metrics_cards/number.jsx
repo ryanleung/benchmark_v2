@@ -5,7 +5,17 @@ import './metrics_cards.css'
 class NumberCard extends Component {
   render() {
     const year = new Date().getFullYear()
-    const { title, metrics } = this.props
+    const { title, metrics, locked} = this.props
+    if (locked) {
+      return (
+        <div className="Metric ">
+          <div className="LockedMetric">
+            <span className="LockedMetricText"> To get access, subscribe or contribute data.</span>
+          </div>
+          <div className='MetricName'> { title } {value_description_display}</div>
+        </div>
+      )
+    }
     const currentMetric = metrics.filter(metric => metric.year === year)[0]
     let { value, value_description, type } = currentMetric
 

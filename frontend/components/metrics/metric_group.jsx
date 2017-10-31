@@ -10,9 +10,10 @@ class MetricGroup extends Component {
     const { title, metrics, company } = this.props
 
     const metricCards = metrics.map((metric, idx) => {
-      if (metric.values.length > 0) {
+      if (metric && metric.values && metric.values.length > 0) {
         return <NumberCard key={idx}
                            title={metric.title}
+                           locked={metric.locked}
                            metrics={metric.values} />
       }
     })

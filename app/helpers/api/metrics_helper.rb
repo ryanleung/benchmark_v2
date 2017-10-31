@@ -15,7 +15,12 @@ module Api::MetricsHelper
 
   def limited_view(company_id)
     {
-      metrics_dashboard: [overview_metrics(company_id)]
+      metrics_dashboard: [
+        overview_metrics(company_id),
+        sales_organization_structure(company_id, nil),
+        sales_process_metrics(company_id, nil),
+        financial_performance_metrics(company_id, nil)
+      ]
     }
   end
   module_function :limited_view
@@ -59,10 +64,10 @@ module Api::MetricsHelper
   module_function :overview_metrics
 
   def sales_organization_structure(company_id, current_user)
-    overall_sales_perm = current_user.has_permission?(MetricUnit::MU_OVERALL_SALES_PER_FTE)
-    direct_sales_perm = current_user.has_permission?(MetricUnit::MU_DIRECT_SALES_PER_FTE)
-    accounts_per_sales_perm = current_user.has_permission?(MetricUnit::MU_ACCOUNTS_PER_SALES_REP)
-    sales_support_perm = current_user.has_permission?(MetricUnit::MU_SALES_SUPPORT_PER_FTE)
+    overall_sales_perm = current_user and current_user.has_permission?(MetricUnit::MU_OVERALL_SALES_PER_FTE)
+    direct_sales_perm = current_user and current_user.has_permission?(MetricUnit::MU_DIRECT_SALES_PER_FTE)
+    accounts_per_sales_perm = current_user and current_user.has_permission?(MetricUnit::MU_ACCOUNTS_PER_SALES_REP)
+    sales_support_perm = current_user and current_user.has_permission?(MetricUnit::MU_SALES_SUPPORT_PER_FTE)
 
     {
       group: "Sales Organization Structure",
@@ -70,25 +75,25 @@ module Api::MetricsHelper
       {
         mu_key: MetricUnit::MU_OVERALL_SALES_PER_FTE,
         title: "Overall Sales per FTE",
-        values: overall_sales_perm ? overall_sales_reps_per_1k_fte(company_id) : [],
+        values: overall_sales_reps_per_1k_fte(company_id),
         locked: !overall_sales_perm
       },
       {
         mu_key: MetricUnit::MU_DIRECT_SALES_PER_FTE,
         title: "Direct Sales Reps FTE per 1000 FTE",
-        values: direct_sales_perm ? direct_sales_reps_per_1k_fte(company_id) : [],
+        values: direct_sales_reps_per_1k_fte(company_id),
         locked: !direct_sales_perm
       },
       {
         mu_key: MetricUnit::MU_ACCOUNTS_PER_SALES_REP,
         title: "Accounts per Sales Rep",
-        values: accounts_per_sales_perm ? accounts_per_sales_rep(company_id) : [],
+        values: accounts_per_sales_rep(company_id),
         locked: !accounts_per_sales_perm
       },
       {
         mu_key: MetricUnit::MU_SALES_SUPPORT_PER_FTE,
         title: "Sales Support FTE per 1000 FTE",
-        values: sales_support_perm ? sales_support_per_1k_fte(company_id) : [],
+        values: sales_support_per_1k_fte(company_id),
         locked: !sales_support_perm
       }],
     }
@@ -96,11 +101,11 @@ module Api::MetricsHelper
   module_function :sales_organization_structure
 
   def sales_process_metrics(company_id, current_user)
-    quota_perm = current_user.has_permission?(MetricUnit::MU_QUOTA_PER_SALES_REP)
-    sales_cycle_perm = current_user.has_permission?(MetricUnit::MU_SALES_CYCLE_LENGTH)
-    lead_close_perm = current_user.has_permission?(MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE)
-    annual_spend_perm = current_user.has_permission?(MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER)
-    annual_customer_churn_perm = current_user.has_permission?(MetricUnit::MU_ANNUAL_CUSTOMER_CHURN_PERCENT)
+    quota_perm = current_user and current_user.has_permission?(MetricUnit::MU_QUOTA_PER_SALES_REP)
+    sales_cycle_perm = current_user and current_user.has_permission?(MetricUnit::MU_SALES_CYCLE_LENGTH)
+    lead_close_perm = current_user and current_user.has_permission?(MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE)
+    annual_spend_perm = current_user and current_user.has_permission?(MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER)
+    annual_customer_churn_perm = current_user and current_user.has_permission?(MetricUnit::MU_ANNUAL_CUSTOMER_CHURN_PERCENT)
 
     {
       group: "Sales Process",
@@ -108,31 +113,31 @@ module Api::MetricsHelper
         {
           mu_key: MetricUnit::MU_QUOTA_PER_SALES_REP,
           title: "Quota Per Sales Rep",
-          values: quota_perm ? quota_per_sales_rep(company_id) : [],
+          values: quota_per_sales_rep(company_id),
           locked: !quota_perm,
         },
         {
           mu_key: MetricUnit::MU_SALES_CYCLE_LENGTH,
           title: "Sales Cycle Length",
-          values: sales_cycle_perm ? sales_cycle_length(company_id) : [],
+          values: sales_cycle_length(company_id),
           locked: !sales_cycle_perm,
         },
         {
           mu_key: MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE,
           title: "Lead To Close Conversion Rate",
-          values: lead_close_perm ? lead_to_close_conversion_rate(company_id) : [],
+          values: lead_to_close_conversion_rate(company_id),
           locked: !lead_close_perm,
         },
         {
           mu_key: MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER,
           title: "Annual Spend Per Customer",
-          values: annual_spend_perm ? annual_spend_per_customer(company_id) : [],
+          values: annual_spend_per_customer(company_id),
           locked: !annual_spend_perm,
         },
         {
           mu_key: MetricUnit::MU_ANNUAL_CUSTOMER_CHURN_PERCENT,
           title: "Annual Customer Churn Percentage",
-          values: annual_customer_churn_perm ? annual_customer_churn_percent(company_id) : [],
+          values: annual_customer_churn_percent(company_id),
           locked: !annual_customer_churn_perm,
         }
       ]
@@ -141,9 +146,9 @@ module Api::MetricsHelper
   module_function :sales_process_metrics
 
   def financial_performance_metrics(company_id, current_user)
-    sales_force_perm = current_user.has_permission?(MetricUnit::MU_SALES_FORCE_EXPENDITURE)
-    net_new_rev_perm = current_user.has_permission?(MetricUnit::MU_NET_NEW_REVENUE_PER_SALES_REP)
-    customer_lifetime_perm = current_user.has_permission?(MetricUnit::MU_CUSTOMER_LIFETIME_VALUE)
+    sales_force_perm = current_user and current_user.has_permission?(MetricUnit::MU_SALES_FORCE_EXPENDITURE)
+    net_new_rev_perm = current_user and current_user.has_permission?(MetricUnit::MU_NET_NEW_REVENUE_PER_SALES_REP)
+    customer_lifetime_perm = current_user and current_user.has_permission?(MetricUnit::MU_CUSTOMER_LIFETIME_VALUE)
 
     {
       group: "Financial Performance",
@@ -151,19 +156,19 @@ module Api::MetricsHelper
         {
           mu_key: MetricUnit::MU_SALES_FORCE_EXPENDITURE,
           title: "Sales Force Expenditure Per $100M Revenue",
-          values: sales_force_perm ? sales_force_expenditure_per_100m(company_id) : [],
+          values: sales_force_expenditure_per_100m(company_id),
           locked: !sales_force_perm
         },
         {
           mu_key: MetricUnit::MU_NET_NEW_REVENUE_PER_SALES_REP,
           title: "Net New Revenue Per Sales Rep",
-          values: net_new_rev_perm ? net_new_rev_per_sales_rep(company_id) : [],
+          values: net_new_rev_per_sales_rep(company_id),
           locked: !net_new_rev_perm
         },
         {
           mu_key: MetricUnit::MU_CUSTOMER_LIFETIME_VALUE,
           title: "Customer Lifetime Value",
-          values: customer_lifetime_perm ? customer_lifetime_value(company_id) : [],
+          values: customer_lifetime_value(company_id),
           locked: !customer_lifetime_perm
         }
       ]

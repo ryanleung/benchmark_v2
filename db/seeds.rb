@@ -5,8 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Rake::Task["db:reset"].invoke
-
 ActiveRecord::Base.transaction do
   MetricUnit::MU_TOTAL_METRIC_UNITS.each do |unit|
     MetricUnit.create! name: unit

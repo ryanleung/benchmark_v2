@@ -5,6 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Rake::Task["db:reset"].invoke
+
 ActiveRecord::Base.transaction do
   MetricUnit::MU_TOTAL_METRIC_UNITS.each do |unit|
     MetricUnit.create! name: unit
@@ -309,26 +311,61 @@ ActiveRecord::Base.transaction do
                          relevant_date: Date.parse('19-03-2017')
 
   csv_file = File.join(Rails.root, "lib", "resources", "Company Screening Report.xls - Screening.csv")
-  ActiveRecord::Base.transaction do
-    CSV.foreach(csv_file, :headers => true) do |row|
-      puts row
-      puts '\n'
-      company_name_with_ticker = row["Company Name"]
-      ticker = row["Exchange:Ticker"]
-      industry_type = row["Industry Classifications"]
-      website_url = row["Website"]
-      primary_address = row["Primary Address"]
+  CSV.foreach(csv_file, :headers => true) do |row|
+    company_name_with_ticker = row["Company Name"]
+    ticker = row["Exchange:Ticker"]
+    industry_type = row["Industry Classifications"]
+    website_url = row["Website"]
+    primary_address = row["Primary Address"]
 
-      # 1. Strip company names of their ticker information (e.g. 2U, Inc. (NasdaqGS:TWOU))
-      company_name = company_name_with_ticker.split("(")[0].strip
+    # 1. Strip company names of their ticker information (e.g. 2U, Inc. (NasdaqGS:TWOU))
+    company_name = company_name_with_ticker.split("(")[0].strip
 
-      # 2. Get logo url from Clearbit API
-      # TODO: in the future, store in our AWS bucket
-      image_url = "https://logo.clearbit.com/#{website_url}?size=150&format=png"
+    # 2. Get logo url from Clearbit API
+    # TODO: in the future, store in our AWS bucket
+    image_url = "https://logo.clearbit.com/#{website_url}?size=150&format=png"
 
-      # 3. Save company in DB
-      # TODO: chnage industry id
-      company = Company.create name: company_name, logo_img_url: image_url, industry_id: 1
+    # 3. Save company in DB
+    # TODO: chnage industry id
+    company = Company.create! name: company_name, logo_img_url: image_url, industry_id: 1
+  end
+
+  csv_file = File.join(Rails.root, "lib", "resources", "Tech basic info.xls - Screening.csv")
+  CSV.foreach(csv_file, :headers => true) do |row|
+    company_name_with_ticker = row["Company Name"]
+    industry_type = row["Industry Classifications"]
+    total_employees_datum = row["Total Employees [Latest Annual]"]
+    total_revenue_datum = row["Total Revenue [LTM] ($USDmm, Historical rate)"]
+
+    # 1. Strip company names of their ticker information (e.g. 2U, Inc. (NasdaqGS:TWOU))
+    company_name = company_name_with_ticker.split("(")[0].strip
+
+    # 2. Strip revenue string/random stuff (e.g. "  1,164.0 " (in the millions))
+    total_revenue = total_revenue_datum.strip.gsub(',','').to_f * 1_000_000
+
+    # 3. Strip employee string/random stuff (e.g. "  239.1 ")
+    total_employees = total_employees_datum.strip.gsub(',','').to_i
+
+    # 4. If we have a company that was created from the previous csv based on name,
+    # we insert the metrics for that company
+    company = Company.find_by_name(company_name)
+    if !company.present?
+      next
     end
+
+    Metric.create! metric_name: Metric::METRIC_ANNUAL_REVENUE,
+                 user_id: user.id,
+                 company_id: company.id,
+                 value: total_revenue,
+                 value_description: Metric::VALUE_DESC_USD,
+                 geo: "US",
+                 relevant_date: Date.parse('19-03-2017')
+    Metric.create! metric_name: Metric::METRIC_NUM_EMPLOYEES,
+                  user_id: user.id,
+                  company_id: company.id,
+                  value: total_employees,
+                  value_description: Metric::VALUE_DESC_QUANTITY,
+                  geo: "US",
+                  relevant_date: Date.parse('19-03-2017')
   end
 end

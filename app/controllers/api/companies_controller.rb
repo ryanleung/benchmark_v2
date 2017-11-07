@@ -1,8 +1,12 @@
 class Api::CompaniesController < ApplicationController
 
-  # TODO: Remove this if we get hella companies obv
   def index
-    render_all_companies
+    if params[:page]
+      render_companies_by_page(params[:page])
+      return
+    end
+
+    render_companies_by_page(1)
   end
 
   # Using json style guide https://google.github.io/styleguide/jsoncstyleguide.xml
@@ -35,7 +39,7 @@ class Api::CompaniesController < ApplicationController
     query = params[:q]
 
     if query.blank?
-      render_all_companies
+      render_companies_by_page(1)
       return
     end
 
@@ -52,11 +56,38 @@ class Api::CompaniesController < ApplicationController
       })
   end
 
-  def render_all_companies
+  def render_companies_by_page(page)
+    if Company.order(:name).page(page).out_of_range?
+      render json: {
+        error: {
+          code: 400,
+          message: "Page out of range",
+          errors: {
+            message: "Page out of range"
+          }
+        }
+      }
+      return
+    end
+
+    requested_page = Company.order(:name).page(page)
+    items_per_page = requested_page.limit_value
+    next_page = requested_page.next_page
+    prev_page = requested_page.prev_page
+    total_pages = requested_page.total_pages
+    current_item_count = requested_page.count
+
     render json: {
       data: {
         kind: Company.name,
-        items: Company.all.map { |c| c.as_json(include: :industry) }
+        items: requested_page,
+        current_item_count: current_item_count,
+        items_per_page: items_per_page,
+        start_index: 1,
+        page_index: page,
+        next_page: next_page,
+        prev_page: prev_page,
+        total_pages: total_pages
       }
     }
   end

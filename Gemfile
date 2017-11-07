@@ -11,6 +11,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro', '~> 1.1.1'
 gem 'bcrypt', '~> 3.1.7'
 gem 'autoprefixer-rails', '~> 7.1.1'
+gem 'kaminari', '~> 1.1.1'
 
 
 gem 'web-console', group: :development

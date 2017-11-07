@@ -80,7 +80,7 @@ class Api::CompaniesController < ApplicationController
     render json: {
       data: {
         kind: Company.name,
-        items: requested_page,
+        items: requested_page.map { |c| c.as_json(include: :industry) },
         current_item_count: current_item_count,
         items_per_page: items_per_page,
         start_index: 1,

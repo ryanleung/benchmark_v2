@@ -1,19 +1,74 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
 
-import './metrics_cards.css'
+const styles = {
+  metric: {
+    backgroundColor: "white",
+    textDecoration: "none",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginRight: 20,
+    marginBottom: 20,
+    minWidth: 200,
+    flex: .25,
+  },
+  lockedMetric: {
+    backgroundColor: "gray",
+    textDecoration: "none",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginRight: 20,
+    marginBottom: 20,
+    minWidth: 200,
+    flex: .25,
+  },
+  metricName : {
+    fontSize: 15,
+    fontWeight: 400,
+    display: "flex",
+  },
+  metricValue : {
+    fontSize: 24,
+    fontWeight: 900,
+    color: "#1976D2",
+    alignSelf: "flex-end"
+  },
+  lockedMetricText: {
+    alignSelf: "flex-end",
+    fontStyle: "italic",
+    fontSize: 12,
+  },
+  cardContent: {
+    padding: 12,
+    flexBasis: "100%",
+  },
+  cardContentBottom: {
+    padding: 12,
+    paddingBottom: 0,
+    marginBottom: "auto",
+    display: "flex,"
+  },
+};
 
 class NumberCard extends Component {
   render() {
     const year = new Date().getFullYear()
-    const { title, metrics, locked} = this.props
+    const { title, metrics, locked, classes} = this.props
     if (locked) {
       return (
-        <div className="Metric ">
-          <div className="LockedMetric">
-            <span className="LockedMetricText"> To get access, subscribe or contribute data.</span>
-          </div>
-          <div className='MetricName'> { title } {value_description_display}</div>
-        </div>
+        <Card className={classes.lockedMetric}>
+          <CardContent className={classes.cardContent}>
+            <Typography type="subheading" className={classes.metricName} gutterBottom> { title } {value_description_display}</Typography>
+          </CardContent>
+          <CardContent className={classes.cardContent}>
+            <Typography type="subheading" className={classes.lockedMetricText}> To get access, subscribe or contribute data. </Typography>
+          </CardContent>
+        </Card>
       )
     }
     const currentMetric = metrics.filter(metric => metric.year === year)[0]
@@ -49,12 +104,18 @@ class NumberCard extends Component {
     }
 
     return(
-      <div className="Metric">
-        <div className='MetricName'> { title } {value_description_display}</div>
-        <div className='MetricValue'> { value_displayed } </div>
-      </div>
+      <Card className={classes.metric}>
+        <CardContent className={classes.cardContent}>
+          <Typography type="subheading" className={classes.metricName} gutterBottom> { title } {value_description_display}</Typography>
+        </CardContent>
+        <CardContent className={classes.cardContentBottom}>
+          <Typography type="subheading" className={classes.metricValue}> { value_displayed } </Typography>
+        </CardContent>
+      </Card>
     )
   }
 }
-
-export default NumberCard
+NumberCard.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+export default withStyles(styles)(NumberCard);

@@ -2,12 +2,20 @@ import Divider from 'material-ui/Divider';
 import React, { Component } from 'react'
 import NumberCard from './metrics_cards/number'
 import { Link } from 'react-router-dom'
+import Typography from 'material-ui/Typography';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
 
 
-import './metric_group.css'
+const styles = {
+  metrics: {
+    display: "flex",
+  },
+};
+
 class MetricGroup extends Component {
   render() {
-    const { title, metrics, company } = this.props
+    const { title, metrics, company, classes} = this.props
 
     const metricCards = metrics.map((metric, idx) => {
       if (metric && metric.values && metric.values.length > 0) {
@@ -20,10 +28,13 @@ class MetricGroup extends Component {
 
     return(
       <div>
-        <div className='MetricGroupTop'>
-          <h2 className='MetricGroupTitle'>{ title }</h2>
-        </div>
-        <div className="Metrics">
+        <div className='spacer' />
+        <div className='spacer' />
+        <Typography type="title" color="inherit" gutterBottom>
+          { title }
+        </Typography>
+        <div className='spacer' />
+        <div className={classes.metrics}>
           { metricCards }
         </div>
         <div className='spacer' />
@@ -33,4 +44,7 @@ class MetricGroup extends Component {
   }
 }
 
-export default MetricGroup
+MetricGroup.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+export default withStyles(styles)(MetricGroup);

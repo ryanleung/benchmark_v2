@@ -74,9 +74,12 @@ class NavBar extends Component {
     this.props.history.push("/");
   };
 
+  componentWillUnmount (props){
+   this.setState({company: this.props.company}) // This will update your component.
+  }
+
   render() {
     const {classes, company, currentUser} = this.props
-
     const loginButton = () => (
       <Button className={classes.navBarButton} onClick={this.handleLogin}>
         <Typography type="button" className={classes.navTitle} color="primary">

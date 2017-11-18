@@ -16,6 +16,7 @@ class Company {
     company.id = json.id
     company.name = json.name
     company.industry = json.industry ? Industry.from_json(json.industry) : null
+    company.url = json.url
     company.city = json.city
     company.state = json.state
     company.logo_img_url = json.logo_img_url

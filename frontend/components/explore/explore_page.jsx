@@ -42,9 +42,6 @@ const styles = theme => ({
   },
   tableView: {
     width: '100%',
-  },
-  compareCompButton: {
-
   }
 })
 

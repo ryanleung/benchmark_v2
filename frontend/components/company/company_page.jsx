@@ -11,43 +11,13 @@ import { withStyles } from 'material-ui/styles';
 import * as APIUtil from '../../api/metric_api_util'
 import Company from '../../models/Company'
 import MetricGroup from '../metrics/metric_group'
-
-import './company_page.css'
+import CompanyHeader from './company_header/company_header'
 
 const styles = {
-  bigAvatar: {
-    width: 100,
-    height: 100,
-  },
-  heading: {
-    display: "flex",
-    justifyContent: "space-between",
-    height: 156,
-  },
-  maintitle: {
-    fontSize: 28,
-    fontWeight: "bold",
-  },
-  metadataText: {
-    fontSize: 14,
-  },
   container: {
-    padding: 36,
+    padding: [36, 135],
+    width: 1000,
   },
-  title: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-  companyInfo: {
-    width: 280,
-  },
-  titleDivide: {
-    borderLeftWidth: 1,
-    borderLeftStyle: "solid",
-    height: 32,
-    width: 1,
-  }
 };
 
 class CompanyPage extends Component {
@@ -83,32 +53,9 @@ class CompanyPage extends Component {
       <div>
         {company &&
             <div className={classes.container}>
-              <div className={classes.heading}>
-                <div className={classes.companyInfo}>
-                  <div className={classes.title}>
-                    <Typography className={classes.maintitle} type="title" color="inherit" gutterBottom>
-                      {company.name}
-                    </Typography>
-                    <div className={classes.titleDivide}>
-                    </div>
-                    <div className={classes.metadata}>
-                      <Typography className={classes.metadataText} type="title" color="inherit" gutterBottom>
-                        {company.city}, {company.state}
-                      </Typography>
-                      <Typography className={classes.metadataText} type="title" color="inherit" gutterBottom>
-                        {company.industry.name}
-                      </Typography>
-                    </div>
-                  </div>
-                  <Avatar className={classes.bigAvatar} src={company.logo_img_url}/>
-                </div>
-              <div className={classes.addMetric}>
-                Know this company?
-                Submit a metric and get free credit.
-              </div>
+              <CompanyHeader company={company}/>
+             { metricGroups }
             </div>
-          { metricGroups }
-          </div>
         }
       </div>
     )

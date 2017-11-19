@@ -10,7 +10,12 @@ ActiveRecord::Base.transaction do
     MetricUnit.create! name: unit
   end
 
-  tech_industry = Industry.create name: "Tech"
+  tech_industry = Industry.create name: "Technology"
+  crm_industry = Industry.create name: "CRM",
+                                 parent_industry_id: tech_industry.id
+  internet_industry = Industry.create name: "Internet",
+                                      parent_industry_id: tech_industry.id
+
   user = User.create name: "Vincent Vo",
                      email: "vincent.vo@gmail.com",
                      password: "vincent",
@@ -25,7 +30,7 @@ ActiveRecord::Base.transaction do
 
   # COMPANY 1: GOOGLE
   company = Company.create name: "Google",
-                           industry_id: tech_industry.id,
+                           industry_id: internet_industry.id,
                            url: "www.google.com",
                            city: "Mountain View",
                            state: "CA",
@@ -175,7 +180,7 @@ ActiveRecord::Base.transaction do
                          value: 10,
                          value_description: Metric::VALUE_DESC_PERCENTAGE,
                          geo: "US",
-                         relevant_date: Date.parse('19-03-2017')                           
+                         relevant_date: Date.parse('19-03-2017')
 
   metric = Metric.create metric_name: Metric::METRIC_ANNUAL_SPEND_PER_CUSTOMER,
                          metric_type_id: metric_type_org.id,
@@ -244,7 +249,7 @@ ActiveRecord::Base.transaction do
 
   # COMPANY 3: SQUARE
   company = Company.create name: "Square",
-                           industry_id: tech_industry.id,
+                           industry_id: internet_industry.id,
                            url: "www.squareup.com",
                            city: "San Francisco",
                            state: "CA",
@@ -266,7 +271,7 @@ ActiveRecord::Base.transaction do
 
   # COMPANY 4: FACEBOOK
   company = Company.create name: "Facebook",
-                       industry_id: tech_industry.id,
+                       industry_id: internet_industry.id,
                        url: "www.facebook.com",
                        city: "Menlo Park",
                        state: "CA",

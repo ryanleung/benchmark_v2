@@ -113,14 +113,9 @@ class NavBar extends Component {
               </Typography>
             </Button>
             <div className={classes.navSpace}></div>
-              {company && submitDataButton()}
               {currentUser ? logoutButton() : loginButton()}
           </Toolbar>
         </AppBar>
-        <Dialog
-          open={this.state.open}
-          onRequestClose={this.handleClose}>
-        </Dialog>
       </div>
   )};
 }

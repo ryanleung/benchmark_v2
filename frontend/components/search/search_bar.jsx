@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 
-import {grey400} from 'material-ui/colors';
+import { grey } from 'material-ui/colors';
+import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import SearchIcon from 'material-ui-icons/Search';
@@ -10,8 +11,11 @@ import TextField from 'material-ui/TextField';
 import './search_bar.css';
 
 const styles = theme => ({
+  form: {
+    width: '100%',
+  },
   input: {
-    display: 'block',
+    display: 'flex',
     verticalAlign: 'middle',
     lineHeight: theme.spacing.unit / 3,
     whiteSpace: 'normal',
@@ -22,6 +26,9 @@ const styles = theme => ({
       outline: 0,
     },
   },
+  button: {
+    width: '15%',
+  }
 });
 
 class SearchBar extends Component {
@@ -47,8 +54,8 @@ class SearchBar extends Component {
       <div className="SearchBar">
         <Paper className="SearchBar__paper">
           <div className="SearchBar__search-field">
-            <SearchIcon className="SearchBar__icon" color={grey400}/>
-            <form onSubmit={this.handleSubmit}>
+            <SearchIcon className="SearchBar__icon" color={grey[400]}/>
+            <form className={classes.form} onSubmit={this.handleSubmit}>
               <TextField
                 className={classes.input}
                 placeholder={"Company Name"}
@@ -57,6 +64,9 @@ class SearchBar extends Component {
                 value={this.state.value}/>
             </form>
           </div>
+          <Button raised color="primary" className={classes.button} onClick={this.handleSubmit}>
+            Search
+          </Button>
         </Paper>
       </div>
     )

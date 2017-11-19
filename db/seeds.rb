@@ -326,7 +326,7 @@ ActiveRecord::Base.transaction do
 
     # 2. Get logo url from Clearbit API
     # TODO: in the future, store in our AWS bucket
-    image_url = "https://logo.clearbit.com/#{website_url}?size=150&format=png"
+    image_url = "https://logo.clearbit.com/#{website_url}"
 
     # 3. Parse city and state from company
     # "Headquarters\n7900 Harkins Road \nLanham, Maryland    20706\nUnited States\nMain Phone: 301-892-4350"

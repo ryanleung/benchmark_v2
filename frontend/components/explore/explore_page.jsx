@@ -1,10 +1,49 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
+import Button from 'material-ui/Button';
+import { grey } from 'material-ui/colors';
+import { withStyles } from 'material-ui/styles';
+import Paper from 'material-ui/Paper';
 
 import * as APIUtil from '../../api/company_api_util'
-import CompanyGridView from '../company/company_grid_view'
+import CompanyTableView from '../company/company_table_view'
 import SearchBar from '../search/search_bar'
 
-import './explore.css';
+const styles = theme => ({
+  explorePage: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    backgroundColor: grey[300],
+  },
+  headerSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: 150,
+    width: '100%',
+  },
+  searchCompanySection: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 15,
+    width: '49%',
+  },
+  analysisSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 15,
+    width: '48%',
+  },
+  searchBar: {
+    marginTop: 10,
+    width: '90%',
+  },
+  tableView: {
+    width: '100%',
+  }
+})
 
 
 class ExplorePage extends Component {
@@ -21,18 +60,40 @@ class ExplorePage extends Component {
   }
 
   render() {
+    const classes = this.props.classes
+
     return (
-      <div className="ExplorePage">
-        <h1>Explore Benchmarks</h1>
-        <div>Understand sales and marketing performance drivers for top companies</div>
-        <div className="ExplorePage__search">
-          <SearchBar onSearch={this.handleSearch}/>
-        </div>
-        <h2>Companies</h2>
-        <CompanyGridView companies={this.props.companies} />
+      <div className={classes.explorePage}>
+        <Paper className={classes.headerSection}>
+          <h1>Explore Data</h1>
+          <h3>Understand sales and marketing performance metrics for any company.</h3>
+        </Paper>
+        <Paper className={classes.searchCompanySection}>
+          <h2>Explore By Company</h2>
+          <div className={classes.searchBar}>
+            <SearchBar onSearch={this.handleSearch}/>
+          </div>
+          <h2>Companies</h2>
+          <CompanyTableView className={classes.tableView} companies={this.props.companies} />
+        </Paper>
+        <Paper className={classes.analysisSection}>
+          <h2>Analyze Across Companies</h2>
+          <Button raised color="primary" className={classes.compareCompButton}>
+            Compare companies: Benchmark
+          </Button>
+          <br />
+          <h2>Popular Industries</h2>
+          <h3>Software as a service (SaaS)</h3>
+          <h3>Human capital management software (HCM)</h3>
+          <h3>Customer relationship management software (CRM)</h3>
+        </Paper>
       </div>
     )
   }
 }
 
-export default ExplorePage;
+ExplorePage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(ExplorePage);

@@ -17,7 +17,8 @@ const styles = {
   container: {
     padding: [36, 135],
     width: 1000,
-    margin: [0, "auto"]
+    margin: [0, "auto"],
+    backgroundColor: 'white',
   },
 };
 

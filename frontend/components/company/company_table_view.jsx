@@ -16,6 +16,7 @@ const styles = theme => ({
   table: {
     borderTop: '1px solid #E0E0E0',
     width: '100%',
+    overflow: 'scroll',
   },
   tableRow: {
     height: 150,

@@ -20,9 +20,9 @@ const styles = {
   labelBox: {
     padding: 4,
     width: 100,
-    backgroundColor: "lightgray",
-    border: [1, "solid", "#000"],
-    borderRadius: 5,
+    border: [1, "solid", "#EEE"],
+    boxShadow: [0, 1, 2, 0, "rgba(0, 0, 0, 0.6)"],
+    borderRadius: 2,
   }
 };
 

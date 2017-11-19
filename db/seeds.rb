@@ -323,9 +323,20 @@ ActiveRecord::Base.transaction do
     # TODO: in the future, store in our AWS bucket
     image_url = "https://logo.clearbit.com/#{website_url}?size=150&format=png"
 
-    # 3. Save company in DB
-    # TODO: chnage industry id
-    company = Company.create! name: company_name, logo_img_url: image_url, industry_id: 1
+    # 3. Parse city and state from company
+    # "Headquarters\n7900 Harkins Road \nLanham, Maryland    20706\nUnited States\nMain Phone: 301-892-4350"
+    # ==> ["Lanham", "Maryland    20706"]
+    state_regex = "(Alabama|Alaska|Arizona|Arkansas|British\sColumbia|California|Colorado|Connecticut|Delaware|District\sOf\sColumbia|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New\sHampshire|New\sJersey|New\sMexico|New\sYork|North\sCarolina|North\sDakota|Ohio|Oklahoma|Ontario|Oregon|Pennsylvania|Puerto\sRico|Rhode\sIsland|Quebec|South\sCarolina|South\sDakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West\sVirginia|Wisconsin|Wyoming)"
+    parsed_addr_match = /\n.+, #{state_regex}.+\n/.match(primary_address)
+    parsed_addr_arr = parsed_addr_match[0].strip().split(',')
+    city = parsed_addr_arr[0].strip()
+
+    # "Maryland    207906" ==> "Maryland"
+    state = parsed_addr_arr[1].split('   ')[0].strip()
+
+    # 4. Save company in DB
+    # TODO: change industry id
+    company = Company.create! name: company_name, logo_img_url: image_url, industry_id: 1, city: city, state: state
   end
 
   csv_file = File.join(Rails.root, "lib", "resources", "Tech basic info.xls - Screening.csv")

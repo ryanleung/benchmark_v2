@@ -9,7 +9,7 @@ import SearchBar from '../search/search_bar'
 
 const styles = theme => ({
   exploreContainer: {
-    width: 1000,
+    width: 1200,
     height: 950,
     margin: [0, "auto"]
   },

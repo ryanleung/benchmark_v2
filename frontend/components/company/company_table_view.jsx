@@ -19,6 +19,7 @@ const styles = theme => ({
   },
   tableRow: {
     height: 150,
+    cursor: 'pointer',
   },
   avatarCell: {
     width: 75,

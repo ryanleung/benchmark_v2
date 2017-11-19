@@ -2,7 +2,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import {
   blue500, blue700, lightBlue600,
   pinkA200,
-  grey100, grey300, grey400, grey500,
+  grey100, grey300, grey400, grey500, grey900,
   white, darkBlack, fullBlack,
 } from 'material-ui/colors';
 import blue from 'material-ui/colors/blue'

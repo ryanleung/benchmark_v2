@@ -73,10 +73,10 @@ class NumberCard extends Component {
       return (
         <Card className={classes.lockedMetric}>
           <CardContent className={classes.cardContentTop}>
-            <Typography type="subheading" className={[classes.metricName, classes.transparent]} gutterBottom> { title } {value_description_display}</Typography>
+            <Typography type="subheading" className={[classes.metricName, classes.transparent].join(' ')} gutterBottom> { title } {value_description_display}</Typography>
           </CardContent>
           <CardContent className={classes.cardContentBottom}>
-            <Typography type="subheading" className={classes.lockedMetricText}> To get access, subscribe or contribute data. </Typography>
+            <Typography type="subheading" className={classes.lockedMetricText}> Contact sales to get access</Typography>
           </CardContent>
           <div className={classes.lockImg}>
             <img src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_network_locked_black_48px.svg"/>

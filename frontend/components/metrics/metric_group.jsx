@@ -9,8 +9,15 @@ import { withStyles } from 'material-ui/styles';
 
 const styles = {
   metrics: {
+    width: "100%",
+    flexWrap: "wrap",
     display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
   },
+  emptyDiv: {
+    width: "32%"
+  }
 };
 
 class MetricGroup extends Component {
@@ -25,9 +32,22 @@ class MetricGroup extends Component {
                            metrics={metric.values} />
       }
     })
+    var emptyDivs = []
+    var fillThree = metricCards.length % 3
+    if (fillThree) {
+      const emptyDiv = (
+        <div className={classes.emptyDiv}/>
+      );
+      for (var i = 0; i < fillThree; i++) {
+        emptyDivs.push(emptyDiv)
+      }
+    }
 
+    console.log(emptyDivs)
     return(
       <div>
+        <div className='spacer' />
+        <Divider />
         <div className='spacer' />
         <div className='spacer' />
         <Typography type="title" color="inherit" gutterBottom>
@@ -36,9 +56,9 @@ class MetricGroup extends Component {
         <div className='spacer' />
         <div className={classes.metrics}>
           { metricCards }
+          { emptyDivs }
         </div>
         <div className='spacer' />
-        <Divider />
       </div>
     )
   }

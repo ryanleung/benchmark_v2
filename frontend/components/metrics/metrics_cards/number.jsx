@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+import Avatar from 'material-ui/Avatar'
 
 const styles = {
   metric: {
@@ -11,21 +12,18 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginRight: 20,
+    width: "32%",
     marginBottom: 20,
-    minWidth: 200,
-    flex: .25,
+    height: 120,
   },
   lockedMetric: {
-    backgroundColor: "gray",
     textDecoration: "none",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginRight: 20,
     marginBottom: 20,
-    minWidth: 200,
-    flex: .25,
+    width: "32%",
+    height: 120,
   },
   metricName : {
     fontSize: 15,
@@ -36,22 +34,34 @@ const styles = {
     fontSize: 24,
     fontWeight: 900,
     color: "#1976D2",
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   lockedMetricText: {
     alignSelf: "flex-end",
     fontStyle: "italic",
     fontSize: 12,
+    alignSelf: "flex-end",
   },
-  cardContent: {
-    padding: 12,
+  transparent: {
+    opacity: .3,
+  },
+  cardContentTop: {
+    padding: 0,
+    margin: [12, 12, 0, 12],
     flexBasis: "100%",
+    height: 48,
   },
   cardContentBottom: {
-    padding: 12,
-    paddingBottom: 0,
-    marginBottom: "auto",
-    display: "flex,"
+    padding: 0,
+    margin: [12, 12, 0, 12],
+    height: 48,
+  },
+  lockImg: {
+    paddingTop: 20,
+    marginLeft: "auto",
+    marginTop: "auto",
+    marginRight: -8,
+    height: 48,
   },
 };
 
@@ -62,12 +72,15 @@ class NumberCard extends Component {
     if (locked) {
       return (
         <Card className={classes.lockedMetric}>
-          <CardContent className={classes.cardContent}>
-            <Typography type="subheading" className={classes.metricName} gutterBottom> { title } {value_description_display}</Typography>
+          <CardContent className={classes.cardContentTop}>
+            <Typography type="subheading" className={[classes.metricName, classes.transparent]} gutterBottom> { title } {value_description_display}</Typography>
           </CardContent>
-          <CardContent className={classes.cardContent}>
+          <CardContent className={classes.cardContentBottom}>
             <Typography type="subheading" className={classes.lockedMetricText}> To get access, subscribe or contribute data. </Typography>
           </CardContent>
+          <div className={classes.lockImg}>
+            <img src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_network_locked_black_48px.svg"/>
+          </div>
         </Card>
       )
     }
@@ -105,7 +118,7 @@ class NumberCard extends Component {
 
     return(
       <Card className={classes.metric}>
-        <CardContent className={classes.cardContent}>
+        <CardContent className={classes.cardContentTop}>
           <Typography type="subheading" className={classes.metricName} gutterBottom> { title } {value_description_display}</Typography>
         </CardContent>
         <CardContent className={classes.cardContentBottom}>

@@ -10,6 +10,7 @@ const styles = {
   header: {
     display: "flex",
     height: 120,
+    marginBottom: 20,
   },
   logo: {
     width: "10%",

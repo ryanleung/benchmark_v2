@@ -336,7 +336,7 @@ ActiveRecord::Base.transaction do
 
     # 4. Save company in DB
     # TODO: change industry id
-    company = Company.create! name: company_name, logo_img_url: image_url, industry_id: 1, city: city, state: state
+    company = Company.create! name: company_name, logo_img_url: image_url, industry_id: 1, city: city, state: state, url: website_url.strip()
   end
 
   csv_file = File.join(Rails.root, "lib", "resources", "Tech basic info.xls - Screening.csv")

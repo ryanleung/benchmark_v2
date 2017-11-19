@@ -15,7 +15,7 @@ import CompanyHeader from './company_header/company_header'
 
 const styles = {
   container: {
-    padding: [36, 135],
+    padding: [36, 100],
     width: 1000,
     margin: [0, "auto"],
     backgroundColor: 'white',

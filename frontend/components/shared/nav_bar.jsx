@@ -54,7 +54,7 @@ const styles = theme => ({
     display: "flex",
   },
   appLogo: {
-    backgroundImage: "url(" + appLogo + ")",
+    backgroundImage: "url(https://i.imgur.com/l1rg5CO.png)",
     backgroundSize: "cover",
     marginLeft: -32,
     marginRight: 12,

@@ -3,6 +3,7 @@ import { withRouter } from  'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue'
+import grey from 'material-ui/colors/grey'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Dialog from 'material-ui/Dialog';
@@ -11,6 +12,7 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import AddMetricForm from '../metrics/add_form/add_metric_form'
+import appLogo from '../../assets/images/applogo.png'
 
 const styles = theme => ({
   root: {
@@ -19,12 +21,14 @@ const styles = theme => ({
   },
   flex: {
     display: "flex",
+    padding: 0,
   },
   navTitle: {
     textTransform: 'None',
     '&:hover': {
       backgroundColor: 'transparent'
-    }
+    },
+    padding: 0,
   },
   navSpace: {
     flexGrow: 1,
@@ -35,12 +39,32 @@ const styles = theme => ({
   },
   navBarButton: {
     backgroundColor: 'white',
-     '&:hover': {
+    '&:hover': {
       backgroundColor: 'white'
     },
-    color: blue,
+    color: "black",
     marginRight: 12,
- }
+  },
+  container: {
+    width: 1000,
+    margin: [0, "auto"]
+  },
+  appBar: {
+    backgroundColor: "black",
+    display: "flex",
+  },
+  appLogo: {
+    backgroundImage: "url(" + appLogo + ")",
+    backgroundSize: "cover",
+    marginLeft: -32,
+    marginRight: 12,
+    height: 20,
+    width: 20,
+    padding: 0,
+    minWidth: 0,
+    minHeight: 0,
+    borderRadius: 0,
+  }
 });
 
 
@@ -81,16 +105,16 @@ class NavBar extends Component {
   render() {
     const {classes, company, currentUser} = this.props
     const loginButton = () => (
-      <Button className={classes.navBarButton} onClick={this.handleLogin}>
-        <Typography type="button" className={classes.navTitle} color="primary">
+      <Button className={classes.navBarButton} onClick={this.handleLogin} disableRipple={true}>
+        <Typography type="button" className={classes.navTitle}>
           Login
         </Typography>
       </Button>
     );
 
     const logoutButton = () => (
-      <Button className={classes.navBarButton} onClick={this.handleLogout}>
-        <Typography type="button" className={classes.navTitle} color="primary">
+      <Button className={classes.navBarButton} onClick={this.handleLogout} disableRipple={true}>
+        <Typography type="button" className={classes.navTitle}>
           Logout
         </Typography>
       </Button>
@@ -105,16 +129,19 @@ class NavBar extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="fixed">
-          <Toolbar className={classes.flex}>
-            <Button color="contrast" className={classes.navTitle} onClick={this.handleTitleTap}>
-              <Typography type="title" color="inherit" className={classes.navTitle}>
-                  Kimono Metrics
-              </Typography>
-            </Button>
-            <div className={classes.navSpace}></div>
-              {currentUser ? logoutButton() : loginButton()}
-          </Toolbar>
+        <AppBar className={classes.appBar} position="fixed">
+          <div className={classes.container}>
+            <Toolbar className={classes.flex}>
+              <IconButton className={classes.appLogo} onClick={this.handleTitleTap}/>
+              <Button color="contrast" className={classes.navTitle} onClick={this.handleTitleTap} disableRipple={true}>
+                <Typography type="title" color="inherit" className={classes.navTitle}>
+                    Kimono Metrics
+                </Typography>
+              </Button>
+              <div className={classes.navSpace}></div>
+                {currentUser ? logoutButton() : loginButton()}
+            </Toolbar>
+          </div>
         </AppBar>
       </div>
   )};

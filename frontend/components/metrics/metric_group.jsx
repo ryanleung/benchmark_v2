@@ -35,15 +35,14 @@ class MetricGroup extends Component {
     var emptyDivs = []
     var fillThree = metricCards.length % 3
     if (fillThree) {
-      const emptyDiv = (
-        <div className={classes.emptyDiv}/>
-      );
       for (var i = 0; i < fillThree; i++) {
+        const emptyDiv = (
+          <div key={i} className={classes.emptyDiv}/>
+        );
         emptyDivs.push(emptyDiv)
       }
     }
 
-    console.log(emptyDivs)
     return(
       <div>
         <div className='spacer' />

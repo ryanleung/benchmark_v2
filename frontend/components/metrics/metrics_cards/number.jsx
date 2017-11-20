@@ -38,8 +38,7 @@ const styles = {
   },
   lockedMetricText: {
     alignSelf: "flex-end",
-    fontStyle: "italic",
-    fontSize: 12,
+    fontSize: 16,
     alignSelf: "flex-end",
   },
   transparent: {

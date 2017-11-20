@@ -86,9 +86,14 @@ class NumberCard extends Component {
     const currentMetric = metrics.filter(metric => metric.year === year)[0]
     let { value, value_description, type } = currentMetric
 
+    function sigFigs(n, sig) {
+      var mult = Math.pow(10, sig - Math.floor(Math.log(n) / Math.LN10) - 1);
+      return Math.round(n * mult) / mult;
+    }
     function abbreviateNumber(number) {
         const SI_POSTFIXES = ["", "k", "M", "B", "T"];
         const tier = Math.log10(Math.abs(number)) / 3 | 0;
+        number = sigFigs(number, 2)
         if(tier <= 1) return number;
 
         const suffix = SI_POSTFIXES[tier];
@@ -111,14 +116,15 @@ class NumberCard extends Component {
     })(value_description)
     var value_displayed = value.toLocaleString()
 
+    value_displayed = `${abbreviateNumber(currentMetric.value).toLocaleString()}`
     if (value_description == "USD") {
-      value_displayed = `$${abbreviateNumber(currentMetric.value).toLocaleString()}`
+      value_displayed = `$${value_displayed}`
     }
 
     return(
       <Card className={classes.metric}>
         <CardContent className={classes.cardContentTop}>
-          <Typography type="subheading" className={classes.metricName} gutterBottom> { title } {value_description_display}</Typography>
+          <Typography type="subheading" className={classes.metricName} gutterBottom> { title } </Typography>
         </CardContent>
         <CardContent className={classes.cardContentBottom}>
           <Typography type="subheading" className={classes.metricValue}> { value_displayed } </Typography>

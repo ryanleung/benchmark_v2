@@ -55,7 +55,7 @@ module Api::MetricsHelper
       },
       {
         mu_key: MetricUnit::MU_REVENUE_PER_EMPLOYEE,
-        title: "Revenue Per Employee",
+        title: "Revenue per employee",
         values: revenue_per_employee(company_id),
         locked: false,
       }]
@@ -74,28 +74,22 @@ module Api::MetricsHelper
       metrics: [
       {
         mu_key: MetricUnit::MU_OVERALL_SALES_PER_FTE,
-        title: "Overall Sales per FTE",
+        title: "Total sales FTEs per 1000 FTEs",
         values: overall_sales_reps_per_1k_fte(company_id),
         locked: !overall_sales_perm
       },
       {
         mu_key: MetricUnit::MU_DIRECT_SALES_PER_FTE,
-        title: "Direct Sales Reps FTE per 1000 FTE",
+        title: "Direct sales FTEs per 1000 FTEs",
         values: direct_sales_reps_per_1k_fte(company_id),
         locked: !direct_sales_perm
       },
       {
         mu_key: MetricUnit::MU_ACCOUNTS_PER_SALES_REP,
-        title: "Accounts per Sales Rep",
+        title: "Average customers per direct sales FTE",
         values: accounts_per_sales_rep(company_id),
         locked: !accounts_per_sales_perm
-      },
-      {
-        mu_key: MetricUnit::MU_SALES_SUPPORT_PER_FTE,
-        title: "Sales Support FTE per 1000 FTE",
-        values: sales_support_per_1k_fte(company_id),
-        locked: !sales_support_perm
-      }],
+      }]
     }
   end
   module_function :sales_organization_structure
@@ -112,31 +106,25 @@ module Api::MetricsHelper
       metrics: [
         {
           mu_key: MetricUnit::MU_QUOTA_PER_SALES_REP,
-          title: "Quota Per Sales Rep",
+          title: "Quota per sales rep",
           values: quota_per_sales_rep(company_id),
           locked: !quota_perm,
         },
         {
           mu_key: MetricUnit::MU_SALES_CYCLE_LENGTH,
-          title: "Sales Cycle Length",
+          title: "Sales cycle length",
           values: sales_cycle_length(company_id),
           locked: !sales_cycle_perm,
         },
         {
           mu_key: MetricUnit::MU_LEAD_TO_CLOSE_CONVERSION_RATE,
-          title: "Lead To Close Conversion Rate",
+          title: "Lead to close conversion rate",
           values: lead_to_close_conversion_rate(company_id),
           locked: !lead_close_perm,
         },
         {
-          mu_key: MetricUnit::MU_ANNUAL_SPEND_PER_CUSTOMER,
-          title: "Annual Spend Per Customer",
-          values: annual_spend_per_customer(company_id),
-          locked: !annual_spend_perm,
-        },
-        {
           mu_key: MetricUnit::MU_ANNUAL_CUSTOMER_CHURN_PERCENT,
-          title: "Annual Customer Churn Percentage",
+          title: "Annual customer churn",
           values: annual_customer_churn_percent(company_id),
           locked: !annual_customer_churn_perm,
         }
@@ -155,19 +143,19 @@ module Api::MetricsHelper
       metrics: [
         {
           mu_key: MetricUnit::MU_SALES_FORCE_EXPENDITURE,
-          title: "Sales Force Expenditure Per $100M Revenue",
+          title: "Sales force expenditure per $100M revenue",
           values: sales_force_expenditure_per_100m(company_id),
           locked: !sales_force_perm
         },
         {
           mu_key: MetricUnit::MU_NET_NEW_REVENUE_PER_SALES_REP,
-          title: "Net New Revenue Per Sales Rep",
+          title: "Net new revenue per sales rep",
           values: net_new_rev_per_sales_rep(company_id),
           locked: !net_new_rev_perm
         },
         {
           mu_key: MetricUnit::MU_CUSTOMER_LIFETIME_VALUE,
-          title: "Customer Lifetime Value",
+          title: "Customer lifetime value",
           values: customer_lifetime_value(company_id),
           locked: !customer_lifetime_perm
         }

@@ -19,7 +19,7 @@ const styles = theme => ({
     overflow: 'scroll',
   },
   tableRow: {
-    height: 150,
+    height: 80,
     cursor: 'pointer',
   },
   avatarCell: {

@@ -10,7 +10,7 @@ import SearchBar from '../search/search_bar'
 const styles = theme => ({
   exploreContainer: {
     width: 1200,
-    height: 950,
+    height: 500,
     margin: [0, "auto"]
   },
   explorePage: {
@@ -44,6 +44,15 @@ const styles = theme => ({
     marginTop: 20,
     width: '48%',
     height: '100%',
+  },
+  compareCompButton: {
+    marginTop: 20,
+  },
+  popularIndustries: { 
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 50,
   },
   searchBar: {
     marginTop: 10,
@@ -90,15 +99,18 @@ class ExplorePage extends Component {
             </div>
           </div>
           <div className={classes.analysisSection}>
-            <h2>Analyze Across Companies</h2>
-            <Button raised color="primary" className={classes.compareCompButton}>
-              Compare companies: Benchmark
-            </Button>
-            <br />
-            <h2>Popular Industries</h2>
-            <h3>Software as a service (SaaS)</h3>
-            <h3>Human capital management software (HCM)</h3>
-            <h3>Customer relationship management software (CRM)</h3>
+            <div className={classes.analyzeCompanies}>
+              <h2>Analyze Across Companies</h2>
+              <Button raised color="primary" className={classes.compareCompButton}>
+                Compare companies: Benchmark
+              </Button>
+            </div>
+            <div className={classes.popularIndustries}>
+              <h2>Popular Industries</h2>
+              <h3>Software as a service (SaaS)</h3>
+              <h3>Human capital management software (HCM)</h3>
+              <h3>Customer relationship management software (CRM)</h3>
+            </div>
           </div>
         </div>
       </div>

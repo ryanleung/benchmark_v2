@@ -58,7 +58,7 @@ class SearchBar extends Component {
             <form className={classes.form} onSubmit={this.handleSubmit}>
               <TextField
                 className={classes.input}
-                placeholder={"Search by Company (e.g. Salesforce)"}
+                placeholder={"Add another company (e.g. Salesforce)"}
                 InputProps={{disableUnderline: true}}
                 onChange={this.handleSearch}
                 value={this.state.value}/>

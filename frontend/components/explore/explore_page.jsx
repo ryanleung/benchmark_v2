@@ -4,9 +4,11 @@ import { grey } from 'material-ui/colors';
 import { withStyles } from 'material-ui/styles';
 
 import * as APIUtil from '../../api/company_api_util'
+import * as APIUtilMetric from '../../api/metric_api_util'
 import CompanyTableView from '../company/company_table_view'
 import MetricsTable from '../metrics/metrics_table'
 import SearchBar from '../search/search_bar'
+import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
   exploreContainer: {
@@ -47,33 +49,6 @@ const styles = theme => ({
     position: "absolute",
     overflow: 'scroll',
   },
-  searchCompanySection: {
-    backgroundColor: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 20,
-    width: '49%',
-    height: '100%',
-  },
-  analysisSection: {
-    backgroundColor: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 20,
-    width: '48%',
-    height: '100%',
-  },
-  compareCompButton: {
-    marginTop: 20,
-  },
-  popularIndustries: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 50,
-  },
   searchBar: {
     margin: [30, 0],
     width: '50%',
@@ -81,6 +56,12 @@ const styles = theme => ({
   tableView: {
     width: '100%',
     overflow: 'scroll',
+  },
+  metricSelect: {
+    margin: 20,
+  },
+  metricGroupButton: {
+    margin: 8,
   }
 })
 
@@ -90,8 +71,11 @@ class ExplorePage extends Component {
     super(props)
     this.handleSearch = this.handleSearch.bind(this)
     this.handleCompanyClick = this.handleCompanyClick.bind(this)
+    this.handleButtonClick = this.handleButtonClick.bind(this)
     this.state = {showCompanyList: false}
     this.state.selectedCompanies = []
+    this.state.selectedCompaniesMetrics = {}
+    this.state.selectedMetricGroup = 0
   }
   componentDidMount() {
     this.props.fetchCompanies(1) // TODO: hardcoded as Tech industry
@@ -105,15 +89,56 @@ class ExplorePage extends Component {
   handleCompanyClick(company) {
     if (company) {
       var companies = this.state.selectedCompanies
+      var companiesMetrics = this.state.selectedCompaniesMetrics
+      if (company.id in companiesMetrics) {
+        return
+      }
       companies.push(company)
       this.setState({selectedCompanies: companies, showCompanyList: false})
+
+      APIUtilMetric.getMetrics(company.id)
+        .then(response => {
+          companiesMetrics[company.id] = response.data.metrics_dashboard
+          this.setState({selectedCompaniesMetrics: companiesMetrics})
+        })
     }
+  }
+
+  handleButtonClick(val) {
+    this.setState({selectedMetricGroup: val})
   }
 
   render() {
     const classes = this.props.classes
     var showCompanyList = this.state.showCompanyList
     var selectedCompanies = this.state.selectedCompanies
+    var selectedCompaniesMetrics = this.state.selectedCompaniesMetrics
+    var selectedMetricGroup = this.state.selectedMetricGroup
+
+    const metricGroupButtons = () => (
+      <div className={classes.metricSelect}>
+        <Button raised color={selectedMetricGroup == 0 && 'primary' || 'default'} className={classes.metricGroupButton} onClick={() => this.handleButtonClick(0)} disableRipple={true}>
+          <Typography type="button" className={classes.metricGroupButtonText}>
+            Overall
+          </Typography>
+        </Button>
+        <Button raised color={selectedMetricGroup == 1 && 'primary' || 'default'} className={classes.metricGroupButton} onClick={() => this.handleButtonClick(1)} disableRipple={true}>
+          <Typography type="button" className={classes.metricGroupButtonText}>
+            Sales force productivity
+          </Typography>
+        </Button>
+        <Button raised color={selectedMetricGroup == 2 && 'primary' || 'default'} className={classes.metricGroupButton} onClick={() => this.handleButtonClick(2)} disableRipple={true}>
+          <Typography type="button" className={classes.metricGroupButtonText}>
+            Sales process
+          </Typography>
+        </Button>
+        <Button raised color={selectedMetricGroup == 3 && 'primary' || 'default'} className={classes.metricGroupButton} onClick={() => this.handleButtonClick(3)} disableRipple={true}>
+          <Typography type="button" className={classes.metricGroupButtonText}>
+            Organizational structure
+          </Typography>
+        </Button>
+      </div>
+    );
 
     return (
       <div className={classes.exploreContainer}>
@@ -126,12 +151,13 @@ class ExplorePage extends Component {
             <div className={classes.searchBar}>
               <SearchBar onSearch={this.handleSearch}/>
             </div>
+            {metricGroupButtons()}
             {showCompanyList &&
               <div className={classes.companyTableView}>
                 <CompanyTableView onClick={this.handleCompanyClick} companies={this.props.companies} />
               </div>
             }
-            <MetricsTable companies={selectedCompanies}/>
+            <MetricsTable companies={selectedCompanies} metrics={selectedCompaniesMetrics} selectedMetricGroup={selectedMetricGroup}/>
             </div>
           </div>
         </div>

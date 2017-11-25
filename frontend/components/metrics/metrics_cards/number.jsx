@@ -64,9 +64,50 @@ const styles = {
   },
 };
 
+export function getMetricString(metricValues) {
+  const year = new Date().getFullYear()
+  const currentMetric = metricValues.filter(metric => metric.year === year)[0]
+  let { value, value_description, type } = currentMetric
+
+  function sigFigs(n, sig) {
+    var mult = Math.pow(10, sig - Math.floor(Math.log(n) / Math.LN10) - 1);
+    return Math.round(n * mult) / mult;
+  }
+  function abbreviateNumber(number) {
+      const SI_POSTFIXES = ["", "k", "M", "B", "T"];
+      const tier = Math.log10(Math.abs(number)) / 3 | 0;
+      number = sigFigs(number, 2)
+      if(tier <= 1) return number;
+
+      const suffix = SI_POSTFIXES[tier];
+      const scale = Math.pow(10, tier * 3);
+      let formatted = (number / scale).toFixed(2) + '';
+
+      if (/\.00$/.test(formatted))
+        formatted = formatted.substr(0, formatted.length - 3);
+
+      return formatted + suffix;
+  }
+
+  const value_description_display = (function(value_desc) {
+    switch(value_desc) {
+      case 'Quantity':
+        return null
+      default:
+        return `(${value_description})`
+    }
+  })(value_description)
+  var value_displayed = value.toLocaleString()
+
+  value_displayed = `${abbreviateNumber(currentMetric.value).toLocaleString()}`
+  if (value_description == "USD") {
+    value_displayed = `$${value_displayed}`
+  }
+  return value_displayed
+}
+
 class NumberCard extends Component {
   render() {
-    const year = new Date().getFullYear()
     const { title, metrics, locked, classes} = this.props
     if (locked) {
       return (
@@ -83,44 +124,7 @@ class NumberCard extends Component {
         </Card>
       )
     }
-    const currentMetric = metrics.filter(metric => metric.year === year)[0]
-    let { value, value_description, type } = currentMetric
-
-    function sigFigs(n, sig) {
-      var mult = Math.pow(10, sig - Math.floor(Math.log(n) / Math.LN10) - 1);
-      return Math.round(n * mult) / mult;
-    }
-    function abbreviateNumber(number) {
-        const SI_POSTFIXES = ["", "k", "M", "B", "T"];
-        const tier = Math.log10(Math.abs(number)) / 3 | 0;
-        number = sigFigs(number, 2)
-        if(tier <= 1) return number;
-
-        const suffix = SI_POSTFIXES[tier];
-        const scale = Math.pow(10, tier * 3);
-        let formatted = (number / scale).toFixed(2) + '';
-
-        if (/\.00$/.test(formatted))
-          formatted = formatted.substr(0, formatted.length - 3);
-
-        return formatted + suffix;
-    }
-
-    const value_description_display = (function(value_desc) {
-      switch(value_desc) {
-        case 'Quantity':
-          return null
-        default:
-          return `(${value_description})`
-      }
-    })(value_description)
-    var value_displayed = value.toLocaleString()
-
-    value_displayed = `${abbreviateNumber(currentMetric.value).toLocaleString()}`
-    if (value_description == "USD") {
-      value_displayed = `$${value_displayed}`
-    }
-
+    var value_displayed = getMetricString(metrics)
     return(
       <Card className={classes.metric}>
         <CardContent className={classes.cardContentTop}>

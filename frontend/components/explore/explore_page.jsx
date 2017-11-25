@@ -5,6 +5,7 @@ import { withStyles } from 'material-ui/styles';
 
 import * as APIUtil from '../../api/company_api_util'
 import CompanyTableView from '../company/company_table_view'
+import MetricsTable from '../metrics/metrics_table'
 import SearchBar from '../search/search_bar'
 
 const styles = theme => ({
@@ -20,12 +21,31 @@ const styles = theme => ({
     height: '100%',
   },
   headerSection: {
+    padding: 8,
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    height: 150,
+    width: '100%',
+  },
+  headerTitle: {
+    fontWeight: "bold",
+  },
+  metricsTableSection: {
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: 150,
+    marginTop: 20,
     width: '100%',
+    height: '100%',
+  },
+  companyTableView: {
+    zIndex: 100,
+    marginTop: 80,
+    marginLeft: -20,
+    position: "absolute",
+    overflow: 'scroll',
   },
   searchCompanySection: {
     backgroundColor: 'white',
@@ -48,15 +68,15 @@ const styles = theme => ({
   compareCompButton: {
     marginTop: 20,
   },
-  popularIndustries: { 
+  popularIndustries: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: 50,
   },
   searchBar: {
-    marginTop: 10,
-    width: '90%',
+    margin: [30, 0],
+    width: '50%',
   },
   tableView: {
     width: '100%',
@@ -69,6 +89,9 @@ class ExplorePage extends Component {
   constructor(props) {
     super(props)
     this.handleSearch = this.handleSearch.bind(this)
+    this.handleCompanyClick = this.handleCompanyClick.bind(this)
+    this.state = {showCompanyList: false}
+    this.state.selectedCompanies = []
   }
   componentDidMount() {
     this.props.fetchCompanies(1) // TODO: hardcoded as Tech industry
@@ -76,44 +99,42 @@ class ExplorePage extends Component {
 
   handleSearch(query) {
     this.props.searchCompanies(query)
+    query && query.length > 0 ? this.setState({showCompanyList:true}) : this.setState({showCompanyList: false})
+  }
+
+  handleCompanyClick(company) {
+    if (company) {
+      var companies = this.state.selectedCompanies
+      companies.push(company)
+      this.setState({selectedCompanies: companies, showCompanyList: false})
+    }
   }
 
   render() {
     const classes = this.props.classes
+    var showCompanyList = this.state.showCompanyList
+    var selectedCompanies = this.state.selectedCompanies
 
     return (
       <div className={classes.exploreContainer}>
         <div className={classes.explorePage}>
           <div className={classes.headerSection}>
-            <h1>Explore Data</h1>
-            <h3>Understand sales and marketing performance metrics for any company.</h3>
+            <h1 className={classes.headerTitle}>Explore sales metrics</h1>
+            <h3>Understand sales performance metrics for any technology sector or company</h3>
           </div>
-          <div className={classes.searchCompanySection}>
-            <h2>Explore By Company</h2>
+          <div className={classes.metricsTableSection}>
             <div className={classes.searchBar}>
               <SearchBar onSearch={this.handleSearch}/>
             </div>
-            <h2>Companies</h2>
-            <div className={classes.tableView}>
-              <CompanyTableView companies={this.props.companies} />
-            </div>
-          </div>
-          <div className={classes.analysisSection}>
-            <div className={classes.analyzeCompanies}>
-              <h2>Analyze Across Companies</h2>
-              <Button raised color="primary" className={classes.compareCompButton}>
-                Compare companies: Benchmark
-              </Button>
-            </div>
-            <div className={classes.popularIndustries}>
-              <h2>Popular Industries</h2>
-              <h3>Software as a service (SaaS)</h3>
-              <h3>Human capital management software (HCM)</h3>
-              <h3>Customer relationship management software (CRM)</h3>
+            {showCompanyList &&
+              <div className={classes.companyTableView}>
+                <CompanyTableView onClick={this.handleCompanyClick} companies={this.props.companies} />
+              </div>
+            }
+            <MetricsTable companies={selectedCompanies}/>
             </div>
           </div>
         </div>
-      </div>
     )
   }
 }

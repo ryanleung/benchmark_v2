@@ -17,29 +17,32 @@ const styles = theme => ({
     borderTop: '1px solid #E0E0E0',
     width: '100%',
     overflow: 'scroll',
+    backgroundColor: "white",
   },
   tableRow: {
-    height: 80,
+    height: 24,
     cursor: 'pointer',
+    backgroundColor: "white",
   },
   avatarCell: {
-    width: 75,
+    width: 24,
   },
   avatar: {
-    height: 80,
-    width: 80,
+    height: 32,
+    width: 32,
   }
 });
 
 class CompanyTableView extends Component {
 
   handleCompanyClick(event, company) {
-    this.props.history.push(`/industry/${company.industry.id}/company/${company.id}`)
+    event.preventDefault();
+    this.props.onClick(company)
   }
 
   render() {
     const { classes, companies } = this.props
-    
+
     return (
       <Table className={classes.table}>
         <TableBody>

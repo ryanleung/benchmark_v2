@@ -71,6 +71,7 @@ class ExplorePage extends Component {
     super(props)
     this.handleSearch = this.handleSearch.bind(this)
     this.handleCompanyClick = this.handleCompanyClick.bind(this)
+    this.handleCompanyNameClick = this.handleCompanyNameClick.bind(this)
     this.handleButtonClick = this.handleButtonClick.bind(this)
     this.state = {showCompanyList: false}
     this.state.selectedCompanies = []
@@ -86,6 +87,9 @@ class ExplorePage extends Component {
     query && query.length > 0 ? this.setState({showCompanyList:true}) : this.setState({showCompanyList: false})
   }
 
+  handleCompanyNameClick(company) {
+    this.props.history.push(`/industry/${company.industry.id}/company/${company.id}`)
+  }
   handleCompanyClick(company) {
     if (company) {
       var companies = this.state.selectedCompanies
@@ -157,7 +161,7 @@ class ExplorePage extends Component {
                 <CompanyTableView onClick={this.handleCompanyClick} companies={this.props.companies} />
               </div>
             }
-            <MetricsTable companies={selectedCompanies} metrics={selectedCompaniesMetrics} selectedMetricGroup={selectedMetricGroup}/>
+            <MetricsTable companies={selectedCompanies} metrics={selectedCompaniesMetrics} selectedMetricGroup={selectedMetricGroup} onNameClick={this.handleCompanyNameClick}/>
             </div>
           </div>
         </div>

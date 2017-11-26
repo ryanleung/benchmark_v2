@@ -25,6 +25,7 @@ const styles = theme => ({
     alignItems: 'center',
     height: '100%',
     width: '20%',
+    cursor: 'pointer',
   },
   avatar: {
     height: 36,
@@ -37,6 +38,11 @@ const styles = theme => ({
 });
 
 class MetricsTable extends Component {
+  handleCompanyNameClick(event, company) {
+    event.preventDefault();
+    this.props.onNameClick(company)
+  }
+
   render() {
     const { classes, companies, metrics, selectedMetricGroup } = this.props
     var selectedCompanyMetrics = []
@@ -44,6 +50,7 @@ class MetricsTable extends Component {
       // Loop through each company
       for (var i = 0; i < companies.length; i++) {
         var companyMetrics = metrics[companies[i].id]
+        // Take the metrics selected by the buttons on explore
         var selectedMetrics = companyMetrics[selectedMetricGroup]
         if (selectedMetrics && Object.keys(selectedMetrics).length > 0) {
           selectedCompanyMetrics.push(selectedMetrics)
@@ -69,7 +76,7 @@ class MetricsTable extends Component {
           {companies.map((n, index) => {
             return (
               <TableRow key={n.id} className={classes.tableRow}>
-                <TableCell className={classes.companyName}>
+                <TableCell className={classes.companyName} onClick={event => this.handleCompanyNameClick(event, n)}>
                   <Avatar src={n.logo_img_url + '?size=150&format=png'} className={classes.avatar}/>
                   <h2>{n.name}</h2>
                 </TableCell>
